@@ -1,0 +1,68 @@
+.container-5 {
+    background-color: #7fb6ff;
+    padding: 20px;
+    border-radius: 8px;
+    color: white;
+    max-width: 1400px; /* 컨테이너 최대 너비 지정 */
+    margin: 0 auto; /* 가운데 정렬 */
+}
+.my-6 {
+    color: white;
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+.my-7 {
+    color: white;
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 30px;
+}
+
+.form-select {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.form-select option {
+    color: black;
+}
+
+.list-group-item {
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.col-md-6 h3 {
+    color: white;
+}
+.col-md-6  {
+    color: white;
+}
+
+     /* 모든 텍스트의 색상을 검정색으로 설정 */
+
+
+/* 리그 선택과 년도 선택을 나란히 정렬 */
+.form-inline {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.form-inline label {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.form-inline .form-select {
+    margin-right: 20px;
+    margin-bottom: 10px;
+}

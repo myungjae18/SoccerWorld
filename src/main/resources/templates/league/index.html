@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>N & LW Lawn Care - Landscaping Bootstrap4 HTML5 Responsive Template </title>
+	<!-- Bootstrap core/static/css -->
+    <link href="/static/css/all.css" rel="stylesheet">
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="/static/css/style.css" rel="stylesheet">-->
+	<!-- Fontawesome/static/css -->
+	<link href="/static/css/all.css" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/league.css" rel="stylesheet">
+</head>
+<body>
+
+
+
+    <div class="container-5 mt-5">
+        <h1 class="my-6">축구 리그 순위</h1>
+        <div class="my-7">
+            <label for="league">리그 선택:</label>
+            <select id="league"  class="form-select">
+                <option value="epl">프리미어리그</option>
+                <option value="la_liga">라리가</option>
+                <option value="bundesliga">분데스리가</option>
+            </select>
+
+            <label for="year">년도 선택:</label>
+            <select id="year" class="form-select">
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+            </select>
+        </div>
+        <div class="row">
+            <!-- 팀 순위 -->
+            <div class="col-md-6">
+                <h3>팀 순위</h3>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>순위</th>
+                        <th>팀</th>
+                        <th>승</th>
+                        <th>무</th>
+                        <th>패</th>
+                        <th>골</th>
+                        <th>실점</th>
+                        <th>승점</th>
+                    </tr>
+                    </thead>
+                    <tbody id="team-list">
+                    <tr>
+                        <td>1</td>
+                        <td>팀 A</td>
+                        <td>20</td>
+                        <td>5</td>
+                        <td>3</td>
+                        <td>60</td>
+                        <td>20</td>
+                        <td>65</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>팀 B</td>
+                        <td>18</td>
+                        <td>7</td>
+                        <td>3</td>
+                        <td>55</td>
+                        <td>22</td>
+                        <td>61</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>팀 C</td>
+                        <td>17</td>
+                        <td>8</td>
+                        <td>3</td>
+                        <td>50</td>
+                        <td>25</td>
+                        <td>59</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 선수 순위 -->
+            <div class="col-md-6">
+                <h3>선수 순위</h3>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>순위</th>
+                        <th>선수</th>
+                        <th>골</th>
+                        <th>도움</th>
+                        <th>경기 수</th>
+                    </tr>
+                    </thead>
+                    <tbody id="player-list">
+                    <tr>
+                        <td>1</td>
+                        <td>선수 X</td>
+                        <td>25</td>
+                        <td>10</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>선수 Y</td>
+                        <td>22</td>
+                        <td>12</td>
+                        <td>29</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>선수 Z</td>
+                        <td>20</td>
+                        <td>8</td>
+                        <td>30</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

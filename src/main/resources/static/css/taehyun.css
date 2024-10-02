@@ -1,0 +1,252 @@
+.my-7{
+    color:white;
+}
+.my-6{
+    color:#1e1c54;
+}
+.my-5{
+    color:#7fb6ff;
+}
+.my-4{
+    color: black;
+}
+.col-md-6 {
+    color: white;
+
+}
+
+.container-5{
+    background-color: #7fb6ff; /* 원하는 배경색으로 변경 */
+    padding: 20px; /* 패딩 추가 (선택 사항) */
+    border-radius: 8px; /* 모서리 둥글게 (선택 사항) */
+}
+.form-select {
+    background-color: #7fb6ff; /* 배경색 흰색 */
+    color: white; /* 글자색 검정색 */
+    border: 1px solid #ccc; /* 테두리 스타일 */
+    padding: 5px; /* 패딩 추가 */
+    border-radius: 4px; /* 모서리 둥글게 */
+}
+
+.form-select option {
+    color: black; /* 옵션 글자색 */
+}
+
+.list-group-item {
+    color:  #7fb6ff;
+    font-size: 18px; /* 글씨 크기 */
+    font-weight: bold; /* 글씨 두께 */
+
+}
+
+
+.title-box {
+    background-color: #7fb6ff;
+    color: black;
+    padding: 20px;          /* 안쪽 여백 */
+    text-align: center;     /* 가운데 정렬 */
+    border-radius: 10px;   /* 모서리 둥글게 */
+    margin: 50px 20px;     /* 위아래 50px, 좌우 20px 여백 */
+}
+
+.team-logo {
+    max-width: 100%; /* 로고 크기를 조정 */
+    height: auto;
+}
+
+.info-box {
+    background-color: #7fb6ff;
+    color: black;
+    padding: 20px;          /* 안쪽 여백 */
+    margin: 20px 20px;        /* 위아래 여백 */
+    border-radius: 10px;   /* 모서리 둥글게 */
+    text-align: left;
+}
+.all-box{
+    background-color: #7fb6ff;
+}
+body {
+    background-color: #f4f4f4;
+}
+
+/* 헤더 영역 */
+.header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    border-bottom: 2px solid #ddd;
+}
+
+.header img {
+    width: 50px;
+    margin-right: 10px;
+}
+
+.header h1 {
+    font-size: 28px;
+    margin: 0;
+}
+
+.header .search-bar {
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+.header .auth-buttons button {
+    margin-left: 5px;
+}
+
+/* 메뉴 영역 */
+.nav-bar {
+    background-color: #6cc3ef;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.nav-bar a {
+    margin: 0 10px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* 리그 로고 섹션 */
+.league-section {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    background-color: #fff;
+    border-bottom: 2px solid #ddd;
+}
+
+.league-section img {
+    width: 50px;
+    margin: 0 5px;
+}
+
+/* 팀 로고 섹션 */
+.teams-section {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.team-card {
+    width: 150px;
+    margin: 10px;
+    text-align: center;
+    background-color: #fff;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+}
+
+.team-card img {
+    width: 100px;
+    margin-bottom: 10px;
+}
+
+.team-card button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+}
+
+.comment-section {
+    background-color: #d4ff99;
+    border: 2px solid #b2ff66;
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.comment-header {
+    font-size: 2em;
+    font-weight: bold;
+    padding: 10px;
+    border: 2px solid #b2ff66;
+    border-radius: 5px;
+    background-color: #d4ff99;
+    text-align: center;
+    color: #5b5b5b;
+}
+
+.comment-list {
+    flex: 1;
+    margin-top: 20px;
+    overflow-y: auto;
+}
+
+.comment-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #d4ff99;
+    padding: 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.comment-text {
+    font-size: 1.5em;
+    color: #4b4b4b;
+    flex: 1;
+}
+
+.comment-button {
+    background-color: #b2ff66;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    font-size: 1em;
+    cursor: pointer;
+    color: #4b4b4b;
+}
+
+.comment-input-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.comment-input {
+    flex: 1;
+    padding: 20px;
+    font-size: 1.5em;
+    border: 2px solid #b2ff66;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.submit-button {
+    background-color: #b2ff66;
+    border: none;
+    border-radius: 5px;
+    padding: 20px;
+    font-size: 1.5em;
+    cursor: pointer;
+    font-weight: bold;
+    color: #4b4b4b;
+}
