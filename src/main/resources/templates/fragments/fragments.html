@@ -27,15 +27,39 @@
             <br>
             <table class="top-bar">
                 <tr style="cursor: pointer;">
-                    <td style="color: white;">메인</td>
+                    <td style="color: white;" onclick="location.href='/main/index';">메인</td>
                     <td onclick="">리그순위</td>
                     <td onclick="showLeagues();">팀정보</td>
-                    <td>축구일정</td>
+                    <td onclick="showLeagueSchedules();">축구일정</td>
                     <td>게시판</td>
                     <td>승부예측</td>
                 </tr>
             </table>
             <table class="ranking" id="leagueList">
+                <tr style="cursor: pointer;">
+                    <td onclick="showTeams('EPL')">
+                        EPL
+                        <br>
+                        <img onclick="showTeams('EPL')" src="/static/images/pl-logo.png">
+                    </td>
+                    <td onclick="showTeams('LALIGA')">
+                        LA LIGA
+                        <br>
+                        <img src="/static/images/ll-logo.png">
+                    </td>
+                    <td onclick="showTeams('SERIEA')">
+                        SERIE A
+                        <br>
+                        <img src="/static/images/sa-logo.png">
+                    </td>
+                    <td onclick="showTeams('BUNDESLIGA')">
+                        BUNDESLIGA
+                        <br>
+                        <img src="/static/images/bl-logo.png">
+                    </td>
+                </tr>
+            </table>
+            <table class="ranking" id="leagueScheduleList">
                 <tr style="cursor: pointer;">
                     <td onclick="showTeams('EPL')">
                         EPL
