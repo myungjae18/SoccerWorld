@@ -19,24 +19,24 @@
                         <input type="text" class="search-bar">
                     </div>
                     <br>
-                    <button class="menu-button">회원가입</button>
-                    <button class="menu-button">로그인</button>
-                    <button class="menu-button">내 정보</button>
+                    <button class="menu-button" style="cursor: pointer;">회원가입</button>
+                    <button class="menu-button" style="cursor: pointer;">로그인</button>
+                    <button class="menu-button" style="cursor: pointer;">내정보</button>
                 </div>
             </div>
             <br>
             <table class="top-bar">
-                <tr>
+                <tr style="cursor: pointer;">
                     <td style="color: white;">메인</td>
-                    <td>리그순위</td>
-                    <td>리그일정</td>
-                    <td>축구 일정</td>
+                    <td onclick="">리그순위</td>
+                    <td onclick="showLeagues();">팀정보</td>
+                    <td>축구일정</td>
                     <td>게시판</td>
-                    <td>승부 예측</td>
+                    <td>승부예측</td>
                 </tr>
             </table>
-            <table class="ranking">
-                <tr>
+            <table class="ranking" id="leagueList">
+                <tr style="cursor: pointer;">
                     <td onclick="showTeams('EPL')">
                         EPL
                         <br>
