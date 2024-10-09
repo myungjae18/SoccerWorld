@@ -12,37 +12,37 @@ public class CommunityController {
         return "board/index";
     }
 
-    @GetMapping("/board/meme_list")
+    @GetMapping("board/meme_list")
     public String meme_list(){
         return "board/meme_list";
     }
 
-    @GetMapping("/board/meme_detail")
+    @GetMapping("board/meme_detail")
     public String meme_detail(){
         return "board/meme_detail";
     }
 
-    @GetMapping("/board/free_list")
+    @GetMapping("board/free_list")
     public String free_list(){
         return "board/free_list";
     }
 
-    @GetMapping("/board/free_detail")
+    @GetMapping("board/free_detail")
     public String free_detail(){
         return "board/free_detail";
     }
 
-    @GetMapping("/board/debate_list")
+    @GetMapping("board/debate_list")
     public String debate_list(){
         return "board/debate_list";
     }
 
-    @GetMapping("/board/debate_detail")
+    @GetMapping("board/debate_detail")
     public String debate_detail(){
         return "board/debate_detail";
     }
 
-    @GetMapping("/board/history_list")
+    @GetMapping("board/history_list")
     public String history_list(){
         return "board/history_list";
     }
