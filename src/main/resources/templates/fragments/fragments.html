@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <!--Navigation-->
+    <nav class="" th:fragment="nav">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <img src="/static/images/1111111111.PNG">
+                </div>
+                <div class="col-lg-6"></div>
+                <div class="col-lg-3">
+                    <div class="search-container">
+                        &nbsp;<i class="fa fa-search"></i>
+                        <input type="text" class="search-bar">
+                    </div>
+                    <br>
+                    <button class="menu-button" style="cursor: pointer;">회원가입</button>
+                    <button class="menu-button" style="cursor: pointer;">로그인</button>
+                    <button class="menu-button" style="cursor: pointer;">내정보</button>
+                </div>
+            </div>
+            <br>
+            <table class="top-bar">
+                <tr style="cursor: pointer;">
+                    <td style="color: white;" onclick="location.href='/main/index';">메인</td>
+                    <td onclick="">리그순위</td>
+                    <td onclick="showLeagues();">팀정보</td>
+                    <td onclick="showLeagueSchedules();">축구일정</td>
+                    <td>게시판</td>
+                    <td>승부예측</td>
+                </tr>
+            </table>
+            <table class="ranking" id="leagueList">
+                <tr style="cursor: pointer;">
+                    <td onclick="showTeams('EPL')">
+                        EPL
+                        <br>
+                        <img onclick="showTeams('EPL')" src="/static/images/pl-logo.png">
+                    </td>
+                    <td onclick="showTeams('LALIGA')">
+                        LA LIGA
+                        <br>
+                        <img src="/static/images/ll-logo.png">
+                    </td>
+                    <td onclick="showTeams('SERIEA')">
+                        SERIE A
+                        <br>
+                        <img src="/static/images/sa-logo.png">
+                    </td>
+                    <td onclick="showTeams('BUNDESLIGA')">
+                        BUNDESLIGA
+                        <br>
+                        <img src="/static/images/bl-logo.png">
+                    </td>
+                </tr>
+            </table>
+            <table class="ranking" id="leagueScheduleList">
+                <tr style="cursor: pointer;">
+                    <td onclick="location.href='/fixture/premierleague-schedule';">
+                        EPL
+                        <br>
+                        <img src="/static/images/pl-logo.png">
+                    </td>
+                    <td onclick="location.href='/fixture/laliga-schedule';">
+                        LA LIGA
+                        <br>
+                        <img src="/static/images/ll-logo.png">
+                    </td>
+                    <td onclick="location.href='/fixture/seriea-schedule';">
+                        SERIE A
+                        <br>
+                        <img src="/static/images/sa-logo.png">
+                    </td>
+                    <td onclick="location.href='/fixture/bundesliga-schedule';">
+                        BUNDESLIGA
+                        <br>
+                        <img src="/static/images/bl-logo.png">
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <table class="ranking" id="teamList">
+                <tbody id="eplList">
+                    <tr>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                        <td>
+                            <img src="/static/images/mu-logo.png">
+                            <br>
+                            맨유
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody id="laLigaList">
+                    <tr>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                        <td>
+                            <img src="/static/images/ba-logo.png">
+                            <br>
+                            바르셀로나
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody id="serieAList">
+                    <tr>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                        <td>
+                            <img src="/static/images/ju-logo.png">
+                            <br>
+                            유벤투스
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody id="bundesligaList">
+                    <tr>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                        <td>
+                            <img src="/static/images/do-logo.png">
+                            <br>
+                            도르트문트
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <script src="/static/js/fragments.js"></script>
+    </nav>
+</body>
+</html>
