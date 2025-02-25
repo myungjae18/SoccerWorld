@@ -11,17 +11,11 @@ import org.springframework.security.web.SecurityFilterChain;
 //security 설정 클래스, 보안 설정을 정의한다.
 @Configuration
 public class SecurityConfig {
-    private MemberService memberService;
-
-    public SecurityConfig(MemberService memberService) {
-        this.memberService = memberService;
-    }
-
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, MemberService memberService) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/**").hasRole("ADMIN") // ADMIN 권한 필요
+                        //.requestMatchers("/admin/**").hasRole("ADMIN") // ADMIN 권한 필요
                         .anyRequest().permitAll() //그 외 요청 모두에게 허용
                 )
                 .formLogin(form -> form
@@ -30,7 +24,7 @@ public class SecurityConfig {
                         .usernameParameter("id")
                         .passwordParameter("password")
                         .defaultSuccessUrl("/main/index", true) //성공 시 이동할 페이지
-                        .failureUrl("/main/index")
+                        .failureUrl("/member/login")
                         .permitAll()         // 로그인 페이지는 모두 접근 가능
                 )
                 .logout(logout -> logout

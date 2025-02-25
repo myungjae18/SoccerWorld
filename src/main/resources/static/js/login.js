@@ -91,7 +91,7 @@ function idCheck() {
     fetch(`/member/id/${formId.value}`)
         .then(response => response.text())
         .then(data => {
-            if(data == null) {
+            if(!data || data.trim() === "") {
                 alert("사용 가능한 아이디입니다");
                 idChecked = true;
             } else {
@@ -105,7 +105,7 @@ function nickCheck() {
     fetch(`/member/nickname/${nickname.value}`)
         .then(response => response.text())
         .then(data => {
-            if(data == null) {
+            if(!data || data.trim() === "") {
                 alert("사용 가능한 닉네임입니다");
                 nickChecked = true;
             } else {

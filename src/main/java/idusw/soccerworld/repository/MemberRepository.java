@@ -1,6 +1,6 @@
 package idusw.soccerworld.repository;
 
-import idusw.soccerworld.domain.dto.Member;
+import idusw.soccerworld.domain.dto.MemberDto;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -12,11 +12,11 @@ public class MemberRepository {
         this.sessionTemplate = sessionTemplate;
     }
 
-    public int insertOne(Member member) {
-        return sessionTemplate.insert("MemberMapper.insertOne", member);
+    public int insertOne(MemberDto memberDto) {
+        return sessionTemplate.insert("MemberMapper.insertOne", memberDto);
     }
 
-    public Member loginCheck(String id) {
+    public MemberDto loginCheck(String id) {
         return sessionTemplate.selectOne("MemberMapper.loginCheck", id);
     }
 
@@ -26,5 +26,9 @@ public class MemberRepository {
 
     public String selectOneByNickname(String nickname) {
         return sessionTemplate.selectOne("MemberMapper.selectByNickname", nickname);
+    }
+
+    public MemberDto selectByMemberId(long memberId) {
+        return sessionTemplate.selectOne("MemberMapper.selectByMemberId", memberId);
     }
 }

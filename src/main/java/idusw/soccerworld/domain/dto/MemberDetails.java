@@ -1,6 +1,5 @@
 package idusw.soccerworld.domain.dto;
 
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,10 +12,10 @@ public class MemberDetails implements UserDetails {
     private final String role;
 
     //member에서 필요한 데이터만 가져옴
-    public MemberDetails(Member member) {
-        this.username = member.getId();
-        this.password = member.getPassword();
-        this.role = member.getRole();
+    public MemberDetails(MemberDto memberDto) {
+        this.username = memberDto.getId();
+        this.password = memberDto.getPassword();
+        this.role = memberDto.getRole();
     }
 
     @Override

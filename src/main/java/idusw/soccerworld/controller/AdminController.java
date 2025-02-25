@@ -19,15 +19,15 @@ public class AdminController {
         return "/admin/api-connect/data";
     }
 
-    //4대 리그 내 팀 정보를 모두 DB에 저장 후 view return
-    @GetMapping("/get-teams")
-    public String getTeams() {
-        //4대 리그의 정보 DB에 저장
-        teamService.getTeamsByApi("PL", "Premier League");
-        teamService.getTeamsByApi("PD", "La Liga");
-        teamService.getTeamsByApi("SA", "Serie A");
-        teamService.getTeamsByApi("BL1", "Bundesliga");
-
-        return "/admin/api-connect/data";
-    }
+//    //4대 리그 내 팀 정보를 모두 DB에 저장 후 view return
+//    @GetMapping("/get-teams")
+//    public String getTeams() {
+//        //4대 리그의 정보 DB에 저장
+//        teamService.getTeamsByApi("PL", "Premier League");
+//        teamService.getTeamsByApi("PD", "La Liga");
+//        teamService.getTeamsByApi("SA", "Serie A");
+//        teamService.getTeamsByApi("BL1", "Bundesliga");
+//
+//        return "/admin/api-connect/data";
+//    }
 }

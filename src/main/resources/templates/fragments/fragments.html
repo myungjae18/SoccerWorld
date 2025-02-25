@@ -19,8 +19,6 @@
                     <input type="text" class="search-bar">
                 </div>
                 <br>
-                <button class="menu-button" style="cursor: pointer;" onclick="location.href='/member/register'">회원가입
-                </button>
                 <button class="menu-button" style="cursor: pointer;" onclick="location.href='/member/login'">로그인
                 </button>
                 <button class="menu-button" style="cursor: pointer;" onclick="location.href='/member/mypage'">내정보
@@ -88,31 +86,31 @@
         <br>
         <div class="ranking">
             <div id="eplList" class="teamList">
-                <div class="inner-bar" th:each="team : ${teamList}" th:if="${team.league == 'Premier League'}">
-                    <img th:src="${team.logo}" width="64px" />
+                <div class="inner-bar" th:each="teamDto : ${teamList}" th:if="${teamDto.league == 'Premier League'}">
+                    <img th:src="${teamDto.logo}" width="64px" />
                     <br>
-                    <label th:text="${team.name}"></label>
+                    <label th:text="${teamDto.name}"></label>
                 </div>
             </div>
             <div id="laLigaList" class="teamList">
-                <div class="inner-bar" th:each="team : ${teamList}" th:if="${team.league == 'La Liga'}">
-                    <img th:src="${team.logo}" width="64px" />
+                <div class="inner-bar" th:each="teamDto : ${teamList}" th:if="${teamDto.league == 'La Liga'}">
+                    <img th:src="${teamDto.logo}" width="64px" />
                     <br>
-                    <label th:text="${team.name}"></label>
+                    <label th:text="${teamDto.name}"></label>
                 </div>
             </div>
             <div id="serieAList" class="teamList">
-                <div class="inner-bar" th:each="team : ${teamList}" th:if="${team.league == 'Serie A'}">
-                    <img th:src="${team.logo}" width="64px" />
+                <div class="inner-bar" th:each="teamDto : ${teamList}" th:if="${teamDto.league == 'Serie A'}">
+                    <img th:src="${teamDto.logo}" width="64px" />
                     <br>
-                    <label th:text="${team.name}"></label>
+                    <label th:text="${teamDto.name}"></label>
                 </div>
             </div>
             <div id="bundesligaList" class="teamList">
-                <div class="inner-bar" th:each="team : ${teamList}" th:if="${team.league == 'Bundesliga'}">
-                    <img th:src="${team.logo}" width="64px" />
+                <div class="inner-bar" th:each="teamDto : ${teamList}" th:if="${teamDto.league == 'Bundesliga'}">
+                    <img th:src="${teamDto.logo}" width="64px" />
                     <br>
-                    <label th:text="${team.name}"></label>
+                    <label th:text="${teamDto.name}"></label>
                 </div>
             </div>
         </div>

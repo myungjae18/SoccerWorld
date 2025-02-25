@@ -48,7 +48,7 @@ public class LeagueService {
         //generic이 지정되지 않은 map으로 받음
         Map data = restClient.get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/v4/competitions/" + league + "/standings")//파라미터로 넘어온 리그코드 사용
+                        .path("/competitions/" + league + "/standings")//파라미터로 넘어온 리그코드 사용
                         .build())
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, (req, res) -> {//4백번대 예외 처리

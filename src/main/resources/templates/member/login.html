@@ -15,7 +15,7 @@
             <h3 style="text-align: center">Leafton</h3>
         </div>
         <!-- 로그인 요청 form -->
-        <form id="login" th:action="@{/member/login}" th:object="${member}" method="post" class="input-group">
+        <form id="login" th:action="@{/member/login}" th:object="${memberDto}" method="post" class="input-group">
             <input type="text" name="id" class="input-field" placeholder="Enter ID" required>
             <input type="password" name="password" class="input-field" placeholder="Enter Password" required>
             <input hidden th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
@@ -23,7 +23,7 @@
             <button class="submit">Login</button>
         </form>
         <!-- 회원가입 요청 form -->
-        <form id="register" method="post" th:object="${member}" action="/member/register" class="input-group">
+        <form id="register" method="post" th:object="${memberDto}" action="/member/register" class="input-group">
             <input type="text" id="id" name="id" class="input-field" style="width:80%;" placeholder="ID" required>
             <button type="button" class="send-button" onclick="idCheck()">중복 확인</button><br>
             <input type="password" name="password" class="input-field" placeholder="Enter Password" required>

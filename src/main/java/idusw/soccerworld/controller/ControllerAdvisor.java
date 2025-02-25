@@ -1,6 +1,6 @@
 package idusw.soccerworld.controller;
 
-import idusw.soccerworld.domain.dto.Team;
+import idusw.soccerworld.domain.dto.TeamDto;
 import idusw.soccerworld.service.LeagueService;
 import idusw.soccerworld.service.TeamService;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,7 +21,7 @@ public class ControllerAdvisor {
 
     //모든 팀 정보를 model 객체에 저장. 해당 model에 저장된 객체는 어노테이션에 명시한 이름대로 getAttribute를 통해 접근 가능
     @ModelAttribute("fragmentData")
-    public List<Team> teamData() {
+    public List<TeamDto> teamData() {
         return teamService.getAllTeamsByDB();
     }
 }

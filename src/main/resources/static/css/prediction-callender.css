@@ -1,6 +1,7 @@
 
 .schedule-container {
-    background: #fff;
+    background: #0E0E0E;
+    color: #f0f0f0;
     border: 1px solid #E9E9EC;
     border-radius: 10px;
     padding: 20px;
@@ -18,62 +19,79 @@
 }
 
 .date-btn {
-    background-color: #ffffff;
-    color: #8F8F8F;
+    background-color: #262626;
+    color: #f0f0f0;
     margin-right: 7px;
     margin-left: 7px;
     width: 110px;
     padding: 5px 10px 5px 10px;
-    border: 2px solid #E9E9EC;
+    border: 2px solid #2B2B2B;
     border-radius: 20px;
     cursor: pointer;
     font-size: 20px;
     text-align: center;
 }
 
+
 .date-btn:hover {
-    background-color: #ddd;
+    background-color: #303030;
 }
 
 .date-btn.selector {
     background-color: white;
 }
 
-.call-btn {
-    background-color: #ffffff;
-    color: #8F8F8F;
-    margin: 10px 10px 10px 10px;
-    width: 200px;
+.date-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 수직 가운데 정렬 */
+    margin-bottom: 20px;
+}
+
+.round-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 수직 가운데 정렬 */
+    margin-bottom: 20px;
+}
+
+.round-btn {
+    background-color: #262626;
+    color: #f0f0f0;
+    margin-right: 7px;
+    margin-left: 7px;
+    width: 110px;
     padding: 5px 10px 5px 10px;
-    border: 2px solid #E9E9EC;
+    border: 2px solid #2B2B2B;
     border-radius: 20px;
     cursor: pointer;
     font-size: 20px;
     text-align: center;
 }
 
-.call-btn:hover {
-    background-color: #ddd;
+
+.round-btn:hover {
+    background-color: #303030;
 }
 
-.call-btn.selector {
+.round-btn.selector {
     background-color: white;
 }
 
 .arrow-btn {
-    background-color: #ffffff;
-    color: #8F8F8F;
+    background-color: #262626;
+    color: #f0f0f0;
     border-radius: 20px;
     font-size: 20px;
     width: 40px;
     height: 40px;
-    border: 2px solid #E9E9EC;
+    border: 2px solid #2B2B2B;
     text-align: center;
 
 }
 
 .arrow-btn:hover {
-    background-color: #ddd;
+    background-color: #303030;
     cursor: pointer;
 }
 

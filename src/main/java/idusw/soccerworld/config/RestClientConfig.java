@@ -12,7 +12,7 @@ public class RestClientConfig {
     @Bean
     public RestClient restClient() {
         return RestClient.builder()
-                .baseUrl("https://api.football-data.org")
+                .baseUrl("https://api.football-data.org/v4")
                 .defaultHeader("x-Auth-Token", key)
                 .build();
     }

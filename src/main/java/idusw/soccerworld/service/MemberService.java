@@ -1,41 +1,40 @@
 package idusw.soccerworld.service;
 
-import idusw.soccerworld.domain.dto.Member;
+import idusw.soccerworld.domain.dto.MemberDto;
 import idusw.soccerworld.domain.dto.MemberDetails;
 import idusw.soccerworld.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public MemberService(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
-
-    public int regist() {
-        //memberRepository.insert();
-        return 0;
-    }
 
     //security를 통한 로그인 처리
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-        Member member = memberRepository.loginCheck(id);
+        MemberDto memberDto = memberRepository.loginCheck(id);
 
-        if (member == null) {
-            throw new UsernameNotFoundException("Member not found with id: " + id);
+        if (memberDto == null) {
+            throw new UsernameNotFoundException("MemberDto not found with id: " + id);
         }
 
-        return new MemberDetails(member);
+        return new MemberDetails(memberDto);
     }
 
     //회원가입 처리
-    public void insertMember(Member member) {
-        memberRepository.insertOne(member);
+    public void insertMember(MemberDto memberDto) {
+        String encodedPassword = passwordEncoder.encode(memberDto.getPassword());
+        memberDto.setPassword(encodedPassword);
+        memberDto.setRole("Client");
+        memberRepository.insertOne(memberDto);
     }
 
     //아이디 중복 확인
@@ -46,5 +45,10 @@ public class MemberService implements UserDetailsService {
     //닉네임 중복 확인
     public String selectByNickname(String nickname) {
         return memberRepository.selectOneByNickname(nickname);
+    }
+
+    public MemberDto getMemberByMemberId (long memberId) {
+        MemberDto memberDto = memberRepository.selectByMemberId(memberId);
+        return memberDto;
     }
 }

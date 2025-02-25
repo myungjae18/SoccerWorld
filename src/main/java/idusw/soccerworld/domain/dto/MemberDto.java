@@ -4,7 +4,7 @@ import lombok.Data;
 import java.sql.Date;
 
 @Data
-public class Member {
+public class MemberDto {
     private Long memberId;
     private String id;
     private String password;

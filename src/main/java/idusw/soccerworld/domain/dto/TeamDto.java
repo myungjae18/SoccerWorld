@@ -6,7 +6,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Team {
+public class TeamDto {
     private long teamId;
     private String name;
     private String league;
