@@ -10,6 +10,7 @@ let laligaRanking = document.getElementById('laligaRanking');
 let serieaRanking = document.getElementById('serieaRanking');
 let bundesligaRanking = document.getElementById('bundesligaRanking');
 
+
 document.addEventListener('DOMContentLoaded', function() {
     laligaRanking.style.display = 'none';
     serieaRanking.style.display = 'none';
@@ -58,6 +59,5 @@ function changeLeague(leagueName) {
         serieaTitle.setAttribute('style', 'color: #7fb6ff; !important;');
         laligaTitle.setAttribute('style', 'color: #7fb6ff; !important;');
         bundesligaTitle.setAttribute('style', 'color: #1e1c54; !important;');
-
     }
 }

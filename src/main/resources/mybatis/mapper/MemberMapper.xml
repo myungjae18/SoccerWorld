@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MemberMapper">
+    <select id="loginCheck" parameterType="String" resultType="member">
+        SELECT member_id AS memberId FROM member WHERE id = #{id}
+    </select>
+    <insert id="insertOne" parameterType="member">
+        INSERT INTO member(id, password, name, gender, birthday, nickname, team_id)
+        VALUES(#{id}, #{password}, #{name}, #{gender}, #{birthday}, #{nickname}, #{teamId})
+    </insert>
+    <select id="selectById" parameterType="String" resultType="String">
+        SELECT id FROM member WHERE nickname = #{id}
+    </select>
+    <select id="selectByNickname" parameterType="String" resultType="String">
+        SELECT nickname FROM member WHERE nickname = #{nickname}
+    </select>
+</mapper>

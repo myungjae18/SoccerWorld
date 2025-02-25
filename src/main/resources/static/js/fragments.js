@@ -8,12 +8,12 @@ let bundesligaList = document.getElementById('bundesligaList');
 let isTeamInfoVisible = false;
 let isLeagueScheduleVisible = false;
 
-document.addEventListener('DOMContentLoaded', function() {
+//모든 리소스 로드 후 실행
+window.onload = function() {
     hideAll();
-});
+};
 
 function hideAll() {
-    //팀정보 테이블 감춤
     leagueList.style.display = 'none';
     eplList.style.display = 'none';
     laLigaList.style.display = 'none';
@@ -25,23 +25,23 @@ function hideAll() {
 
 function showTeams(name) {
     if(name == 'EPL') {
-        eplList.style.display = 'table-row-group';
+        eplList.style.display = 'block';
         laLigaList.style.display = 'none';
         serieAList.style.display = 'none';
         bundesligaList.style.display = 'none';
 
     } else if(name == 'LALIGA') {
-        laLigaList.style.display = 'table-row-group';
+        laLigaList.style.display = 'block';
         eplList.style.display = 'none';
         serieAList.style.display = 'none';
         bundesligaList.style.display = 'none';
     } else if(name == 'SERIEA') {
-        serieAList.style.display = 'table-row-group';
+        serieAList.style.display = 'block';
         eplList.style.display = 'none';
         laLigaList.style.display = 'none';
         bundesligaList.style.display = 'none';
     } else {
-        bundesligaList.style.display = 'table-row-group';
+        bundesligaList.style.display = 'block';
         eplList.style.display = 'none';
         laLigaList.style.display = 'none';
         serieAList.style.display = 'none';

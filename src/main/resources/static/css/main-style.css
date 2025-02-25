@@ -63,6 +63,26 @@
     width: 100%;
 }
 
+.inner-bar {
+    width: 20%;
+    height:100px;
+    float: left;
+    text-align: center;
+}
+
+.teamList {
+    display: flex;
+    height:auto;
+}
+
+ /*하위 요소에  `float` 이 적용된 경우, 부모 요소가 높이를 인식하지 못할 수 있다.
+이 때 clearfix 클래스를 적용.*/
+.teamList::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
 .ranking td {
     text-align: center;
     font-size: 18px;

@@ -1,23 +1,33 @@
 package idusw.soccerworld.controller;
 
-import idusw.soccerworld.repository.CategoryRepository;
+import idusw.soccerworld.service.LeagueService;
+import idusw.soccerworld.service.TeamService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/main")
 public class MainController {
-    final CategoryRepository categoryRepository;
+    private final LeagueService leagueService;
 
-    public MainController(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
+    //생성자 주입
+    public MainController(LeagueService leagueService, TeamService teamService) {
+        this.leagueService = leagueService;
     }
 
-    @GetMapping("/index")
-    public String goIndex() {
-        System.out.println(categoryRepository.selectAll());
+    //메인 페이지 이동
+    @GetMapping("/main/index")
+    public String goIndex(Model model) {
+
+        //4대 리그의 순위 정보 가져오기
+        model.addAttribute("pLStand",leagueService.getStandingsByApi("PL"));
+        model.addAttribute("laLigaStand",leagueService.getStandingsByApi("PD"));
+        model.addAttribute("serieAStand",leagueService.getStandingsByApi("SA"));
+        model.addAttribute("bundesStand",leagueService.getStandingsByApi("BL1"));
+
+        //DB에서 모든 팀 정보 가져오기(fragment를 위한)
+        model.addAttribute("teamList", model.getAttribute("fragmentData"));
+
         return "/main/index";
     }
-
 }

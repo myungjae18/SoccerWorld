@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TeamMapper">
+    <insert id="insertTeams">
+        INSERT INTO team (team_id, name, league, logo, head_coach, stadium, location)
+        VALUES
+        <foreach collection="list" item="team" separator=",">
+            (#{team.teamId}, #{team.name}, #{team.league}, #{team.logo}, #{team.headCoach}, #{team.stadium}, #{team.location})
+        </foreach>
+        on DUPlICATE KEY UPDATE
+        team_id = VALUES(team_id),
+        name = VALUES(name),
+        league = VALUES(league),
+        head_coach = VALUES(head_coach),
+        stadium = VALUES(stadium),
+        location = VALUES(location)
+    </insert>
+
+    <select id="selectAll" resultType="Team">
+        SELECT team_id AS teamId, name, league, logo, head_coach, stadium, location from team
+    </select>
+</mapper>

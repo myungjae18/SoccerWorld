@@ -1,4 +1,4 @@
-package idusw.soccerworld.domain.entity;
+package idusw.soccerworld.domain.dto;
 
 import lombok.Data;
 

@@ -1,6 +1,5 @@
 package idusw.soccerworld.repository;
 
-import idusw.soccerworld.domain.entity.Category;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 

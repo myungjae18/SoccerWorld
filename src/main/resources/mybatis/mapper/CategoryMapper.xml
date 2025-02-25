@@ -5,9 +5,8 @@
 <mapper namespace="Category">
     <sql id = 'sql_selectAll' >
         select * from category
-
     </sql>
-    <select id="selectAll" resultType="idusw.soccerworld.domain.entity.Category">
+    <select id="selectAll" resultType="idusw.soccerworld.domain.dto.Category">
         <include refid="sql_selectAll"></include>
     </select>
 </mapper>

@@ -9,57 +9,57 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class CommunityController {
     @RequestMapping(method = RequestMethod.GET,value = "/")
     public String goIndex(){
-        return "board/index";
+        return "community/index";
     }
 
-    @GetMapping("board/meme_list")
+    @GetMapping("community/meme_list")
     public String meme_list(){
-        return "board/meme_list";
+        return "community/meme_list";
     }
 
-    @GetMapping("board/meme_detail")
+    @GetMapping("community/meme_detail")
     public String meme_detail(){
-        return "board/meme_detail";
+        return "community/meme_detail";
     }
 
-    @GetMapping("board/free_list")
+    @GetMapping("community/free_list")
     public String free_list(){
-        return "board/free_list";
+        return "community/free_list";
     }
 
-    @GetMapping("board/free_detail")
+    @GetMapping("community/free_detail")
     public String free_detail(){
-        return "board/free_detail";
+        return "community/free_detail";
     }
 
-    @GetMapping("board/debate_list")
+    @GetMapping("community/debate_list")
     public String debate_list(){
-        return "board/debate_list";
+        return "community/debate_list";
     }
 
-    @GetMapping("board/debate_detail")
+    @GetMapping("community/debate_detail")
     public String debate_detail(){
-        return "board/debate_detail";
+        return "community/debate_detail";
     }
 
-    @GetMapping("board/history_list")
+    @GetMapping("community/history_list")
     public String history_list(){
-        return "board/history_list";
+        return "community/history_list";
     }
 
-    @GetMapping("/board/history_detail")
+    @GetMapping("/community/history_detail")
     public String history_detail(){
-        return "board/history_detail";
+        return "community/history_detail";
     }
 
-    @GetMapping("/board/prospect_list")
+    @GetMapping("/community/prospect_list")
     public String prospect_list(){
-        return "board/prospect_list";
+        return "community/prospect_list";
     }
 
-    @GetMapping("/board/prospect_detail")
+    @GetMapping("/community/prospect_detail")
     public String prospect_detail(){
-        return "board/prospect_detail";
+        return "community/prospect_detail";
     }
 
 }
