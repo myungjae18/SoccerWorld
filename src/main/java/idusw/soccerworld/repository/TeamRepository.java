@@ -26,4 +26,8 @@ public class TeamRepository {
     public List<TeamDto> selectAll() {
         return sessionTemplate.selectList("TeamMapper.selectAll");
     }
+
+    public TeamDto selectOneByPk(Long teamId) {
+        return sessionTemplate.selectOne("TeamMapper.selectOneByPk", teamId);
+    }
 }

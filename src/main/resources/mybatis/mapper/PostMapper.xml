@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="postMapper">
+    <select id="selectedCategory" resultType="postDto">
+        select * from post where category_id = #{category_id}
+    </select>
+
+    <insert id="create" parameterType="postDto">
+        insert into post(category_id, title, content, up_count, down_count, view_count, regdate) values (#{category_id}, #{title}, #{content}, 0, 0, 0, NOW())
+    </insert>
+
+    <update id="updateViewCount" parameterType="int">
+        update post set view_count=view_count +1 where post_id=#{post_id}
+    </update>
+
+    <select id="findById" parameterType="int" resultType="postDto">
+        select * from post where post_id=#{post_id}
+    </select>
+
+
+    <update id="updatePost" >
+        update post set title=#{title},content=#{content}, regdate=NOW() where post_id=#{post_id}
+    </update>
+
+    <delete id="deletePost" parameterType="int">
+        delete from post where post_id=#{post_id}
+    </delete>
+</mapper>

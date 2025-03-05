@@ -4,6 +4,7 @@ import idusw.soccerworld.service.TeamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -30,9 +31,19 @@ public class TeamController {
         return "/admin/bundesliga";
     }
 
-    @GetMapping("/admin/seriea-a")
+    @GetMapping("/admin/serie-a")
     public String goSerieaA(){
-        return "/admin/seriea-a";
+        return "/admin/serie-a";
+    }
+
+    //팀 정보 페이지
+    @GetMapping("/team/info")
+    public String goInfo(@RequestParam(value = "team-id") String teamId, Model model) {
+        model.addAttribute("info", teamService.getTeamDetails(teamId));
+
+        //DB에서 모든 팀 정보 가져오기(fragment를 위한)
+        model.addAttribute("teamList", model.getAttribute("fragmentData"));
+        return "/team/info";
     }
 
     @GetMapping("/teamInfo")

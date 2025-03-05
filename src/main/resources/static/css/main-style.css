@@ -150,4 +150,6 @@
     border-radius: 3px;
     font-size: 18px;
     padding: 8px 10px;
+    float: left;
+    margin-right: 3px;
 }

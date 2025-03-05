@@ -47,4 +47,8 @@
     <select id="selectAll" resultType="teamDto">
         SELECT team_id AS teamId, name, league, logo, head_coach, stadium, location from team
     </select>
+
+    <select id="selectOneByPk" resultType="teamDto" parameterType="Long">
+        SELECT team_id AS teamId, name, league, logo, head_coach, stadium, location from team WHERE team_id = #{teamId}
+    </select>
 </mapper>

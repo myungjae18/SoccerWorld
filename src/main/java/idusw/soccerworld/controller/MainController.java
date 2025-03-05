@@ -5,6 +5,7 @@ import idusw.soccerworld.service.TeamService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MainController {
@@ -18,7 +19,6 @@ public class MainController {
     //메인 페이지 이동
     @GetMapping("/main/index")
     public String goIndex(Model model) {
-
         //4대 리그의 순위 정보 가져오기
         model.addAttribute("pLStand",leagueService.getStandingsByApi("PL"));
         model.addAttribute("laLigaStand",leagueService.getStandingsByApi("PD"));
@@ -29,5 +29,11 @@ public class MainController {
         model.addAttribute("teamList", model.getAttribute("fragmentData"));
 
         return "/main/index";
+    }
+
+    //에러 페이지 처리
+    @GetMapping("/error")
+    public String go404() {
+        return "/error/404";
     }
 }

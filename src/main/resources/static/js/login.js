@@ -9,13 +9,16 @@ let idChecked = false;
 let nickChecked = false;
 
 document.addEventListener('DOMContentLoaded', function() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더함
-    const day = String(today.getDate()).padStart(2, '0');
+    // 현재 URL에서 파라미터 가져오기
+    const params = new URLSearchParams(window.location.search);
 
-    const maxDate = `${year}-${month}-${day}`;
-    document.getElementById('birthday').setAttribute('max', maxDate);
+    // 특정 파라미터 값 가져오기
+    const pageType = params.get("page-type");
+
+    //페이지 요청에 따른 전환
+    if(pageType === "login") goLogin();
+    else if(pageType === "register") goRegister();
+
 
     leagueSelector.addEventListener('change', function () {
         //선택된 option 값 가져오기

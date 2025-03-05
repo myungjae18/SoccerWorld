@@ -26,6 +26,10 @@
     margin-bottom: 15px;
 }
 
+.team-logo {
+    text-align: center;
+}
+
 /* 추가된 기존 CSS */
 .my-5 {
     color: #7fb6ff;

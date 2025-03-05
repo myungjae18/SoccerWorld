@@ -70,3 +70,6 @@ span.ml-auto {
     border-color: #1e1c54!important; /* 버튼 테두리 색상 */
 }
 
+.category-title {   /*  카테고리    */
+    color : #ffffff;
+}

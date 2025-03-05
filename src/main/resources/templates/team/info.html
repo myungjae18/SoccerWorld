@@ -15,6 +15,7 @@
     <!-- Custom styles for this template -->
     <link href="/static/css/style.css" rel="stylesheet">
     <link href="/static/css/main-style.css" rel="stylesheet">
+    <link href="/static/css/taehyun.css" rel="stylesheet">
 </head>
 <body>
 <!-- Navigation -->
@@ -62,304 +63,85 @@
 <!--    </header>-->
 <!-- Page Content -->
 <div class="container">
-    <div class="services-bar">
-        <h1 class="card-title">오늘의 뉴스 </h1>
-        <!-- Services Section -->
-        <div class="row">
-            <div class="col-lg-3 mb-4">
-                <h4 class="card-title">충격! 호날두 맨유 이적?</h4>
-                신명재뉴스
-                <img class="card-image" src="/static/images/services-img-02.jpg" alt=""/>
-                <!--                        <div class="card-body">-->
-                <!--                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>-->
-                <!--                        </div>-->
-                <!--                        <div class="card-footer">-->
-                <!--                            <a href="#" class="btn btn-primary">Learn More</a>-->
-                <!--                        </div>-->
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-8">
+            <form class="input-group">
+                <input type="text" class="form-control" placeholder="팀 이름을 입력하세요..." aria-label="팀 검색">
+                <button class="btn btn-primary" type="submit">검색</button>
+            </form>
+        </div>
+    </div>
+<!--    <h1 class="title-box my-5" th:text="${info.name}"-->
+<!--        th:if="${#strings.contains(${info.clubColors}, ' / ')}"-->
+<!--        th:style="${background: linear-gradient(to right, ${#strings.arraySplit(${info.clubColors}, '/')[0]} , ${#strings.arraySplit(${info.clubColors}, '/')[1]})};"-->
+<!--    ></h1>-->
+    <h1 class="title-box my-5" th:text="${info.name}"
+        th:if="${#strings.contains(info.clubColors, ' / ')}"
+        th:style="'background: linear-gradient(to right, ' + ${#strings.arraySplit(info.clubColors, ' / ')[0]} + ', ' + ${#strings.arraySplit(info.clubColors, ' / ')[1]} + ');'"
+    ></h1>
+    <h1 class="title-box my-5" th:text="${info.name}"
+        th:unless="${#strings.contains(info.clubColors, ' / ')}"
+        th:style="'background-color:' + ${info.clubColors} + ';'"
+    ></h1>
 
-            </div>
-            <div class="col-lg-3 mb-4">
-                <h4 class="card-title">충격! 호날두 맨유 이적?</h4>
-                신명재뉴스
-                <img class="card-image" src="/static/images/services-img-02.jpg" alt=""/>
-                <!--                        <div class="card-body">-->
-                <!--                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>-->
-                <!--                        </div>-->
-                <!--                        <div class="card-footer">-->
-                <!--                            <a href="#" class="btn btn-primary">Learn More</a>-->
-                <!--                        </div>-->
-
-            </div>
-            <div class="col-lg-3 mb-4">
-                <h4 class="card-title">충격! 호날두 맨유 이적?</h4>
-                신명재뉴스
-                <img class="card-image" src="/static/images/services-img-02.jpg" alt=""/>
-                <!--                        <div class="card-body">-->
-                <!--                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>-->
-                <!--                        </div>-->
-                <!--                        <div class="card-footer">-->
-                <!--                            <a href="#" class="btn btn-primary">Learn More</a>-->
-                <!--                        </div>-->
-
-            </div>
-            <div class="col-lg-3 mb-4">
-                <h4 class="card-title">충격! 호날두 맨유 이적?</h4>
-                신명재뉴스
-                <img class="card-image" src="/static/images/services-img-02.jpg" alt=""/>
-                <!--                        <div class="card-body">-->
-                <!--                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>-->
-                <!--                        </div>-->
-                <!--                        <div class="card-footer">-->
-                <!--                            <a href="#" class="btn btn-primary">Learn More</a>-->
-                <!--                        </div>-->
-
+    <div class="row">
+        <div class="team-logo col-md-6">
+            <img th:src="${info.crest}" alt="호날두 이미지" class="img-fluid player-img"> <!-- 이미지 스타일 개선 -->
+        </div>
+        <div class="col-md-6">
+            <div class="player-info-table"> <!-- 표 레이아웃 적용 -->
+                <table class="table table-bordered"> <!-- table-bordered 클래스를 사용 -->
+                    <tbody>
+                    <tr>
+                        <td class="blue-background">소속리그</td>
+                        <td class="white-background" th:text="${info.runningCompetitions[0].name}"></td>
+                    </tr>
+                    <tr>
+                        <td class="blue-background">창단연도</td>
+                        <td class="white-background" th:text="${info.founded}"></td>
+                    </tr>
+                    <tr>
+                        <td class="blue-background">감독</td>
+                        <td class="white-background" th:text="${info.coach.name}"></td>
+                    </tr>
+                    <tr>
+                        <td class="blue-background">홈 구장</td>
+                        <td class="white-background" th:text="${info.venue}"></td>
+                    </tr>
+                    <tr>
+                        <td class="blue-background">공식 웹사이트</td>
+                        <td class="white-background" th:text="${info.website}"></td>
+                    </tr>
+                    <tr>
+                        <td class="blue-background">트로피</td>
+                        <td class="white-background"></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <!--               <div class="col-lg-4 mb-4">-->
-        <!--                  <div class="card h-100">-->
-        <!--                     <h4 class="card-header">Garden Watering</h4>-->
-        <!--                     <div class="card-img">-->
-        <!--                        <img class="img-fluid" src="/static/images/services-img-02.jpg" alt="" />-->
-        <!--                     </div>-->
-        <!--                     <div class="card-body">-->
-        <!--                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>-->
-        <!--                     </div>-->
-        <!--                     <div class="card-footer">-->
-        <!--                        <a href="#" class="btn btn-primary">Learn More</a>-->
-        <!--                     </div>-->
-        <!--                  </div>-->
-        <!--               </div>-->
-        <!--               <div class="col-lg-4 mb-4">-->
-        <!--                  <div class="card h-100">-->
-        <!--                     <h4 class="card-header">Garden Supplies</h4>-->
-        <!--                     <div class="card-img">-->
-        <!--                        <img class="img-fluid" src="/static/images/services-img-03.jpg" alt="" />-->
-        <!--                     </div>-->
-        <!--                     <div class="card-body">-->
-        <!--                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>-->
-        <!--                     </div>-->
-        <!--                     <div class="card-footer">-->
-        <!--                        <a href="#" class="btn btn-primary">Learn More</a>-->
-        <!--                     </div>-->
-        <!--                  </div>-->
-        <!--               </div>-->
-        <!--            </div>-->
-        <!-- /.row -->
+    </div>
+    <div class="text-center mt-4">
+        <button class="btn btn-primary info-box">팀 평가하러 가기</button>
     </div>
     <hr>
+    <!-- 팀 스쿼드 섹션 -->
+    <h2 class="mt-5 mb-4 text-center">팀 스쿼드</h2>
     <div class="row">
-        <div class="col-lg-3 mb-4">
-            <img class="short-card-image" src="/static/images/services-img-02.jpg" alt=""/>
-        </div>
-        <div class="col-lg-3 mb-4">
-            <h4 class="card-title">[속보] 동물원</h4>
-            신명재뉴스
-        </div>
-        <div class="col-lg-3 mb-4">
-            <img class="short-card-image" src="/static/images/services-img-02.jpg" alt=""/>
-        </div>
-        <div class="col-lg-3 mb-4">
-            <h4 class="card-title">[속보] 동물원</h4>
-            신명재뉴스
-        </div>
-        <div class="col-lg-3 mb-4">
-            <img class="short-card-image" src="/static/images/services-img-02.jpg" alt=""/>
-        </div>
-        <div class="col-lg-3 mb-4">
-            <h4 class="card-title">[속보] 동물원</h4>
-            신명재뉴스
-        </div>
-        <div class="col-lg-3 mb-4">
-            <img class="short-card-image" src="/static/images/services-img-02.jpg" alt=""/>
-        </div>
-        <div class="col-lg-3 mb-4">
-            <h4 class="card-title">[속보] 동물원</h4>
-            신명재뉴스
+        <!-- 예시 선수 카드 1 -->
+        <div class="col-md-4" th:each="player : ${info.squad}">
+            <div class="info-box">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${player.name}"></h5>
+                    position: <label th:text="${player.position}"></label><br>
+                    nationality: <label th:text="${player.nationality}"></label><br>
+                    dateOfBirth: <label th:text="${player.dateOfBirth}"></label>
+                </div>
+            </div>
         </div>
     </div>
+    최종 갱신일: <label th:text="${info.lastUpdated}"></label>
     <hr>
-    <div class="row">
-        <div class="col-lg-3">
-            <h3 class="card-title">리그 순위표</h3>
-        </div>
-        <div class="col-lg-3">
-            <h3 style="text-align: right;">더보기</h3>
-        </div>
-        <div class="col-lg-6">
-            <h3 class="card-title">현재 인기글</h3>
-        </div>
-        <div class="col-lg-6">
-            <table class="ranking">
-                <thead class="league-names">
-                <tr style="cursor: pointer;">
-                    <td colspan="3"><a onclick="changeLeague('EPL')">EPL</a></td>
-                    <td colspan="3"><a onclick="changeLeague('LALIGA')" id="laligaTitle">LA LIGA</a></td>
-                    <td colspan="3"><a onclick="changeLeague('SERIEA')" id="serieaTitle">SERIE A</a></td>
-                    <td colspan="3"><a onclick="changeLeague('BUNDESLIGA')" id="bundesligaTitle">BUNDESLIGA</a></td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>순위</td>
-                    <td></td>
-                    <td colspan="4">팀명</td>
-                    <td>경기</td>
-                    <td>승</td>
-                    <td>무</td>
-                    <td>패</td>
-                    <td>득실</td>
-                    <td>승점</td>
-                </tr>
-                </tbody>
-                <tbody id="eplRanking">
-                <tr th:each="table : ${pLStand}">
-                    <td th:text="${table.position}"></td>
-                    <td>
-                        <img th:src="${table.team.crest}" width="25px" height="25px"/>
-                    </td>
-                    <td th:text="${table.team.shortName}" colspan="4">
-                    </td>
-                    <td th:text="${table.playedGames}"></td>
-                    <td th:text="${table.won}"></td>
-                    <td th:text="${table.draw}"></td>
-                    <td th:text="${table.lost}"></td>
-                    <td th:text="${table.goalDifference}"></td>
-                    <td th:text="${table.points}"></td>
-                </tr>
-                </tbody>
-                <tbody id="laligaRanking">
-                <tr th:each="table : ${laLigaStand}">
-                    <td th:text="${table.position}"></td>
-                    <td>
-                        <img th:src="${table.team.crest}" width="25px" height="25px"/>
-                    </td>
-                    <td th:text="${table.team.shortName}" colspan="4">
-                    </td>
-                    <td th:text="${table.playedGames}"></td>
-                    <td th:text="${table.won}"></td>
-                    <td th:text="${table.draw}"></td>
-                    <td th:text="${table.lost}"></td>
-                    <td th:text="${table.goalDifference}"></td>
-                    <td th:text="${table.points}"></td>
-                </tr>
-                </tbody>
-                <tbody id="serieaRanking">
-                <tr th:each="table : ${serieAStand}">
-                    <td th:text="${table.position}"></td>
-                    <td>
-                        <img th:src="${table.team.crest}" width="25px" height="25px"/>
-                    </td>
-                    <td th:text="${table.team.shortName}" colspan="4">
-                    </td>
-                    <td th:text="${table.playedGames}"></td>
-                    <td th:text="${table.won}"></td>
-                    <td th:text="${table.draw}"></td>
-                    <td th:text="${table.lost}"></td>
-                    <td th:text="${table.goalDifference}"></td>
-                    <td th:text="${table.points}"></td>
-                </tr>
-                </tbody>
-                <tbody id="bundesligaRanking">
-                <tr th:each="table : ${bundesStand}">
-                    <td th:text="${table.position}"></td>
-                    <td>
-                        <img th:src="${table.team.crest}" width="25px" height="25px"/>
-                    </td>
-                    <td th:text="${table.team.shortName}" colspan="4">
-                    </td>
-                    <td th:text="${table.playedGames}"></td>
-                    <td th:text="${table.won}"></td>
-                    <td th:text="${table.draw}"></td>
-                    <td th:text="${table.lost}"></td>
-                    <td th:text="${table.goalDifference}"></td>
-                    <td th:text="${table.points}"></td>
-                </tr>
-                </tbody>
-            </table>
-            <br>
-            <br>
-            <table class="ranking">
-                <h3 class="card-title">주요 경기</h3>
-                <thead class="league-names">
-                <tr>
-                    <td colspan="3">EPL</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>토트넘</td>
-                    <td>02:00</td>
-                    <td>아스날</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-lg-6">
-            <table class="ranking">
-                <thead class="league-names">
-                <tr>
-                    <td class="post-header" colspan="4">제목</td>
-                    <td>추천</td>
-                    <td>조회수</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="league-name">EPL</td>
-                </tr>
-                <tr>
-                    <td colspan="4">첼시의 미래는?</td>
-                    <td>80</td>
-                    <td>3533</td>
-                </tr>
-                <tr>
-                    <td colspan="4">첼시의 미래는?</td>
-                    <td>80</td>
-                    <td>3533</td>
-                </tr>
-                <tr>
-                    <td class="league-name">LA LIGA</td>
-                </tr>
-                <tr>
-                    <td colspan="4">첼시의 미래는?</td>
-                    <td>80</td>
-                    <td>3533</td>
-                </tr>
-                <tr>
-                    <td colspan="4">첼시의 미래는?</td>
-                    <td>80</td>
-                    <td>3533</td>
-                </tr>
-                <tr>
-                    <td class="league-name">SERIE A</td>
-                </tr>
-                <tr>
-                    <td colspan="4">첼시의 미래는?</td>
-                    <td>80</td>
-                    <td>3533</td>
-                </tr>
-                <tr>
-                    <td colspan="4">첼시의 미래는?</td>
-                    <td>80</td>
-                    <td>3533</td>
-                </tr>
-                <tr>
-                    <td class="league-name">BUNDESLIGA</td>
-                </tr>
-                <tr>
-                    <td colspan="4">첼시의 미래는?</td>
-                    <td>80</td>
-                    <td>3533</td>
-                </tr>
-                <tr>
-                    <td colspan="4">첼시의 미래는?</td>
-                    <td>80</td>
-                    <td>3533</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
     <!-- About Section -->
     <!--        <div class="about-main">-->
     <!--            <div class="row">-->

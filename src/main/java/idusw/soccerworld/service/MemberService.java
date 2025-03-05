@@ -30,11 +30,11 @@ public class MemberService implements UserDetailsService {
     }
 
     //회원가입 처리
-    public void insertMember(MemberDto memberDto) {
+    public int insertMember(MemberDto memberDto) {
         String encodedPassword = passwordEncoder.encode(memberDto.getPassword());
         memberDto.setPassword(encodedPassword);
         memberDto.setRole("Client");
-        memberRepository.insertOne(memberDto);
+        return memberRepository.insertOne(memberDto);
     }
 
     //아이디 중복 확인

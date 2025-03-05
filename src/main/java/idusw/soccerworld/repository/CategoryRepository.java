@@ -1,19 +1,18 @@
 package idusw.soccerworld.repository;
 
-import org.mybatis.spring.SqlSessionTemplate;
+import idusw.soccerworld.domain.dto.CategoryDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.mybatis.spring.SqlSessionTemplate;
 
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class CategoryRepository {
-    SqlSessionTemplate sessionTemplate;
+    private final SqlSessionTemplate sql;
 
-    public CategoryRepository(SqlSessionTemplate sessionTemplate) {
-        this.sessionTemplate = sessionTemplate;
-    }
-
-    public List selectAll() {
-        return sessionTemplate.selectList("Category.selectAll");
+    public List<CategoryDto> findAll() {
+        return sql.selectList("CategoryMapper.findAll");
     }
 }
