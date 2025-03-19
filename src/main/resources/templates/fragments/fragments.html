@@ -8,6 +8,10 @@
 <body>
 <!--Navigation-->
 <nav th:fragment="nav">
+    <script th:inline="javascript">
+        //security에서 로그인 여부를 받아 변수에 저장
+        let isAuthenticated = [[${#authorization.expression('isAuthenticated()')}]];
+    </script>
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
@@ -35,7 +39,7 @@
                         </button>
                     </form>
                 </th:block>
-                <button class="menu-button" style="cursor: pointer;" onclick="location.href='/member/mypage'">내정보
+                <button class="menu-button" id="goInfo" style="cursor: pointer;">내정보
                 </button>
             </div>
         </div>

@@ -3,6 +3,7 @@ package idusw.soccerworld.service;
 import idusw.soccerworld.domain.dto.GameDto;
 import idusw.soccerworld.domain.dto.TeamDto;
 import idusw.soccerworld.repository.GameRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -26,7 +27,7 @@ public class GameService {
     }
 
     public GameService(GameRepository gameRepository,
-                       RestClient restClient,
+                       @Qualifier("restClient") RestClient restClient,
                        ScheduleApiService scheduleApiService) {
         this.gameRepository = gameRepository;
         this.restClient = restClient;
@@ -60,10 +61,10 @@ public class GameService {
             Map gameTeamAway = (Map) gameData.get("awayTeam");
 
             TeamDto teamHomeDto = TeamDto.builder()
-                    .teamId((Integer) gameTeamHome.get("id"))
+                    .teamId((Long) gameTeamHome.get("id"))
                     .build();
             TeamDto teamAwayDto = TeamDto.builder()
-                    .teamId((Integer) gameTeamAway.get("id"))
+                    .teamId((Long) gameTeamAway.get("id"))
                     .build();
 
             int homeScore = 0;

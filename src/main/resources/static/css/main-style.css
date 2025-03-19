@@ -141,6 +141,17 @@
 
 .card-title {
     color: #1e1c54;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;       /* 최대 2줄까지만 보이도록 설정 */
+    -webkit-box-orient: vertical; /* 세로로 박스 방향 설정 */
+    overflow: hidden;             /* 넘치는 부분 숨기기 */
+    text-overflow: ellipsis;      /* 넘친 텍스트에 '...' 표시 */
+}
+
+.card-author {
+    white-space: nowrap;        /* 한 줄로 텍스트 제한 */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .menu-button {

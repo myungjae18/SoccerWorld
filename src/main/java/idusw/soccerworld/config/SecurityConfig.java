@@ -4,9 +4,14 @@ import idusw.soccerworld.service.MemberService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import java.util.Collection;
 
 //security 설정 클래스, 보안 설정을 정의한다.
 @Configuration
@@ -16,6 +21,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         //.requestMatchers("/admin/**").hasRole("ADMIN") // ADMIN 권한 필요
+                        .requestMatchers("/member/info").hasAuthority("ROLE_Client")//Client 권한 필요
                         .anyRequest().permitAll() //그 외 요청 모두에게 허용
                 )
                 .formLogin(form -> form
@@ -33,6 +39,24 @@ public class SecurityConfig {
                         .clearAuthentication(true)  // 인증 정보 제거
                         .logoutSuccessUrl("/main/index") // 로그아웃 후 갈 페이지 지정
                         .permitAll()
+                )
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling.authenticationEntryPoint((request, response, authException) -> {
+                            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                            if (authentication == null) response.sendRedirect("/main/index");
+                            else {
+                                Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+                                for (GrantedAuthority authority : authorities) {
+                                    if (authority.getAuthority().equals("ROLE_Client")) {
+                                        response.sendRedirect("/main/index");  //Client 필요 페이지 접근 시
+                                        return;
+                                    } else if (authority.getAuthority().equals("ROLE_admin")) {
+                                        response.sendRedirect("/admin/login");  // admin 필요 페이지 접근 시
+                                        return;
+                                    }
+                                }
+                            }
+                        })
                 )
                 .userDetailsService(memberService); //담당할 UserDetailService를 상속받은 클래스 지정
 

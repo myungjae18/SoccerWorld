@@ -9,10 +9,11 @@ public class MemberDto {
     private String id;
     private String password;
     private String name;
+    private String phone;
     private int gender;
     private Date birthday;
     private String nickname;
-    private Long teamId;
     private int point;
     private String role;
+    private TeamDto teamDto;
 }

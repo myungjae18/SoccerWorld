@@ -12,10 +12,12 @@ public class MemberRepository {
         this.sessionTemplate = sessionTemplate;
     }
 
+    //insert methods
     public int insertOne(MemberDto memberDto) {
         return sessionTemplate.insert("MemberMapper.insertOne", memberDto);
     }
 
+    //select methods
     public MemberDto loginCheck(String id) {
         return sessionTemplate.selectOne("MemberMapper.loginCheck", id);
     }
@@ -30,5 +32,22 @@ public class MemberRepository {
 
     public MemberDto selectByMemberId(long memberId) {
         return sessionTemplate.selectOne("MemberMapper.selectByMemberId", memberId);
+    }
+
+    //update methods
+    public int update(MemberDto memberDto) {
+        return sessionTemplate.update("MemberMapper.update", memberDto);
+    }
+
+    public int updatePassword(MemberDto memberDto) {
+        return sessionTemplate.update("MemberMapper.updatePassword", memberDto);
+    }
+
+    public int updateTeam(MemberDto memberDto) {
+        return sessionTemplate.update("MemberMapper.updateTeam", memberDto);
+    }
+
+    public int updateNickname(MemberDto memberDto) {
+        return sessionTemplate.update("MemberMapper.updateNickname", memberDto);
     }
 }

@@ -1,5 +1,6 @@
 package idusw.soccerworld.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import java.util.Map;
 public class ScheduleApiService {
 
     private RestClient restClient;
-    public ScheduleApiService(RestClient restClient) {
+    public ScheduleApiService(@Qualifier("restClient") RestClient restClient) {
         this.restClient = restClient;
     }
 

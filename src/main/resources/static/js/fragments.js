@@ -10,6 +10,14 @@ let isLeagueScheduleVisible = false;
 
 //모든 리소스 로드 후 실행
 window.onload = function() {
+    document.getElementById("goInfo").addEventListener('click', function () {
+        //로그인 여부에 따른 info 페이지 이동 제어
+        if(!isAuthenticated) location.href="/main/index";
+        else {
+            location.href="/member/info?type=info";
+        }
+    });
+
     hideAll();
 };
 
@@ -29,7 +37,6 @@ function showTeams(name) {
         laLigaList.style.display = 'none';
         serieAList.style.display = 'none';
         bundesligaList.style.display = 'none';
-
     } else if(name == 'LALIGA') {
         laLigaList.style.display = 'block';
         eplList.style.display = 'none';

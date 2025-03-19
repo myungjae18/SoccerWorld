@@ -54,7 +54,7 @@ public class CommunityController {
 
         //DB에서 모든 팀 정보 가져오기(fragment를 위한)
         model.addAttribute("teamList", model.getAttribute("fragmentData"));
-        return "/community/list";
+        return "redirect:/community/list";
     }
 
     //  post 생성

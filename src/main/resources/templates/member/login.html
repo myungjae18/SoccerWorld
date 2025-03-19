@@ -23,7 +23,7 @@
             <button class="submit">Login</button>
         </form>
         <!-- 회원가입 요청 form -->
-        <form id="register" method="post" th:object="${memberDto}" action="/member/register" class="input-group">
+        <form id="register" method="post" th:object="${memberDto}" th:action="@{/members}" class="input-group">
             <input type="text" id="id" name="id" class="input-field" style="width:80%;" placeholder="ID" required>
             <button type="button" class="send-button" onclick="idCheck()">중복 확인</button><br>
             <input type="password" name="password" class="input-field" placeholder="Enter Password" required>
@@ -40,7 +40,8 @@
             <label for="woman" style="font-size:12px">Woman</label>
             <br>
             <select id="leagueSelector">
-                <option value="">선호하는 팀이 소속된 리그를 선택하세요</option>
+                <option value="">응원하는 팀이 소속된 리그를 선택하세요</option>
+                <option value="No Team">응원 팀 없음</option>
                 <option value="Premier League">England Premier League</option>
                 <option value="La Liga">Spain La Liga</option>
                 <option value="Serie A">Italy Serie A</option>
@@ -49,7 +50,7 @@
             <br>
             <select id="teamSelector" name="teamId">
             </select>
-
+            <input type="hidden" name="role" value="Client"/>
             <input hidden th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <br><br><br>
             <button type="button" class="submit" onclick="registerSubmit()">REGISTER</button>

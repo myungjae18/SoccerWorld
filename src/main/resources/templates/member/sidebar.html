@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/myPage.css"/>
+</head>
+<body>
+<th:block th:fragment="sidebarFragment">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            Menu
+        </div>
+        <div class="sidebar-component">
+            <span class="sidebar-title">계정</span>
+            <br>
+            <br>
+            <a th:href="@{/member/info(type='info')}">내 정보</a>
+            <br>
+            <br>
+            <a th:href="@{/member/info(type='changeId')}">아이디 변경</a>
+            <br>
+            <br>
+            <a th:href="@{/member/info(type='changeNick')}">닉네임 변경</a>
+            <br>
+            <br>
+            <a th:href="@{/member/info(type='changePw')}">비밀번호 변경</a>
+            <br>
+            <br>
+            <a th:href="@{/member/info(type='changeTeam')}">응원 팀 변경</a>
+            <br>
+            <br>
+            <span class="sidebar-title">승부 예측</span>
+<!--            <br>-->
+<!--            <br>-->
+<!--            <a th:href="@{/member/info(type='orderlist')}">주문 내역</a>-->
+<!--            <br>-->
+<!--            <br>-->
+<!--            <a th:href="@{/pay/cart/{memberId}(memberId=${session.memberDTO.memberId})}">장바구니</a>-->
+        </div>
+        <div>
+            <hr>
+            <br>
+            <span class="sidebar-title">고객센터</span>
+            <br>
+            <br>
+            <span class="sidebar-title">1588-0000</span>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

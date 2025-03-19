@@ -1,5 +1,6 @@
 package idusw.soccerworld.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -12,7 +13,7 @@ import java.util.Map;
 public class LeagueService {
     private RestClient restClient;
 
-    public LeagueService(RestClient restClient) {
+    public LeagueService(@Qualifier("restClient") RestClient restClient) {
         this.restClient = restClient;
     }
 //

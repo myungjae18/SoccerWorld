@@ -2,6 +2,7 @@ package idusw.soccerworld.service;
 
 import idusw.soccerworld.domain.dto.TeamDto;
 import idusw.soccerworld.repository.TeamRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class TeamService {
     TeamRepository teamRepository;
     RestClient restClient;
     public TeamService(TeamRepository teamRepository,
-                       RestClient restClient){
+                       @Qualifier("restClient") RestClient restClient){
         this.teamRepository = teamRepository;
         this.restClient = restClient;
     }
@@ -47,7 +48,7 @@ public class TeamService {
         for(Map team : teamList) {
             Map coach = (Map) team.get("coach");
             TeamDto teamDto = TeamDto.builder()
-                    .teamId((int) team.get("id"))
+                    .teamId((Long) team.get("id"))
                     .name(team.get("shortName").toString())
                     .logo(team.get("crest").toString())
                     .headCoach(coach.get("name").toString())

@@ -1,19 +1,24 @@
 package idusw.soccerworld.controller;
 
-import idusw.soccerworld.service.LeagueService;
-import idusw.soccerworld.service.TeamService;
+import idusw.soccerworld.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MainController {
     private final LeagueService leagueService;
+    private final GameService gameService;
+    private final CategoryService categoryService;
+    private final NewsService newsService;
 
     //생성자 주입
-    public MainController(LeagueService leagueService, TeamService teamService) {
+    public MainController(
+            LeagueService leagueService, GameService gameService, CategoryService categoryService, NewsService newsService) {
         this.leagueService = leagueService;
+        this.gameService = gameService;
+        this.categoryService = categoryService;
+        this.newsService = newsService;
     }
 
     //메인 페이지 이동
@@ -24,6 +29,9 @@ public class MainController {
         model.addAttribute("laLigaStand",leagueService.getStandingsByApi("PD"));
         model.addAttribute("serieAStand",leagueService.getStandingsByApi("SA"));
         model.addAttribute("bundesStand",leagueService.getStandingsByApi("BL1"));
+
+        //뉴스 헤드라인 가져오기
+        model.addAttribute("headLines", newsService.getHeadLines());
 
         //DB에서 모든 팀 정보 가져오기(fragment를 위한)
         model.addAttribute("teamList", model.getAttribute("fragmentData"));

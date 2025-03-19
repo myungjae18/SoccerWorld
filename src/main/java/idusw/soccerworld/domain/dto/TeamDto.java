@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TeamDto {
-    private long teamId;
+    private Long teamId;
     private String name;
     private String league;
     private String logo;

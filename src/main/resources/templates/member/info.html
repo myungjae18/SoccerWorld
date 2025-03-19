@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>내 정보</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fontawesome CSS -->
+    <link href="/static/css/all.css" rel="stylesheet">
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+    />
+    <!-- Custom styles for this template -->
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/main-style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/myPage.css"/>
+</head>
+<body>
+<input type="hidden" id="member-id" th:value="${#authentication.principal.memberId}"/>
+<!-- Navigation -->
+<nav th:insert="~{/fragments/fragments :: nav}"></nav>
+<br>
+<div class="container">
+    <div class="row">
+        <!--sidebar-->
+        <th:block th:replace="~{member/sidebar :: sidebarFragment}"></th:block>
+        <!--sidebar 끝-->
+        <!-- 내 정보 -->
+        <div class="main" th:if="${type.equals('info')}">
+            <div class="main-header">
+                내 정보
+                <hr>
+            </div>
+            <div class="main-info">
+                <form th:action="@{/member/{memberId}(memberId=${#authentication.principal.memberId})}"
+                      th:method="put" id="form-put" th:object="${memberDto}">
+                    <input type="hidden" name="memberId" th:value="${#authentication.principal.memberId}"/>
+                    <input type="hidden" name="gender" th:value="${#authentication.principal.gender}"/>
+                    <input type="hidden" name="password" th:value="${#authentication.principal.password}"/>
+                    <br>
+                    <label>&nbsp;이름</label>
+                    <input type="text" class="input-field" name="name"
+                           th:value="${#authentication.principal.name}"/><br><br>
+                    <label>&nbsp;id</label>
+                    <input type="text" class="input-field" name="id" th:value="${#authentication.principal.username}"
+                           readonly/><br><br>
+                    <label>&nbsp;닉네임</label>
+                    <input type="text" class="input-field" name="nickname"
+                           th:value="${#authentication.principal.nickname}" readonly/>
+                    &nbsp;&nbsp;<button type="button" th:onclick="|location.href='@{/member/info(type=changeNick)}'|">
+                    변경
+                </button>
+                    <br><br>
+                    <label>&nbsp;현재 포인트 </label>
+                    <input type="text" class="input-field" name="point" th:value="${#authentication.principal.point}"
+                           readonly/><br><br>
+                    <label>&nbsp;Phone</label>
+                    <input type="text" class="input-field" name="phone"
+                           th:value="${#authentication.principal.phone}"/><br><br>
+                    <label>&nbsp;응원 팀</label>
+                    <input type="text" class="input-field" th:value="${#authentication.principal.teamDto.name}"/>
+                    &nbsp;&nbsp;<button type="button" th:onclick="|location.href='@{/member/info(type=changeTeam)}'|">
+                    변경
+                </button>
+                    <br><br>
+                    <label></label>
+                    <input hidden th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <button type="button" onclick="submitPut()">수정</button>
+                    <button type="button" onclick="edit('delete')">탈퇴</button>
+                </form>
+            </div>
+        </div>
+        <!-- 내 정보 끝 -->
+        <!-- 닉네임 변경 -->
+        <div class="main" th:if="${type}=='changeNick'">
+            <div class="main-header">
+                닉네임 변경
+                <hr>
+            </div>
+            <div class="main-info">
+                <br>
+                <label>&nbsp;현재 닉네임</label>
+                <label th:text="${#authentication.principal.nickname}"></label>
+                <br><br>
+                <label>&nbsp;새 닉네임</label>
+                <input type="text" class="input-field" name="nickname" id="nickname" required minlength="2"/>
+                &nbsp;<button type="button" onclick="duplicationCheck()">중복 확인</button>
+                <input hidden th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <input hidden th:name="_method" value="PATCH"/>
+                <br><br>
+                <label></label>
+                <button type="button" onclick="submitPatch('nickname')">변경</button>
+                <br><br>
+            </div>
+        </div>
+        <!-- 닉네임 변경 끝 -->
+        <!-- 비밀번호 변경 -->
+        <div class="main" th:if="${type}=='changePw'">
+            <div class="main-header">
+                비밀번호 변경
+                <hr>
+            </div>
+            <div class="main-info">
+                <!--      <form th:action="@{/member/{memberId}(memberId=${#authentication.principal.memberId})}"-->
+                <!--            th:method="patch" th:object="${memberDto}" id="form-password">-->
+                <br>
+                <label>&nbsp;새 비밀번호</label>
+                <input type="password" class="input-field" id="new-password"/>
+                <br><br>
+                <label>&nbsp;비밀번호 확인</label>
+                <input type="password" class="input-field" id="password-check"/>
+                <br><br>
+                <label></label>
+                <button type="button" onclick="compare()">변경</button>
+                <br><br>
+                <!--      </form>-->
+            </div>
+        </div>
+        <!-- 비밀번호 변경 끝 -->
+        <!-- 응원 팀 변경 -->
+        <div class="main" th:if="${type}=='changeTeam'">
+            <div class="main-header">
+                응원 팀 변경
+                <hr>
+            </div>
+            <div class="main-info">
+                <div>
+                    <label>현재 응원 팀</label>&nbsp;
+                    <label th:text="${#authentication.principal.teamDto.name}"></label>
+                    <img th:src="${#authentication.principal.teamDto.logo}">
+                </div>
+                <br>
+                <form th:action="@{/member/{memberId}(memberId=${#authentication.principal.memberId})}"
+                      method="post" th:object="${memberDto}">
+                    <label>응원할 팀이 속한 리그 선택</label>
+                    <table class="league-list">
+                        <tr style="cursor: pointer;">
+                            <td>
+                                EPL
+                                <br>
+                                <img src="/static/images/pl-logo.png" >
+                            </td>
+                            <td>
+                                LA LIGA
+                                <br>
+                                <img src="/static/images/ll-logo.png" >
+                            </td>
+                            <td>
+                                SERIE A
+                                <br>
+                                <img src="/static/images/sa-logo.png" >
+                            </td>
+                            <td>
+                                BUNDESLIGA
+                                <br>
+                                <img src="/static/images/bl-logo.png" >
+                            </td>
+                            <td>
+                                응원 팀 없음
+                                <br>
+                            </td>
+                        </tr>
+                    </table>
+                    <label>응원할 팀 선택</label>
+                    <th:block th:each="team : ${teamList}">
+                        <div class="team-list">
+                            <img th:src="${team.logo}" />
+                            <br>
+                            <label th:text="${team.name}"></label>
+                        </div>
+                        <br><br>
+                    </th:block>
+                    <input type="hidden" name="_method" value="patch"/>
+                    <button>변경</button>
+                    <br><br>
+                </form>
+            </div>
+        </div>
+        <!-- 응원 팀 변경 끝 -->
+        <!-- 주문 내역 -->
+        <!--  <div class="main" th:if="${type}=='orderlist'">-->
+        <!--    <div class="main-header">-->
+        <!--      내 주문 목록-->
+        <!--    </div>-->
+        <!--    <div class="main-info">-->
+        <!--      <th:block th:each="orderEntry : ${ordersMap}">-->
+        <!--        <h3 th:text="${orderEntry.key.getOrderDate()} + ' 주문'">주문</h3>-->
+        <!--        <table border="0">-->
+        <!--          <tr>-->
+        <!--            <th>상품명</th>-->
+        <!--            <th>사이즈</th>-->
+        <!--            <th>색상</th>-->
+        <!--            <th>수량</th>-->
+        <!--            <th>주문금액</th>-->
+        <!--            <th></th>-->
+        <!--          </tr>-->
+        <!--          <tr th:each="orderItem : ${orderEntry.value.orderItems}">-->
+        <!--            <td>-->
+        <!--              <article>-->
+        <!--                <a href="#">-->
+        <!--                  <img th:src="${orderItem.productDTO.mainImage}" alt="1">-->
+        <!--                </a>-->
+        <!--                <div>-->
+        <!--                  <h2><a href="#" th:text="${orderItem.getProductDTO().getName()}">상품명</a></h2>-->
+        <!--                  <p th:text="${orderItem.getProductDTO().getContent()}">상품설명</p>-->
+        <!--                </div>-->
+        <!--              </article>-->
+        <!--            </td>-->
+        <!--            <td th:text="${orderItem.getProductDTO().getSize()}">대형</td>-->
+        <!--            <td th:text="${orderItem.getProductDTO().getColor()}">노란색</td>-->
+        <!--            <td th:text="${orderItem.getCount()}">5개</td>-->
+        <!--            <td th:if="${orderItem.getProductDTO().getSalePercentage() == 0}" th:text="'₩' + ${#numbers.formatInteger(orderItem.getProductDTO().getPrice() * orderItem.getCount(), 1, 'COMMA')}"></td>-->
+        <!--            <td th:unless="${orderItem.getProductDTO().getSalePercentage() == 0}">-->
+        <!--                                 <span th:with="discountedTotalPrice=${orderItem.getProductDTO().getPrice() *-->
+        <!--                                 (1 - orderItem.getProductDTO().getSalePercentage()/100.0) * orderItem.getCount()}" th:text="'₩' + ${#numbers.formatInteger(discountedTotalPrice.intValue(), 0, 'COMMA')}"></span>-->
+        <!--            </td>-->
+        <!--            <td>-->
+        <!--              <a th:with="link=@{/product/product/{productId}(productId=${orderItem.getProductDTO().getProductId})},-->
+        <!--                      anchor='#reviewSection', totalLink=${link+anchor}" th:href="${totalLink}">리뷰 작성</a>-->
+        <!--              <br>-->
+        <!--              <form th:action="@{/pay/cart/{memberId}/{productId}(memberId=${session.memberDTO.getMemberId()}, productId=${orderItem.getProductDTO.getProductId})}" method="post">-->
+        <!--                <input type="submit" value="장바구니 담기">-->
+        <!--                <input type="hidden" name="count" value="1">-->
+        <!--                <input type="hidden" name="type" value="order">-->
+        <!--              </form>-->
+        <!--            </td>-->
+        <!--          </tr>-->
+        <!--          <tr class="total">-->
+        <!--            <td colspan="5"></td>-->
+        <!--            <td>-->
+        <!--              <table>-->
+        <!--                <tr>-->
+        <!--                  <td>총 상품금액</td>-->
+        <!--                  <td>-->
+        <!--                    <span th:text="'₩' + ${#numbers.formatInteger(orderEntry.value.totalPrice, 0, 'COMMA')}">34,000원</span>-->
+        <!--                  </td>-->
+        <!--                </tr>-->
+        <!--                <tr>-->
+        <!--                  <td>배송비</td>-->
+        <!--                  <td>-->
+        <!--                    <span th:text="'₩' + ${#numbers.formatInteger(orderEntry.value.deliveryFee, 0, 'COMMA')}">3,000원</span>-->
+        <!--                  </td>-->
+        <!--                </tr>-->
+        <!--                <tr>-->
+        <!--                  <td>총 결제금액</td>-->
+        <!--                  <td>-->
+        <!--                    <span th:text="'₩' + ${#numbers.formatInteger(orderEntry.value.totalPrice + orderEntry.value.deliveryFee, 0, 'COMMA')}">35,000</span>-->
+        <!--                  </td>-->
+        <!--                </tr>-->
+        <!--              </table>-->
+        <!--            </td>-->
+        <!--          </tr>-->
+        <!--        </table>-->
+        <!--      </th:block>-->
+        <!--    </div>-->
+        <!--  </div>-->
+        <!-- 주문 내역 끝 -->
+    </div>
+</div>
+<script src="/static/js/info.js"></script>
+<script th:inline="javascript">
+    let message = [[${message}]]; //controller에서 날린 request 객체에 담긴 메세지
+
+    if (message != null) {
+        alert(message);
+    }
+</script>
+</body>
+</html>

@@ -18,7 +18,7 @@
 </head>
 <body>
 <!-- Navigation -->
-<nav th:insert="/fragments/fragments :: nav"></nav>
+<nav th:insert="~{/fragments/fragments :: nav}"></nav>
 <br>
 <!--    <header class="slider-main">-->
 <!--        <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">-->
@@ -63,57 +63,23 @@
 <!-- Page Content -->
 <div class="container">
     <div class="services-bar">
-        <h1 class="card-title">오늘의 뉴스 </h1>
+        <h1 class="card-title">오늘의 주요 뉴스 </h1>
         <!-- Services Section -->
         <div class="row">
-            <div class="col-lg-3 mb-4">
-                <h4 class="card-title">충격! 호날두 맨유 이적?</h4>
-                신명재뉴스
-                <img class="card-image" src="/static/images/services-img-02.jpg" alt=""/>
-                <!--                        <div class="card-body">-->
-                <!--                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>-->
-                <!--                        </div>-->
-                <!--                        <div class="card-footer">-->
-                <!--                            <a href="#" class="btn btn-primary">Learn More</a>-->
-                <!--                        </div>-->
+            <th:block th:each="i : ${#numbers.sequence(0, headLines.size() > 4 ? 3 : headLines.size() - 1)}">
+                <div class="col-lg-3 mb-4">
+                    <h4 class="card-title" th:text="${headLines.get(i).title}"></h4>
+                    <label class="card-author" th:text="${headLines.get(i).author}"></label>
+                    <img class="card-image" th:src="${headLines.get(i).urlToImage}" alt=""/>
+                    <!--                        <div class="card-body">-->
+                    <!--                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>-->
+                    <!--                        </div>-->
+                    <!--                        <div class="card-footer">-->
+                    <!--                            <a href="#" class="btn btn-primary">Learn More</a>-->
+                    <!--                        </div>-->
 
-            </div>
-            <div class="col-lg-3 mb-4">
-                <h4 class="card-title">충격! 호날두 맨유 이적?</h4>
-                신명재뉴스
-                <img class="card-image" src="/static/images/services-img-02.jpg" alt=""/>
-                <!--                        <div class="card-body">-->
-                <!--                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>-->
-                <!--                        </div>-->
-                <!--                        <div class="card-footer">-->
-                <!--                            <a href="#" class="btn btn-primary">Learn More</a>-->
-                <!--                        </div>-->
-
-            </div>
-            <div class="col-lg-3 mb-4">
-                <h4 class="card-title">충격! 호날두 맨유 이적?</h4>
-                신명재뉴스
-                <img class="card-image" src="/static/images/services-img-02.jpg" alt=""/>
-                <!--                        <div class="card-body">-->
-                <!--                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>-->
-                <!--                        </div>-->
-                <!--                        <div class="card-footer">-->
-                <!--                            <a href="#" class="btn btn-primary">Learn More</a>-->
-                <!--                        </div>-->
-
-            </div>
-            <div class="col-lg-3 mb-4">
-                <h4 class="card-title">충격! 호날두 맨유 이적?</h4>
-                신명재뉴스
-                <img class="card-image" src="/static/images/services-img-02.jpg" alt=""/>
-                <!--                        <div class="card-body">-->
-                <!--                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>-->
-                <!--                        </div>-->
-                <!--                        <div class="card-footer">-->
-                <!--                            <a href="#" class="btn btn-primary">Learn More</a>-->
-                <!--                        </div>-->
-
-            </div>
+                </div>
+            </th:block>
         </div>
         <!--               <div class="col-lg-4 mb-4">-->
         <!--                  <div class="card h-100">-->
@@ -148,34 +114,15 @@
     </div>
     <hr>
     <div class="row">
-        <div class="col-lg-3 mb-4">
-            <img class="short-card-image" src="/static/images/services-img-02.jpg" alt=""/>
-        </div>
-        <div class="col-lg-3 mb-4">
-            <h4 class="card-title">[속보] 동물원</h4>
-            신명재뉴스
-        </div>
-        <div class="col-lg-3 mb-4">
-            <img class="short-card-image" src="/static/images/services-img-02.jpg" alt=""/>
-        </div>
-        <div class="col-lg-3 mb-4">
-            <h4 class="card-title">[속보] 동물원</h4>
-            신명재뉴스
-        </div>
-        <div class="col-lg-3 mb-4">
-            <img class="short-card-image" src="/static/images/services-img-02.jpg" alt=""/>
-        </div>
-        <div class="col-lg-3 mb-4">
-            <h4 class="card-title">[속보] 동물원</h4>
-            신명재뉴스
-        </div>
-        <div class="col-lg-3 mb-4">
-            <img class="short-card-image" src="/static/images/services-img-02.jpg" alt=""/>
-        </div>
-        <div class="col-lg-3 mb-4">
-            <h4 class="card-title">[속보] 동물원</h4>
-            신명재뉴스
-        </div>
+        <th:block th:each="i : ${#numbers.sequence(4, 7)}">
+            <div class="col-lg-3 mb-4">
+                <img class="short-card-image" th:src="${headLines.get(i).urlToImage}" alt=""/>
+            </div>
+            <div class="col-lg-3 mb-4">
+                <h4 class="card-title" th:text="${headLines.get(i).title}"></h4>
+                <label th:text="${headLines.get(i).author}"></label>
+            </div>
+        </th:block>
     </div>
     <hr>
     <div class="row">
@@ -591,6 +538,13 @@
         </div>
     </footer>
 </div>
+<script th:inline="javascript">
+    let message = [[${message}]];
+
+    if(message!=null){
+        alert(message);
+    }
+</script>
 <!-- Bootstrap core JavaScript -->
 <script src="/static/vendor/jquery/jquery.min.js"></script>
 <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
