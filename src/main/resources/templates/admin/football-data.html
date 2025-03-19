@@ -20,16 +20,26 @@
 <br>
 <div class="container">
   <div class="schedule-container">
-    <h2>라리가 관리자</h2>
+    <h2>
+        <span th:text="${leagueName} + ' 관리자'">
+        </span>
+    </h2>
 
     <div>
       <button class="call-btn" onclick="checkTeamApi(leagueNum)">
-        팀 불러오기
+        현재시즌 팀 불러오기
       </button>
       <button class="call-btn" onclick="checkGames(0,leagueNum)">
-        한시즌 불러오기
+        현재시즌 경기 불러오기
+      </button>
+      <button class="call-btn" onclick="checkStandingApi(leagueNum)">
+        현재시즌 순위 불러오기
+      </button>
+      <button class="call-btn" onclick="checkStatisticsApi(leagueNum)">
+        현재시즌 선수 순위 불러오기
       </button>
     </div>
+
     <div class="calender">
       <input type="date" class="date-input hidden" id="dateInput" />
     </div>
@@ -51,8 +61,25 @@
   const header = document.querySelector('meta[name="_csrf_header"]').content;
   const token = document.querySelector('meta[name="_csrf"]').content;
   let currentDate = new Date(); // 현재 날짜 저장
-  const leagueNum = 2014;
+  const leagueNum = [[${leagueNum}]];
+  const leagueNameT = "[[${leagueName}]]";
+  // document.getElementById('leagueText').textContent = leagueNameT;
   const daysToShow = 7; // 표시할 날짜 수
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const currentYear = new Date().getFullYear();
+    const startYear = 2014;
+    const selectBox = document.getElementById("yearSelect");
+
+    for (let year = currentYear; year >= startYear; year--) {
+      let option = document.createElement("option");
+      option.value = year;
+      option.textContent = year;
+      selectBox.appendChild(option);
+    }
+  });
+
+
   // 날짜 버튼을 생성하는 함수
   document.addEventListener('DOMContentLoaded', function() {
     createDateButtons(currentDate); // 달력에서 날짜를 지정하지않으면 오늘 날짜 기준으로 버튼생성
@@ -110,7 +137,7 @@
   document.getElementById('prevDay').addEventListener('click', prevDay);
   // 페이지 로드 시 버튼 생성
 
-  function checkGames(selectedDate,leagueNum) {
+  function checkGames(selectedDate,leagueNum) { // 게임 불러오기
     fetch(`/admin/schedule?selectedDate=${selectedDate}&leagueNum=${leagueNum}`)
             .then(response => {
               if (!response.ok) {
@@ -130,8 +157,8 @@
               // 이를 방지하기 위해 문자열 내 큰따옴표를 HTML 엔티티(&quot;)로 변환함
               if (matches && matches.length > 0) {
                 matchScheduleDiv.innerHTML =
-                        `<h3>${selectedDate} 경기일자</h3>
-                         <button class="class-btn" onclick="insertGame(JSON.stringify(${matchData}))">
+                        `<h3>${leagueNameT} ${selectedDate} 경기일자</h3>
+                         <button class="class-btn" onclick="insertData(${matchData},'games')">
                               경기 넣기
                          </button>`;
                 matches.forEach(match => {
@@ -209,8 +236,8 @@
               const teamsData = JSON.stringify(data).replace(/"/g, '&quot;');
               if (teams && teams.length > 0) {
                 matchScheduleDiv.innerHTML =
-                        `<h3>현 프리미어리그 팀 정보</h3>
-                          <button class="date-btn" onclick="insertTeams(JSON.stringify(${teamsData}))">
+                        `<h3>현 ${leagueNameT} 팀 정보</h3>
+                          <button class="date-btn" onclick="insertData(${teamsData},'teams')">
                               넣기
                           </button>`;
                 teams.forEach(team => {
@@ -263,15 +290,188 @@
               document.getElementById('matchSchedule').innerHTML = '<p>다시 시도해주세요.</p>';
             });
   }
-  function insertGame(matchData){ // 경기 데이터 DB 삽입
-    // const match = JSON.parse(matchData); 해당코드는 중간에 데이터 변환이 필요시 사용
-    fetch(`/admin/insertGame`, { //스프링 시큐리티 사용하면 POST요청시 시큐리티 POSt요청은 CSRF보호를 하고있기 때문에 CSRF 토큰 설정을 해야 POST 요청가능
+  function checkStandingApi(leagueNum) {  //팀 정보 불러오기
+    fetch(`/standingInfo?leagueNum=${leagueNum}`)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+              }
+              return response.json();
+            })
+            .then(data => {
+              const matchScheduleDiv = document.getElementById('matchSchedule');
+              matchScheduleDiv.innerHTML = ''; // Clear existing content
+              // const totalData = data;
+              const league = data.competition;
+              const standingsArray = data.standings;
+              const standings =  standingsArray[0].table;
+              const standingData = JSON.stringify(data).replace(/"/g, '&quot;');
+              if (standings && standings.length > 0) {
+                matchScheduleDiv.innerHTML =
+                        `<h3>현 ${leagueNameT} 순위 정보</h3>
+                          <button class="date-btn" onclick="insertData(${standingData},'standings')">
+                              넣기
+                          </button>`;
+                standings.forEach(standing => {
+                  const matchCard = `
+
+    <div>
+    <table class="standings-table">
+      <thead>
+      <tr>
+        <th>리그</th>
+        <th>순위</th>
+        <th>팀</th>
+        <th>매치 수</th>
+        <th>승리</th>
+        <th>패배</th>
+        <th>승점</th>
+        <th>득점</th>
+        <th>실점</th>
+        <th>득실</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Example Data -->
+      <tr>
+        <td>
+          <img src="${league.emblem}">
+        </td>
+        <td>
+          ${standing.position}
+        </td>
+        <td>
+          <img src="${standing.team.crest}">
+          ${standing.team.shortName}
+        </td>
+        <td>
+          ${standing.playedGames}
+        </td>
+        <td>
+          ${standing.won}
+        </td>
+        <td>
+          ${standing.lost}
+        </td>
+        <td>
+          ${standing.points}
+        </td>
+        <td>
+          ${standing.goalsFor}
+        </td>
+        <td>
+          ${standing.goalsAgainst}
+        </td>
+        <td>
+          ${standing.goalDifference}
+        </td>
+      </tr>
+      <!-- Add more rows dynamically -->
+      </tbody>
+    </table>
+  </div>
+`;
+                  matchScheduleDiv.insertAdjacentHTML('beforeend', matchCard);
+                });
+              } else {
+                matchScheduleDiv.innerHTML = `<h3>리그 팀 순위 정보가 없습니다.</h3>`;
+              }
+            })
+            .catch(err => {
+              console.error('Error fetching matches:', err);
+              document.getElementById('matchSchedule').innerHTML = '<p>다시 시도해주세요.</p>';
+            });
+  }
+  function checkStatisticsApi(leagueNum) {  //팀 정보 불러오기
+    fetch(`/statisticsInfo?leagueNum=${leagueNum}`)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+              }
+              return response.json();
+            })
+            .then(data => {
+              const matchScheduleDiv = document.getElementById('matchSchedule');
+              matchScheduleDiv.innerHTML = ''; // Clear existing content
+              // const totalData = data;
+              const league = data.competition;
+              const scorers = data.scorers;
+              const scorersData = JSON.stringify(data).replace(/"/g, '&quot;');
+              if (scorers && scorers.length > 0) {
+                matchScheduleDiv.innerHTML =
+                        `<h3>현 ${leagueNameT} 선수 순위 정보</h3>
+                          <button class="date-btn" onclick="insertData(${scorersData},'statistics')">
+                              넣기
+                          </button>`;
+                scorers.forEach(scorer => {
+                  const matchCard = `
+
+    <div>
+    <table class="standings-table">
+      <thead>
+      <tr>
+        <th>리그</th>
+        <th>팀</th>
+        <th>이름</th>
+        <th>경기 수</th>
+        <th>골</th>
+        <th>어시스트</th>
+        <th>패널티</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Example Data -->
+      <tr>
+        <td>
+          <img src="${league.emblem}">
+        </td>
+        <td>
+          <img src="${scorer.team.crest}">
+          ${scorer.team.name}
+        </td>
+        <td>
+          ${scorer.player.name}
+        </td>
+        <td>
+          ${scorer.playedMatches}
+        </td>
+        <td>
+          ${scorer.goals}
+        </td>
+        <td>
+          ${scorer.assists}
+        </td>
+        <td>
+          ${scorer.penalties}
+        </td>
+      </tr>
+      <!-- Add more rows dynamically -->
+      </tbody>
+    </table>
+  </div>
+`;
+                  matchScheduleDiv.insertAdjacentHTML('beforeend', matchCard);
+                });
+              } else {
+                matchScheduleDiv.innerHTML = `<h3>리그 팀정보가 없습니다.</h3>`;
+              }
+            })
+            .catch(err => {
+              console.error('Error fetching matches:', err);
+              document.getElementById('matchSchedule').innerHTML = '<p>다시 시도해주세요.</p>';
+            });
+  }
+
+
+  function insertData(data, type) { //팀 데이터 DB 삽입
+    const requestData = { data, type };
+    fetch(`/admin/insertData`, { //스프링 시큐리티 사용하면 POST요청시 시큐리티 POSt요청은 CSRF보호를 하고있기 때문에 CSRF 토큰 설정을 해야 POST 요청가능
       method: 'POST',
       headers: {
         'Content-Type': 'application/json', // JSON 형식으로 설정 대부분의 REST API는 요청 본문을 JSON 형식으로 처리하며, JSON은 문자열이므로 JSON.stringify가 필수
         [header] : token
       },
-      body: matchData ,  //해당 데이터는 이미 문자열이므로 stringify 미사용
+      body: JSON.stringify(requestData) //해당 데이터는 이미 문자열이므로 stringify 미사용
     }).then((response) => {
       if (response.ok) {
         alert("성공");
@@ -280,34 +480,10 @@
         alert("다시 시도해주세요.");
         throw new Error('Network response was not ok');
       }
+    }).catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
     })
-            .catch(error => {
-              console.error('There was a problem with the fetch operation:', error);
-            })
   }
-
-  function insertTeams(teamsData) { //팀 데이터 DB 삽입
-    fetch(`/admin/insertTeams`, { //스프링 시큐리티 사용하면 POST요청시 시큐리티 POSt요청은 CSRF보호를 하고있기 때문에 CSRF 토큰 설정을 해야 POST 요청가능
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json', // JSON 형식으로 설정 대부분의 REST API는 요청 본문을 JSON 형식으로 처리하며, JSON은 문자열이므로 JSON.stringify가 필수
-        [header] : token
-      },
-      body: teamsData //해당 데이터는 이미 문자열이므로 stringify 미사용
-    }).then((response) => {
-      if (response.ok) {
-        alert("성공");
-        window.location.reload();
-      } else {
-        alert("다시 시도해주세요.");
-        throw new Error('Network response was not ok');
-      }
-    })
-            .catch(error => {
-              console.error('There was a problem with the fetch operation:', error);
-            })
-  }
-
 
 
 </script>

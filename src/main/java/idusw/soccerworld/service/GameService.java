@@ -61,10 +61,10 @@ public class GameService {
             Map gameTeamAway = (Map) gameData.get("awayTeam");
 
             TeamDto teamHomeDto = TeamDto.builder()
-                    .teamId((Long) gameTeamHome.get("id"))
+                    .teamId((int) gameTeamHome.get("id"))
                     .build();
             TeamDto teamAwayDto = TeamDto.builder()
-                    .teamId((Long) gameTeamAway.get("id"))
+                    .teamId((int) gameTeamAway.get("id"))
                     .build();
 
             int homeScore = 0;

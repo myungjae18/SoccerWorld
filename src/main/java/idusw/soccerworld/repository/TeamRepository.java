@@ -1,5 +1,8 @@
 package idusw.soccerworld.repository;
 
+import idusw.soccerworld.domain.dto.PlayerDto;
+import idusw.soccerworld.domain.dto.StandingsDto;
+import idusw.soccerworld.domain.dto.StatisticsDto;
 import idusw.soccerworld.domain.dto.TeamDto;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -23,11 +26,22 @@ public class TeamRepository {
         return result;
     }
 
-    public List<TeamDto> selectAll() {
-        return sessionTemplate.selectList("TeamMapper.selectAll");
+    public int insertPlayer(List<PlayerDto> playerDtoList){
+        int result = sessionTemplate.insert("TeamMapper.insertPlayer", playerDtoList);
+        return result;
     }
 
-    public TeamDto selectOneByPk(Long teamId) {
-        return sessionTemplate.selectOne("TeamMapper.selectOneByPk", teamId);
+    public int insertStanding(List<StandingsDto> standingsDtoList) {
+        int result = sessionTemplate.insert("TeamMapper.insertStandings",standingsDtoList);
+        return result;
+    }
+
+    public int insertStatistics(List<StatisticsDto> statisticsDtoList){
+        int result = sessionTemplate.insert("TeamMapper.insertStatistics",statisticsDtoList);
+        return result;
+    }
+
+    public List<TeamDto> selectAll() {
+        return sessionTemplate.selectList("TeamMapper.selectAll");
     }
 }

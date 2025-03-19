@@ -22,7 +22,7 @@ public class NewsService {
         Map data = restClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/top-headlines")//파라미터로 넘어온 리그코드 사용
-                        .queryParam("country", "us")
+                        .queryParam("category", "sports")
                         .build())
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, (req, res) -> {//4백번대 예외 처리

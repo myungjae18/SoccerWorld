@@ -19,16 +19,13 @@ import java.util.Map;
 
 @Controller
 public class FixtureController {
-    final ScheduleApiService scheduleService;
     final GameService gameService;
     final PredictionService predictionService;
     final ScheduleApiService scheduleApiService;
 
-    public FixtureController(ScheduleApiService scheduleService,
-                             GameService gameService,
+    public FixtureController(GameService gameService,
                              PredictionService predictionService,
                              ScheduleApiService scheduleApiService) {
-        this.scheduleService = scheduleService;
         this.gameService = gameService;
         this.predictionService = predictionService;
         this.scheduleApiService = scheduleApiService;
@@ -89,36 +86,6 @@ public class FixtureController {
 
     }
 
-    @GetMapping("/admin/schedule")
-    @ResponseBody
-    public Object getFixture(@RequestParam(required = false, value = "selectedDate")String paramDate,
-                             @RequestParam(required = false, value = "leagueNum")int leagueNum) {
-        ResponseEntity<Map> response;
-        if("0".equals(paramDate)) {
-            response =  scheduleService.getGameApiByYearSeason(leagueNum);;
-        } else {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate date = LocalDate.parse(paramDate,formatter);
-            LocalDate previousDate = date.minusDays(1);
-            String fromDate = previousDate.format(formatter);
-            String toDate = paramDate;
-            response = scheduleService.getGameApiByLeagueAndDate(leagueNum,fromDate,toDate);
-        }
-        return response;
-
-    }
-
-    @PostMapping("/admin/insertGame")
-    @ResponseBody
-    public ResponseEntity insertGame(@RequestBody Map<String, Object> gameData){
-
-            int result = gameService.insertGames(gameData);
-            if(result > 0) {
-                return new ResponseEntity<>("성공적으로 등록되었습니다.", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("게임 등록 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-    }
 
     @GetMapping("/posts")
     public String testListCode(@RequestParam(required = false,value = "lastRound") Integer lastRound,

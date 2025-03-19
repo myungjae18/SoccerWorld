@@ -33,7 +33,7 @@ public class MemberController {
     }
 
     //회원가입 요청
-    @PostMapping("/members")
+    @PostMapping("/member")
     public String register(@ModelAttribute MemberDto memberDto, RedirectAttributes redirectAttributes,
                            @RequestParam String teamId) {
         //view에서 가져온 가입 정보 전달

@@ -5,7 +5,7 @@
 <mapper namespace="TeamMapper">
     <insert id="insertTeam" parameterType="java.util.List">
         insert into team (
-        team_id, name, logo, stadium, location, head_coach, league
+        team_id, name, logo, stadium, location, head_coach, league , club_color, founded, website
         )
         values
         <foreach collection="list" item="teamDto" separator=",">
@@ -16,7 +16,10 @@
             #{teamDto.stadium},
             #{teamDto.location},
             #{teamDto.headCoach},
-            #{teamDto.league}
+            #{teamDto.league},
+            #{teamDto.clubColor},
+            #{teamDto.founded},
+            #{teamDto.website}
             )
         </foreach>
         on DUPLICATE key update
@@ -26,28 +29,107 @@
         stadium = VALUES(stadium),
         location = VALUES(location),
         head_coach = VALUES(head_coach),
+        league = VALUES(league),
+        club_color = VALUES(club_color),
+        founded = VALUES(founded),
+        website = VALUES(website);
+    </insert>
+
+    <insert id="insertPlayer" parameterType="java.util.List">
+        insert into Player (
+        player_id, team_id, name, nation, birthday, position
+        )
+        values
+        <foreach collection="list" item="playerDto" separator=",">
+            (
+            #{playerDto.playerId},
+            #{playerDto.teamDto.teamId},
+            #{playerDto.name},
+            #{playerDto.nation},
+            #{playerDto.birthDay},
+            #{playerDto.position}
+            )
+        </foreach>
+        on DUPLICATE key update
+        player_id = VALUES(player_id),
+        team_id = VALUES(team_id),
+        name = VALUES(name),
+        nation = VALUES(nation),
+        birthday = VALUES(birthday),
+        position = VALUES(position);
+    </insert>
+
+    <insert id="insertStandings" parameterType="java.util.List">
+        insert into Standings (
+        standing_id, team_id, position, played_games, won, draw, lost, points, goals_for, goals_against, goal_difference, season, league
+        )
+        values
+        <foreach collection="list" item="standingsDto" separator=",">
+            (
+            #{standingsDto.standingsId},
+            #{standingsDto.teamDto.teamId},
+            #{standingsDto.position},
+            #{standingsDto.playedGames},
+            #{standingsDto.won},
+            #{standingsDto.draw},
+            #{standingsDto.lost},
+            #{standingsDto.points},
+            #{standingsDto.goalsFor},
+            #{standingsDto.goalsAgainst},
+            #{standingsDto.goalDifference},
+            #{standingsDto.season},
+            #{standingsDto.league}
+            )
+        </foreach>
+        on DUPLICATE key update
+        standing_id = VALUES(standing_id),
+        team_id = VALUES(team_id),
+        position = VALUES(position),
+        played_games = VALUES(played_games),
+        won = VALUES(won),
+        draw = VALUES(draw),
+        lost = VALUES(lost),
+        points = VALUES(points),
+        goals_for = VALUES(goals_for),
+        goals_against = VALUES(goals_against),
+        goal_difference = VALUES(goal_difference),
+        season = VALUES(season),
         league = VALUES(league);
     </insert>
 
-    <insert id="insertTeams">
-        INSERT INTO team (team_id, name, league, logo, head_coach, stadium, location)
-        VALUES
-        <foreach collection="list" item="teamDto" separator=",">
-            (#{teamDto.teamId}, #{teamDto.name}, #{teamDto.league}, #{teamDto.logo}, #{teamDto.headCoach}, #{teamDto.stadium}, #{teamDto.location})
+    <insert id="insertStatistics" parameterType="java.util.List">
+        insert into Statistics (
+        statistics_id, player_id, team_id, played_matches, goals, assists, penalties, season, league
+        )
+        values
+        <foreach collection="list" item="statisticsDto" separator=",">
+            (
+            #{statisticsDto.statisticsId},
+            #{statisticsDto.playerDto.playerId},
+            #{statisticsDto.teamDto.teamId},
+            #{statisticsDto.playedMatches},
+            #{statisticsDto.goals},
+            #{statisticsDto.assists},
+            #{statisticsDto.penalties},
+            #{statisticsDto.season},
+            #{statisticsDto.league}
+            )
         </foreach>
-        on DUPlICATE KEY UPDATE
+        on DUPLICATE key update
+        statistics_id = VALUES(statistics_id),
+        player_id = VALUES(player_id),
         team_id = VALUES(team_id),
-        name = VALUES(name),
-        league = VALUES(league),
-        head_coach = VALUES(head_coach),
-        stadium = VALUES(stadium),
-        location = VALUES(location)
+        played_matches = VALUES(played_matches),
+        goals = VALUES(goals),
+        assists = VALUES(assists),
+        penalties = VALUES(penalties),
+        season = VALUES(season),
+        league = VALUES(league)
     </insert>
 
     <select id="selectAll" resultType="teamDto">
         SELECT team_id AS teamId, name, league, logo, head_coach, stadium, location from team
     </select>
-
     <select id="selectOneByPk" resultType="teamDto" parameterType="Long">
         SELECT team_id AS teamId, name, league, logo, head_coach, stadium, location from team WHERE team_id = #{teamId}
     </select>

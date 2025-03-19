@@ -5,7 +5,7 @@ import java.sql.Date;
 
 @Data
 public class MemberDto {
-    private Long memberId;
+    private long memberId;
     private String id;
     private String password;
     private String name;
