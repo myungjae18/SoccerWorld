@@ -62,6 +62,29 @@
         where g.game_id = #{gameId};
     </select>
 
+    <select id="selectAllByWeek" parameterType="java.time.LocalDateTime" resultMap="GameWithTeamResultMap">
+        WITH selected_week AS (
+            SELECT
+                -- 파라미러로 날라온 날짜
+                DATE_FORMAT(#{dateTime}, '%Y-%m-%d') AS start_date,
+                -- 이번 주 종료일 (현재 날짜 기준)
+                DATE_FORMAT(DATE_ADD(#{dateTime}, INTERVAL (8 - DAYOFWEEK(#{dateTime})) DAY), '%Y-%m-%d') AS end_date,
+                -- 2주 후 종료일
+                DATE_FORMAT(DATE_ADD(#{dateTime}, INTERVAL 2 WEEK), '%Y-%m-%d') AS two_weeks_later_end_date
+        )
+        SELECT g.game_id, g.date, g.home_score, g.away_score, g.result, g.round, g.league,
+               h.team_id as home_team_id, h.name as home_team_name, h.logo as home_team_logo,
+               a.team_id as away_team_Id, a.name as away_team_name, a.logo as away_team_logo
+        FROM game g
+                 JOIN team h ON g.home_api_id = h.team_id
+                 JOIN team a ON g.away_api_id = a.team_id
+        WHERE g.date BETWEEN
+                  STR_TO_DATE((SELECT start_date FROM selected_week), '%Y-%m-%d 00:00:00')
+                  AND
+                  STR_TO_DATE((SELECT two_weeks_later_end_date FROM selected_week), '%Y-%m-%d 23:59:59')
+        ORDER BY g.date ASC
+    </select>
+
     <insert id="insertGames" parameterType="java.util.List">
         insert game (game_id, home_api_id, away_api_id, home_score, away_score, date, result , round , league)
             values

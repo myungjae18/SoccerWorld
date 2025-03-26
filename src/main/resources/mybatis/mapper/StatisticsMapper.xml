@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="StatisticsMapper">
+
+    <insert id="insertStatistics" parameterType="java.util.List">
+        insert into Statistics (
+        statistics_id, player_id, team_id, played_matches, goals, assists, penalties, season, league
+        )
+        values
+        <foreach collection="list" item="statisticsDto" separator=",">
+            (
+            #{statisticsDto.statisticsId},
+            #{statisticsDto.playerDto.playerId},
+            #{statisticsDto.teamDto.teamId},
+            #{statisticsDto.playedMatches},
+            #{statisticsDto.goals},
+            #{statisticsDto.assists},
+            #{statisticsDto.penalties},
+            #{statisticsDto.season},
+            #{statisticsDto.league}
+            )
+        </foreach>
+        on DUPLICATE key update
+        statistics_id = VALUES(statistics_id),
+        player_id = VALUES(player_id),
+        team_id = VALUES(team_id),
+        played_matches = VALUES(played_matches),
+        goals = VALUES(goals),
+        assists = VALUES(assists),
+        penalties = VALUES(penalties),
+        season = VALUES(season),
+        league = VALUES(league)
+    </insert>
+
+</mapper>

@@ -26,21 +26,6 @@ public class TeamRepository {
         return result;
     }
 
-    public int insertPlayer(List<PlayerDto> playerDtoList){
-        int result = sessionTemplate.insert("TeamMapper.insertPlayer", playerDtoList);
-        return result;
-    }
-
-    public int insertStanding(List<StandingsDto> standingsDtoList) {
-        int result = sessionTemplate.insert("TeamMapper.insertStandings",standingsDtoList);
-        return result;
-    }
-
-    public int insertStatistics(List<StatisticsDto> statisticsDtoList){
-        int result = sessionTemplate.insert("TeamMapper.insertStatistics",statisticsDtoList);
-        return result;
-    }
-
     public List<TeamDto> selectAll() {
         return sessionTemplate.selectList("TeamMapper.selectAll");
     }

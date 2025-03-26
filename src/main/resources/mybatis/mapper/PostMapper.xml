@@ -7,6 +7,10 @@
         select * from post where category_id = #{category_id}
     </select>
 
+<!--    <select id="selectAll" resultMap="postResultMap">-->
+<!--        SELECT category_id AS categoryId, title, content, up_count, down_count, view_count, regdate FROM post-->
+<!--    </select>-->
+
     <insert id="create" parameterType="postDto">
         insert into post(category_id, title, content, up_count, down_count, view_count, regdate) values (#{category_id}, #{title}, #{content}, 0, 0, 0, NOW())
     </insert>
@@ -19,7 +23,6 @@
         select * from post where post_id=#{post_id}
     </select>
 
-
     <update id="updatePost" >
         update post set title=#{title},content=#{content}, regdate=NOW() where post_id=#{post_id}
     </update>
@@ -27,4 +30,6 @@
     <delete id="deletePost" parameterType="int">
         delete from post where post_id=#{post_id}
     </delete>
+
+
 </mapper>

@@ -4,6 +4,7 @@ import idusw.soccerworld.domain.dto.GameDto;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -36,5 +37,9 @@ public class GameRepository {
 
     public List<GameDto> selectByWeek(GameDto gameDto){
         return sessionTemplate.selectList("GameName.selectBytWeek", gameDto);
+    }
+
+    public List<GameDto> selectAllByWeek(LocalDateTime today){
+        return sessionTemplate.selectList("GameName.selectAllByWeek", today);
     }
 }

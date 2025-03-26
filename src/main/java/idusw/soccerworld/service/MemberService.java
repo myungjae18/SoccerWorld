@@ -24,8 +24,6 @@ public class MemberService implements UserDetailsService {
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         MemberDto memberDto = memberRepository.loginCheck(id);
 
-        System.out.println(memberDto.getTeamDto().getName());
-
         if (memberDto == null) {
             throw new UsernameNotFoundException("MemberDto not found with id: " + id);
         }

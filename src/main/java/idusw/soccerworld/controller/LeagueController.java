@@ -1,19 +1,24 @@
 package idusw.soccerworld.controller;
 
+import idusw.soccerworld.service.TeamService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class LeagueController {
-    @RequestMapping(method=RequestMethod.GET,value = "league/index")
-    public String goIndex(){
-        return "league/index";
+    private final TeamService teamService;
+
+    public LeagueController(TeamService teamService) {
+        this.teamService = teamService;
     }
 
-    @GetMapping("/league/standings")
-    public String goStandings() {
-        return "/league/standings";
+    @GetMapping("/league/statistics")
+    public String goStatistics(Model model) {
+        model.addAttribute("standingsList", teamService.getAllStandings());
+
+        return "/league/statistics";
     }
 }

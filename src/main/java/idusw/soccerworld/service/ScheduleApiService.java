@@ -50,6 +50,19 @@ public class ScheduleApiService {
         return response;
     }
 
+    public ResponseEntity<Map> getGameApiByPastSeason(int leagueNum,String season) {
+        ResponseEntity<Map> response = restClient.get()
+                .uri(uriBuilder -> uriBuilder.path("/competitions/" + leagueNum + "/matches")
+                        .queryParam("season",season)
+                        .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .toEntity(Map.class);
+        System.out.println("경기 서비스 응답:" + response);
+        return response;
+    }
+
+
     public Integer getGameApiCurrentMatchDay(){
         ResponseEntity<Map> response = restClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/competitions/PL")

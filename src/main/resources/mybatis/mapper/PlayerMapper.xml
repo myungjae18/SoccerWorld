@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PlayerMapper">
+
+    <insert id="insertPlayer" parameterType="java.util.List">
+        insert into Player (
+        player_id, team_id, name, nation, birthday, position
+        )
+        values
+        <foreach collection="list" item="playerDto" separator=",">
+            (
+            #{playerDto.playerId},
+            #{playerDto.teamDto.teamId},
+            #{playerDto.name},
+            #{playerDto.nation},
+            #{playerDto.birthDay},
+            #{playerDto.position}
+            )
+        </foreach>
+        on DUPLICATE key update
+        player_id = VALUES(player_id),
+        team_id = VALUES(team_id),
+        name = VALUES(name),
+        nation = VALUES(nation),
+        birthday = VALUES(birthday),
+        position = VALUES(position);
+    </insert>
+
+</mapper>

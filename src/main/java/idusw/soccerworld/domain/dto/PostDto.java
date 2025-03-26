@@ -4,11 +4,11 @@ import lombok.Data;
 
 @Data
 public class PostDto {
-    private int category_id;
+    private long category_id;
 
-    private int post_id;
+    private long post_id;
 
-    private int member_id;
+    private long member_id;
 
     private String  title;
 
@@ -20,8 +20,8 @@ public class PostDto {
 
     private int view_count = 0;
 
-    private String  regdate;
+    private String regdate;
 
-    private String  picture;
+    private String picture;
 
 }

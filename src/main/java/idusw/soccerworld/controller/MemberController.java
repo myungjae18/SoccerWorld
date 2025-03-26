@@ -1,9 +1,13 @@
 package idusw.soccerworld.controller;
 
+import idusw.soccerworld.domain.dto.MemberDetails;
 import idusw.soccerworld.domain.dto.MemberDto;
 import idusw.soccerworld.domain.dto.TeamDto;
 import idusw.soccerworld.service.MemberService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -77,8 +81,23 @@ public class MemberController {
 
     //회원 정보 수청 요청
     @PutMapping("/member/{memberId}")
-    public String edit(@ModelAttribute MemberDto memberDto) {
-        memberService.updateMember(memberDto);
+    public String edit(@ModelAttribute MemberDto memberDto, RedirectAttributes redirectAttributes) {
+        int result = memberService.updateMember(memberDto);
+
+        //view에 정보 수정 성공 여부에 따른 메세지 전달
+        if (result == 1) {
+            MemberDto updatedDto = memberService.getMemberByMemberId(memberDto.getMemberId());
+            //갱신된 유저 정보를 가져와 token에 주입
+            UserDetails userDetails = new MemberDetails(updatedDto);
+            UsernamePasswordAuthenticationToken token =
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+            //토큰을 통해 새로운 인증 객체 설정
+            SecurityContextHolder.getContext().setAuthentication(token);
+
+            redirectAttributes.addFlashAttribute("message", "회원 정보 수정이 완료되었습니다.");
+        }
+        else redirectAttributes.addFlashAttribute("message", "서버 오류가 발생했습니다. 다시 시도해 주세요");
 
         return "redirect:/member/info?type=info";
     }

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="StandingsMapper">
+    <select id="selectAll" resultMap="standingsResultMap">
+        SELECT s.standings_id, s.team_id, s.position, s.played_games, s.won, s.draw, s.lost, s.points, s.goals_for,
+               s.goals_against, s.goal_difference, s.season, s.league,
+               t.team_id, t.name AS team_name, t.logo
+        FROM standings s INNER JOIN team t ON s.team_id = t.team_id;
+    </select>
+
+    <select id="selectAllBySeason" parameterType="String" resultMap="standingsResultMap">
+        SELECT s.standings_id, s.team_id, s.position, s.played_games, s.won, s.draw, s.lost, s.points, s.goals_for,
+               s.goals_against, s.goal_difference, s.season, s.league,
+               t.team_id, t.name AS team_name, t.logo
+        FROM standings s INNER JOIN team t ON s.team_id = t.team_id
+        WHERE s.season = #{season};
+    </select>
+
+    <insert id="insertStandings" parameterType="java.util.List">
+        insert into standings (
+        standings_id, team_id, position, played_games, won, draw, lost, points, goals_for, goals_against,goal_difference, season, league
+        )
+        values
+        <foreach collection="list" item="standingsDto" separator=",">
+            (
+            #{standingsDto.standingsId},
+            #{standingsDto.teamDto.teamId},
+            #{standingsDto.position},
+            #{standingsDto.playedGames},
+            #{standingsDto.won},
+            #{standingsDto.draw},
+            #{standingsDto.lost},
+            #{standingsDto.points},
+            #{standingsDto.goalsFor},
+            #{standingsDto.goalsAgainst},
+            #{standingsDto.goalDifference},
+            #{standingsDto.season},
+            #{standingsDto.league}
+            )
+        </foreach>
+        on DUPLICATE key update
+        standings_id = VALUES(standings_id),
+        team_id = VALUES(team_id),
+        position = VALUES(position),
+        played_games = VALUES(played_games),
+        won = VALUES(won),
+        draw = VALUES(draw),
+        lost = VALUES(lost),
+        points = VALUES(points),
+        goals_for = VALUES(goals_for),
+        goals_against = VALUES(goals_against),
+        goal_difference = VALUES(goal_difference),
+        season = VALUES(season),
+        league = VALUES(league);
+    </insert>
+
+    <resultMap id="standingsResultMap" type="standingsDto">
+        <result property="standingsId" column="standings_id"/>
+        <result property="position" column="position"/>
+        <result property="playedGames" column="played_games"/>
+        <result property="won" column="won"/>
+        <result property="draw" column="draw"/>
+        <result property="lost" column="lost"/>
+        <result property="points" column="points"/>
+        <result property="goalsFor" column="goals_for"/>
+        <result property="goalsAgainst" column="goals_against"/>
+        <result property="goalDifference" column="goal_difference"/>
+        <result property="season" column="season"/>
+        <result property="league" column="league"/>
+        <association property="teamDto" javaType="teamDto">
+            <result property="teamId" column="team_id"/>
+            <result property="name" column="team_name"/>
+            <result property="logo" column="logo"/>
+            <result property="headCoach" column="head_coach"/>
+            <result property="stadium" column="stadium"/>
+            <result property="location" column="location"/>
+        </association>
+    </resultMap>
+</mapper>

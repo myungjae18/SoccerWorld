@@ -37,4 +37,8 @@ public class PostRepository {
     public void deletePost(int postId) {
         sql.delete("postMapper.deletePost", postId);
     }
+
+    public List<PostDto> selectAll() {
+        return sql.selectList("postMapper.selectAll");
+    }
 }

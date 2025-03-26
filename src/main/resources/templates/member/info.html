@@ -37,39 +37,35 @@
             </div>
             <div class="main-info">
                 <form th:action="@{/member/{memberId}(memberId=${#authentication.principal.memberId})}"
-                      th:method="put" id="form-put" th:object="${memberDto}">
-                    <input type="hidden" name="memberId" th:value="${#authentication.principal.memberId}"/>
-                    <input type="hidden" name="gender" th:value="${#authentication.principal.gender}"/>
-                    <input type="hidden" name="password" th:value="${#authentication.principal.password}"/>
+                      method="#" th:method="PUT" th:object="${memberDto}">
                     <br>
                     <label>&nbsp;이름</label>
                     <input type="text" class="input-field" name="name"
                            th:value="${#authentication.principal.name}"/><br><br>
                     <label>&nbsp;id</label>
-                    <input type="text" class="input-field" name="id" th:value="${#authentication.principal.username}"
+                    <input type="text" class="input-field" th:value="${#authentication.principal.username}"
                            readonly/><br><br>
                     <label>&nbsp;닉네임</label>
-                    <input type="text" class="input-field" name="nickname"
+                    <input type="text" class="input-field"
                            th:value="${#authentication.principal.nickname}" readonly/>
                     &nbsp;&nbsp;<button type="button" th:onclick="|location.href='@{/member/info(type=changeNick)}'|">
                     변경
                 </button>
                     <br><br>
                     <label>&nbsp;현재 포인트 </label>
-                    <input type="text" class="input-field" name="point" th:value="${#authentication.principal.point}"
+                    <input type="text" class="input-field" th:value="${#authentication.principal.point}"
                            readonly/><br><br>
                     <label>&nbsp;Phone</label>
                     <input type="text" class="input-field" name="phone"
                            th:value="${#authentication.principal.phone}"/><br><br>
                     <label>&nbsp;응원 팀</label>
-                    <input type="text" class="input-field" th:value="${#authentication.principal.teamDto.name}"/>
+                    <input type="text" class="input-field" th:value="${#authentication.principal.teamDto.name}" readonly/>
                     &nbsp;&nbsp;<button type="button" th:onclick="|location.href='@{/member/info(type=changeTeam)}'|">
                     변경
                 </button>
                     <br><br>
-                    <label></label>
                     <input hidden th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                    <button type="button" onclick="submitPut()">수정</button>
+                    <button>수정</button>
                     <button type="button" onclick="edit('delete')">탈퇴</button>
                 </form>
             </div>

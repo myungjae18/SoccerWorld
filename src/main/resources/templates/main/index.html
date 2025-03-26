@@ -67,9 +67,11 @@
         <!-- Services Section -->
         <div class="row">
             <th:block th:each="i : ${#numbers.sequence(0, headLines.size() > 4 ? 3 : headLines.size() - 1)}">
-                <div class="col-lg-3 mb-4">
+                <div class="col-lg-3 mb-4" style="cursor: pointer;"
+                     th:data-url="${headLines.get(i).url}" onclick="location.href=this.getAttribute('data-url');">
                     <h4 class="card-title" th:text="${headLines.get(i).title}"></h4>
-                    <label class="card-author" th:text="${headLines.get(i).author}"></label>
+                    <label class="card-author" th:text="${headLines.get(i).source.name}"></label>
+                    <label class="card-author" th:if="${headLines.get(i).source.name == null}">-</label>
                     <img class="card-image" th:src="${headLines.get(i).urlToImage}" alt=""/>
                     <!--                        <div class="card-body">-->
                     <!--                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>-->
@@ -115,12 +117,15 @@
     <hr>
     <div class="row">
         <th:block th:each="i : ${#numbers.sequence(4, 7)}">
-            <div class="col-lg-3 mb-4">
+            <div class="col-lg-3 mb-4" style="cursor: pointer;"
+                 th:data-url="${headLines.get(i).url}" onclick="location.href=this.getAttribute('data-url');">
                 <img class="short-card-image" th:src="${headLines.get(i).urlToImage}" alt=""/>
             </div>
-            <div class="col-lg-3 mb-4">
+            <div class="col-lg-3 mb-4" style="cursor: pointer;"
+                 th:data-url="${headLines.get(i).url}" onclick="location.href=this.getAttribute('data-url');">
                 <h4 class="card-title" th:text="${headLines.get(i).title}"></h4>
-                <label th:text="${headLines.get(i).author}"></label>
+                <label th:text="${headLines.get(i).source.name}"></label>
+                <label th:if="${headLines.get(i).source.name == null}">-</label>
             </div>
         </th:block>
     </div>
@@ -130,7 +135,7 @@
             <h3 class="card-title">리그 순위표</h3>
         </div>
         <div class="col-lg-3">
-            <h3 style="text-align: right;">더보기</h3>
+            <h3 style="text-align: right;" th:onclick="|location.href='/league/statistics'|">더보기</h3>
         </div>
         <div class="col-lg-6">
             <h3 class="card-title">현재 인기글</h3>
@@ -159,85 +164,159 @@
                 </tr>
                 </tbody>
                 <tbody id="eplRanking">
-                <tr th:each="table : ${pLStand}">
-                    <td th:text="${table.position}"></td>
+                <tr th:each="standings : ${standingsMap.get('PL')}">
+                    <td th:text="${standings.position}"></td>
                     <td>
-                        <img th:src="${table.team.crest}" width="25px" height="25px"/>
+                        <img th:src="${standings.teamDto.logo}" width="25px" height="25px"/>
                     </td>
-                    <td th:text="${table.team.shortName}" colspan="4">
+                    <td th:text="${standings.teamDto.name}" colspan="4">
                     </td>
-                    <td th:text="${table.playedGames}"></td>
-                    <td th:text="${table.won}"></td>
-                    <td th:text="${table.draw}"></td>
-                    <td th:text="${table.lost}"></td>
-                    <td th:text="${table.goalDifference}"></td>
-                    <td th:text="${table.points}"></td>
+                    <td th:text="${standings.playedGames}"></td>
+                    <td th:text="${standings.won}"></td>
+                    <td th:text="${standings.draw}"></td>
+                    <td th:text="${standings.lost}"></td>
+                    <td th:text="${standings.goalDifference}"></td>
+                    <td th:text="${standings.points}"></td>
                 </tr>
                 </tbody>
                 <tbody id="laligaRanking">
-                <tr th:each="table : ${laLigaStand}">
-                    <td th:text="${table.position}"></td>
+                <tr th:each="standings : ${standingsMap.get('PD')}">
+                    <td th:text="${standings.position}"></td>
                     <td>
-                        <img th:src="${table.team.crest}" width="25px" height="25px"/>
+                        <img th:src="${standings.teamDto.logo}" width="25px" height="25px"/>
                     </td>
-                    <td th:text="${table.team.shortName}" colspan="4">
+                    <td th:text="${standings.teamDto.name}" colspan="4">
                     </td>
-                    <td th:text="${table.playedGames}"></td>
-                    <td th:text="${table.won}"></td>
-                    <td th:text="${table.draw}"></td>
-                    <td th:text="${table.lost}"></td>
-                    <td th:text="${table.goalDifference}"></td>
-                    <td th:text="${table.points}"></td>
+                    <td th:text="${standings.playedGames}"></td>
+                    <td th:text="${standings.won}"></td>
+                    <td th:text="${standings.draw}"></td>
+                    <td th:text="${standings.lost}"></td>
+                    <td th:text="${standings.goalDifference}"></td>
+                    <td th:text="${standings.points}"></td>
                 </tr>
                 </tbody>
                 <tbody id="serieaRanking">
-                <tr th:each="table : ${serieAStand}">
-                    <td th:text="${table.position}"></td>
+                <tr th:each="standings : ${standingsMap.get('SA')}">
+                    <td th:text="${standings.position}"></td>
                     <td>
-                        <img th:src="${table.team.crest}" width="25px" height="25px"/>
+                        <img th:src="${standings.teamDto.logo}" width="25px" height="25px"/>
                     </td>
-                    <td th:text="${table.team.shortName}" colspan="4">
+                    <td th:text="${standings.teamDto.name}" colspan="4">
                     </td>
-                    <td th:text="${table.playedGames}"></td>
-                    <td th:text="${table.won}"></td>
-                    <td th:text="${table.draw}"></td>
-                    <td th:text="${table.lost}"></td>
-                    <td th:text="${table.goalDifference}"></td>
-                    <td th:text="${table.points}"></td>
+                    <td th:text="${standings.playedGames}"></td>
+                    <td th:text="${standings.won}"></td>
+                    <td th:text="${standings.draw}"></td>
+                    <td th:text="${standings.lost}"></td>
+                    <td th:text="${standings.goalDifference}"></td>
+                    <td th:text="${standings.points}"></td>
                 </tr>
                 </tbody>
                 <tbody id="bundesligaRanking">
-                <tr th:each="table : ${bundesStand}">
-                    <td th:text="${table.position}"></td>
+                <tr th:each="standings : ${standingsMap.get('BL1')}">
+                    <td th:text="${standings.position}"></td>
                     <td>
-                        <img th:src="${table.team.crest}" width="25px" height="25px"/>
+                        <img th:src="${standings.teamDto.logo}" width="25px" height="25px"/>
                     </td>
-                    <td th:text="${table.team.shortName}" colspan="4">
+                    <td th:text="${standings.teamDto.name}" colspan="4">
                     </td>
-                    <td th:text="${table.playedGames}"></td>
-                    <td th:text="${table.won}"></td>
-                    <td th:text="${table.draw}"></td>
-                    <td th:text="${table.lost}"></td>
-                    <td th:text="${table.goalDifference}"></td>
-                    <td th:text="${table.points}"></td>
+                    <td th:text="${standings.playedGames}"></td>
+                    <td th:text="${standings.won}"></td>
+                    <td th:text="${standings.draw}"></td>
+                    <td th:text="${standings.lost}"></td>
+                    <td th:text="${standings.goalDifference}"></td>
+                    <td th:text="${standings.points}"></td>
                 </tr>
                 </tbody>
             </table>
             <br>
-            <br>
-            <table class="ranking">
+            <hr>
+            <table class="ranking game-table">
                 <h3 class="card-title">주요 경기</h3>
-                <thead class="league-names">
-                <tr>
-                    <td colspan="3">EPL</td>
-                </tr>
-                </thead>
                 <tbody>
-                <tr>
-                    <td>토트넘</td>
-                    <td>02:00</td>
-                    <td>아스날</td>
+                <tr class="league-title">
+                    <td colspan="10">Premier League
+                        <img src="/static/images/pl-logo.png" width="30px" height="30px"/>
+                    </td>
                 </tr>
+                <th:block th:each="game : ${gameMap.get('PL')}">
+                    <tr class="game-time">
+                        <td colspan="10" th:text="${#strings.substringBefore(game.dateTime, 'T')}"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img th:src="${game.homeTeamDto.logo}" width="30px" height="30px"/>
+                        </td>
+                        <td colspan="3" th:text="${game.homeTeamDto.name}"></td>
+                        <td colspan="2" th:text="${#strings.substringAfter(game.dateTime, 'T')}"></td>
+                        <td>
+                            <img th:src="${game.awayTeamDto.logo}" width="30px" height="30px"/>
+                        </td>
+                        <td colspan="3" th:text="${game.awayTeamDto.name}"></td>
+                    </tr>
+                </th:block>
+                <tr class="league-title">
+                    <td colspan="10">La Liga
+                        <img src="/static/images/ll-logo.png" width="30px" height="30px"/>
+                    </td>
+                </tr>
+                <th:block th:each="game : ${gameMap.get('PD')}">
+                    <tr class="game-time">
+                        <td colspan="10" th:text="${#strings.substringBefore(game.dateTime, 'T')}"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img th:src="${game.homeTeamDto.logo}" width="30px" height="30px"/>
+                        </td>
+                        <td colspan="3" th:text="${game.homeTeamDto.name}"></td>
+                        <td colspan="2" th:text="${#strings.substringAfter(game.dateTime, 'T')}"></td>
+                        <td>
+                            <img th:src="${game.awayTeamDto.logo}" width="30px" height="30px"/>
+                        </td>
+                        <td colspan="3" th:text="${game.awayTeamDto.name}"></td>
+                    </tr>
+                </th:block>
+                <tr class="league-title">
+                    <td colspan="10">Serie A
+                        <img src="/static/images/sa-logo.png" width="30px" height="30px"/>
+                    </td>
+                </tr>
+                <th:block th:each="game : ${gameMap.get('SA')}">
+                    <tr class="game-time">
+                        <td colspan="10" th:text="${#strings.substringBefore(game.dateTime, 'T')}"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img th:src="${game.homeTeamDto.logo}" width="30px" height="30px"/>
+                        </td>
+                        <td colspan="3" th:text="${game.homeTeamDto.name}"></td>
+                        <td colspan="2" th:text="${#strings.substringAfter(game.dateTime, 'T')}"></td>
+                        <td>
+                            <img th:src="${game.awayTeamDto.logo}" width="30px" height="30px"/>
+                        </td>
+                        <td colspan="3" th:text="${game.awayTeamDto.name}"></td>
+                    </tr>
+                </th:block>
+                <tr class="league-title">
+                    <td colspan="10">Bundesliga
+                        <img src="/static/images/ba-logo.png" width="30px" height="30px"/>
+                    </td>
+                </tr>
+                <th:block th:each="game : ${gameMap.get('BL1')}">
+                    <tr class="game-time">
+                        <td colspan="10" th:text="${#strings.substringBefore(game.dateTime, 'T')}"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img th:src="${game.homeTeamDto.logo}" width="30px" height="30px"/>
+                        </td>
+                        <td colspan="3" th:text="${game.homeTeamDto.name}"></td>
+                        <td colspan="2" th:text="${#strings.substringAfter(game.dateTime, 'T')}"></td>
+                        <td>
+                            <img th:src="${game.awayTeamDto.logo}" width="30px" height="30px"/>
+                        </td>
+                        <td colspan="3" th:text="${game.awayTeamDto.name}"></td>
+                    </tr>
+                </th:block>
                 </tbody>
             </table>
         </div>
@@ -307,6 +386,8 @@
             </table>
         </div>
     </div>
+    <br>
+    <br>
     <!-- About Section -->
     <!--        <div class="about-main">-->
     <!--            <div class="row">-->
@@ -541,7 +622,7 @@
 <script th:inline="javascript">
     let message = [[${message}]];
 
-    if(message!=null){
+    if (message != null) {
         alert(message);
     }
 </script>

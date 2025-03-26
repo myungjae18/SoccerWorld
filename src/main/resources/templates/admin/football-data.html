@@ -26,18 +26,35 @@
     </h2>
 
     <div>
-      <button class="call-btn" onclick="checkTeamApi(leagueNum)">
-        현재시즌 팀 불러오기
+      <button class="call-btn2" onclick="checkTeamApi(leagueNum)">
+        현재시즌 팀 <br/>
+        불러오기
       </button>
-      <button class="call-btn" onclick="checkGames(0,leagueNum)">
-        현재시즌 경기 불러오기
+      <button class="call-btn2" onclick="checkPlayerApi(leagueNum)">
+        현재 시즌 선수 <br/>
+        불러오기
       </button>
-      <button class="call-btn" onclick="checkStandingApi(leagueNum)">
-        현재시즌 순위 불러오기
+      <button class="call-btn2" onclick="checkGames(0,leagueNum)">
+        현재시즌 경기 <br/>
+        불러오기
       </button>
-      <button class="call-btn" onclick="checkStatisticsApi(leagueNum)">
-        현재시즌 선수 순위 불러오기
+      <button class="call-btn2" onclick="checkStandingApi(leagueNum)">
+        현재시즌 순위 <br/>
+        불러오기
       </button>
+      <button class="call-btn2" onclick="checkStatisticsApi(leagueNum)">
+        현재시즌 선수 순위 <br/>
+        불러오기
+      </button>
+    </div>
+
+    <div>
+      <label for="yearSelect">연도 선택:</label>
+      <select id="yearSelect"></select>
+      <button onclick="pastData('teams')" class="call-btn2">과거시즌 팀 <br/> 불러오기</button>
+      <button onclick="pastData('games')" class="call-btn2">과거시즌 경기 <br/> 불러오기</button>
+      <button onclick="pastData('standings')" class="call-btn2">과거시즌 순위 <br/> 불러오기</button>
+      <button onclick="pastData('statistics')" class="call-btn2">과거시즌 선수 순위 <br/> 불러오기</button>
     </div>
 
     <div class="calender">
@@ -66,18 +83,32 @@
   // document.getElementById('leagueText').textContent = leagueNameT;
   const daysToShow = 7; // 표시할 날짜 수
 
-  document.addEventListener("DOMContentLoaded", function() {
-    const currentYear = new Date().getFullYear();
-    const startYear = 2014;
-    const selectBox = document.getElementById("yearSelect");
+  const currentYear = new Date().getFullYear();
+  const selectBox = document.getElementById("yearSelect");
 
-    for (let year = currentYear; year >= startYear; year--) {
-      let option = document.createElement("option");
-      option.value = year;
-      option.textContent = year;
-      selectBox.appendChild(option);
+  // 2014년부터 현재 연도까지 selectbox 채우기
+  for (let year = currentYear; year >= 2014; year--) {
+    let option = document.createElement("option");
+    option.value = year;  // 값은 해당 연도
+    option.text = `${year - 2000}-${(year - 1999) % 100}`; // 15-16 형식
+    selectBox.appendChild(option);
+  }
+
+  // 선택된 값 가져오기
+  function pastData(type) {
+    const selectedYear = selectBox.value;
+    if (type === "games") {
+      checkGames(0,leagueNum,selectedYear)
+    } else if (type === "teams") {
+      checkTeamApi(leagueNum,selectedYear)
+    } else if (type === "standings") {
+      checkStandingApi(leagueNum,selectedYear)
+    } else if (type === "statistics") {
+      checkStatisticsApi(leagueNum,selectedYear)
     }
-  });
+
+    // 여기서 다른 함수로 값 넘기거나 추가 작업 가능
+  }
 
 
   // 날짜 버튼을 생성하는 함수
@@ -137,8 +168,8 @@
   document.getElementById('prevDay').addEventListener('click', prevDay);
   // 페이지 로드 시 버튼 생성
 
-  function checkGames(selectedDate,leagueNum) { // 게임 불러오기
-    fetch(`/admin/schedule?selectedDate=${selectedDate}&leagueNum=${leagueNum}`)
+  function checkGames(selectedDate,leagueNum,season) { // 게임 불러오기
+    fetch(`/admin/schedule?selectedDate=${selectedDate}&leagueNum=${leagueNum}&season=${season}`)
             .then(response => {
               if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -219,8 +250,8 @@
               document.getElementById('matchSchedule').innerHTML = '<p>Error loading matches. Please try again later.</p>';
             });
   }
-  function checkTeamApi(leagueNum) {  //팀 정보 불러오기
-    fetch(`/teamInfo?leagueNum=${leagueNum}`)
+  function checkTeamApi(leagueNum,season) {  //팀 정보 불러오기
+    fetch(`/teamInfo?leagueNum=${leagueNum}&season=${season}`)
             .then(response => {
               if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -290,8 +321,71 @@
               document.getElementById('matchSchedule').innerHTML = '<p>다시 시도해주세요.</p>';
             });
   }
-  function checkStandingApi(leagueNum) {  //팀 정보 불러오기
-    fetch(`/standingInfo?leagueNum=${leagueNum}`)
+  function checkPlayerApi(leagueNum) {  //팀 정보 불러오기
+    fetch(`/teamInfo?leagueNum=${leagueNum}`)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+              }
+              return response.json();
+            })
+            .then(data => {
+              const matchScheduleDiv = document.getElementById('matchSchedule');
+              matchScheduleDiv.innerHTML = ''; // Clear existing content
+              // const totalData = data;
+              const league = data.competition;
+              const teams = data.teams;
+              const teamsData = JSON.stringify(data).replace(/"/g, '&quot;');
+              if (teams && teams.length > 0) {
+                matchScheduleDiv.innerHTML =
+                        `<h3>현 ${leagueNameT} 팀 선수 정보</h3>
+                          <button class="date-btn" onclick="insertData(${teamsData},'player')">
+                              넣기
+                          </button>`;
+                teams.forEach(team => {
+                  const matchCard = `
+
+    <div>
+    <table class="standings-table">
+      <thead>
+      <tr>
+        <th>League</th>
+        <th>Team</th>
+        <th>squad</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Example Data -->
+      <tr>
+        <td>
+          <img src="${league.emblem}">
+        </td>
+        <td>
+          <img src="${team.crest}">
+          ${team.name}
+        </td>
+        <td>
+          ${team.squad.length}
+        </td>
+      </tr>
+      <!-- Add more rows dynamically -->
+      </tbody>
+    </table>
+  </div>
+`;
+                  matchScheduleDiv.insertAdjacentHTML('beforeend', matchCard);
+                });
+              } else {
+                matchScheduleDiv.innerHTML = `<h3>리그 팀정보가 없습니다.</h3>`;
+              }
+            })
+            .catch(err => {
+              console.error('Error fetching matches:', err);
+              document.getElementById('matchSchedule').innerHTML = '<p>다시 시도해주세요.</p>';
+            });
+  }
+  function checkStandingApi(leagueNum,season) {  //팀 정보 불러오기
+    fetch(`/standingInfo?leagueNum=${leagueNum}&season=${season}`)
             .then(response => {
               if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -382,8 +476,8 @@
               document.getElementById('matchSchedule').innerHTML = '<p>다시 시도해주세요.</p>';
             });
   }
-  function checkStatisticsApi(leagueNum) {  //팀 정보 불러오기
-    fetch(`/statisticsInfo?leagueNum=${leagueNum}`)
+  function checkStatisticsApi(leagueNum,season) {  //팀 정보 불러오기
+    fetch(`/statisticsInfo?leagueNum=${leagueNum}&season=${season}`)
             .then(response => {
               if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);

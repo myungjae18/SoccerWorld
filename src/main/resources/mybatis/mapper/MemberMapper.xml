@@ -27,7 +27,8 @@
     </select>
 
     <update id="update" parameterType="memberDto">
-        UPDATE member SET name = #{name}, nickname = #{nickname}, birthday = #{birthday} where member_id = #{memberId}
+        UPDATE member SET name = #{name}, birthday = #{birthday}, phone = #{phone}
+        WHERE member_id = #{memberId}
     </update>
 
     <update id="updatePassword" parameterType="memberDto">

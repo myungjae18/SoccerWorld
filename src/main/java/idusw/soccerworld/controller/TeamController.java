@@ -1,17 +1,19 @@
 package idusw.soccerworld.controller;
 
-        import idusw.soccerworld.service.GameService;
-        import idusw.soccerworld.service.ScheduleApiService;
-        import idusw.soccerworld.service.TeamService;
-        import org.springframework.http.HttpStatus;
-        import org.springframework.http.ResponseEntity;
-        import org.springframework.stereotype.Controller;
-        import org.springframework.ui.Model;
-        import org.springframework.web.bind.annotation.*;
+import idusw.soccerworld.domain.dto.TeamDto;
+import idusw.soccerworld.service.GameService;
+import idusw.soccerworld.service.ScheduleApiService;
+import idusw.soccerworld.service.TeamService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-        import java.time.LocalDate;
-        import java.time.format.DateTimeFormatter;
-        import java.util.Map;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class TeamController {
@@ -48,14 +50,32 @@ public class TeamController {
         return "/admin/football-data";
     }
 
+    //팀 정보 페이지
+    @GetMapping("/team/info")
+    public String goInfo(@RequestParam(value = "team-id") String teamId, Model model) {
+        List<TeamDto> teamList = (List<TeamDto>) model.getAttribute("fragmentData");
+
+        //DB에서 모든 팀 정보 가져오기(fragment를 위한)
+        model.addAttribute("teamList", teamList);
+        //teamList에서 teamId가 같은 teamDto 추출하여 전송
+
+        return "/team/info";
+    }
+
 
     @GetMapping("/admin/schedule")
     @ResponseBody
     public Object getFixture(@RequestParam(required = false, value = "selectedDate")String paramDate,
-                             @RequestParam(required = false, value = "leagueNum")int leagueNum) {
+                             @RequestParam(required = false, value = "leagueNum")int leagueNum,
+                             @RequestParam(required = false, value = "season")String season) {
         ResponseEntity<Map> response;
         if("0".equals(paramDate)) {
-            response =  scheduleApiService.getGameApiByCurrentSeason(leagueNum);;
+            if(season == null || season.isEmpty() || "undefined".equals(season)) {
+                response =  scheduleApiService.getGameApiByCurrentSeason(leagueNum);
+            } else {
+                response = scheduleApiService.getGameApiByPastSeason(leagueNum, season);
+            }
+
         } else {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate date = LocalDate.parse(paramDate,formatter);
@@ -68,35 +88,43 @@ public class TeamController {
 
     }
 
-    //팀 정보 페이지
-    @GetMapping("/team/info")
-    public String goInfo(@RequestParam(value = "team-id") String teamId, Model model) {
-        //model.addAttribute("info", teamService.get(teamId));
-
-        //DB에서 모든 팀 정보 가져오기(fragment를 위한)
-        model.addAttribute("teamList", model.getAttribute("fragmentData"));
-        return "/team/info";
-    }
-
-
     @GetMapping("/teamInfo")
     @ResponseBody
-    public Object getTeamInfo(@RequestParam(required = false,value="leagueNum")int leagueNum){
-        ResponseEntity<Map> response = teamService.getTeamInfo(leagueNum);
+    public Object getTeamInfo(@RequestParam(required = false,value="leagueNum")int leagueNum,
+                              @RequestParam(required = false, value = "season")String season){
+        ResponseEntity<Map> response;
+        if(season == null || season.isEmpty() || "undefined".equals(season)) {
+            response = teamService.getTeamInfo(leagueNum);
+        } else {
+            response = teamService.getTeamPastInfo(leagueNum,season);
+        }
         return response;
     }
 
+
     @GetMapping("/standingInfo")
     @ResponseBody
-    public Object getStandingInfo(@RequestParam(required = false,value="leagueNum")int leagueNum){
-        ResponseEntity<Map> response = teamService.getStandingInfo(leagueNum);
+    public Object getStandingInfo(@RequestParam(required = false,value="leagueNum")int leagueNum,
+                                  @RequestParam(required = false, value = "season")String season){
+        ResponseEntity<Map> response;
+        if(season == null || season.isEmpty() || "undefined".equals(season)) {
+            response = teamService.getStandingInfo(leagueNum);
+        } else {
+            response = teamService.getStandingPastInfo(leagueNum,season);
+        }
         return response;
     }
 
     @GetMapping("/statisticsInfo")
     @ResponseBody
-    public  Object getStatisticsInfo(@RequestParam(required = false,value="leagueNum")int leagueNum){
-        ResponseEntity<Map> response = teamService.getStatisticsInfo(leagueNum);
+    public  Object getStatisticsInfo(@RequestParam(required = false,value="leagueNum")int leagueNum,
+                                     @RequestParam(required = false, value = "season")String season){
+        ResponseEntity<Map> response;
+        if(season == null || season.isEmpty() || "undefined".equals(season)) {
+            response = teamService.getStatisticsInfo(leagueNum);
+        } else {
+            response = teamService.getStatisticsPastInfo(leagueNum,season);
+        }
         return response;
     }
 
@@ -112,6 +140,8 @@ public class TeamController {
             result = teamService.insertStandingInfo((Map<String, Object>) jsonData.get("data"));
         } else if(jsonData.get("type").equals("statistics")){
             result = teamService.insertStatisticsInfo((Map<String, Object>) jsonData.get("data"));
+        } else if(jsonData.get("type").equals("player")){
+            result = teamService.insertPlayerInfo((Map<String, Object>) jsonData.get("data"));
         }
 
 

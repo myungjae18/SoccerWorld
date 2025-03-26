@@ -23,7 +23,7 @@
             <button class="submit">Login</button>
         </form>
         <!-- 회원가입 요청 form -->
-        <form id="register" method="post" th:object="${memberDto}" th:action="@{/members}" class="input-group">
+        <form id="register" method="post" th:object="${memberDto}" th:action="@{/member}" class="input-group">
             <input type="text" id="id" name="id" class="input-field" style="width:80%;" placeholder="ID" required>
             <button type="button" class="send-button" onclick="idCheck()">중복 확인</button><br>
             <input type="password" name="password" class="input-field" placeholder="Enter Password" required>

@@ -85,3 +85,34 @@ function submitPatch(type) {//type: 수정하려는 데이터의 종류
     });
 
 }
+
+//patch 요청을 모두 받아 보내는 데이터에 맞게 전송
+function submitPut(type) {//type: 수정하려는 데이터의 종류
+    let memberId = document.getElementById('member-id');
+    const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+    const requestData = {};
+
+    fetch('/member/'+memberId.value, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken // CSRF 토큰을 헤더에 추가
+        },
+        body: JSON.stringify(requestData)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.text();
+        })
+        .then(data => {
+            console.log('Update successful:', data);
+            alert("회원 정보 수정이 완료되었습니다");
+            location.href="/member/info?type=info";
+        })
+        .catch(error => {
+            console.error('Error updating nickname:', error);
+        });
+
+}

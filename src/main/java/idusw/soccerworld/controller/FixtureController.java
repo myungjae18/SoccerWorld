@@ -5,8 +5,6 @@ import idusw.soccerworld.domain.dto.PredictionDto;
 import idusw.soccerworld.service.GameService;
 import idusw.soccerworld.service.PredictionService;
 import idusw.soccerworld.service.ScheduleApiService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -53,16 +51,23 @@ public class FixtureController {
                 .round(round)
                 .build();
 
-        if(date != null){
+        if(date != null){ //날짜 선택 시
             gameDtoList = gameService.getGamesByDate(gameDto);
         } else {
             date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             model.addAttribute("isRound", "y");
-            if (round != null) {
+            if (round != null) { //라운드 선택시
                 gameDtoList = gameService.getGamMoreByRound(gameDto);
-            } else {
+            } else { //아무것도 선택하지않은 디폴트값 (그 주 경기 반환)
                 gameDtoList = gameService.getGameByWeek(gameDto);
-                round = gameDtoList.get(0).getRound();
+                if(gameDtoList.size() == 0) {
+                    round = scheduleApiService.getGameApiCurrentMatchDay();
+                    gameDto.setRound(round);
+                    gameDtoList = gameService.getGamMoreByRound(gameDto);
+                } else {
+                    round = gameDtoList.get(0).getRound();
+                }
+
             }
         }
 
@@ -79,7 +84,7 @@ public class FixtureController {
 
         if(league != null) {
             model.addAttribute("leagueName",league);
-            return "/fixture/prediction";
+            return "fixture/schedule";
         } else {
             return "/error/404";
         }
@@ -106,6 +111,6 @@ public class FixtureController {
             Map<Long, Map<String, String>> predictionPercentages = predictionService.getPredictionPercentages(predictionDtoList);   //예측게임의 gameId 기준으로 게임의 예측값들을 100분율 퍼센트 예측률로 구하기
             model.addAttribute("predictions",predictionPercentages);
         }
-        return "fixture/prediction :: matchList";
+        return "fixture/schedule :: matchList";
     }
 }
