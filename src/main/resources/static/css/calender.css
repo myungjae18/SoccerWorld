@@ -86,4 +86,23 @@
     width: 200px; /* 너비 설정 */
 }
 
+.call-btn2 {
+    background-color: #ffffff;
+    color: #8F8F8F;
+    margin: 10px 10px 10px 10px;
+    width: 190px;
+    padding: 5px 10px 5px 10px;
+    border: 2px solid #E9E9EC;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 17px;
+    text-align: center;
+}
 
+.call-btn2:hover {
+    background-color: #ddd;
+}
+
+.call-btn2.selector {
+    background-color: white;
+}
