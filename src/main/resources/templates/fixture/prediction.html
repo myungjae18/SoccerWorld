@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+  <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
   <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/static/css/main-style.css" rel="stylesheet">
   <link href="/static/css/style.css" rel="stylesheet">
@@ -56,7 +58,7 @@
       </div>
       <div class="vs" th:attr="onclick=${#authentication.name != 'anonymousUser'} ? 'handleClick(' + ${#authentication.principal.memberId} + ',' + ${game.gameId} + ',' + 0 + ',\'' + ${#temporals.format(game.dateTime, 'yyyy-MM-dd HH:mm:ss')} + '\')' : 'handleClick()'">
         <span class="vs-text">vs</span>
-        <span class="vs-prediction" th:text="${pdPredictions[game.gameId] != null and plPredictions[game.gameId].draw != null ? pdPredictions[game.gameId].draw + '%' : '0%'}"></span>
+        <span class="vs-prediction" th:text="${pdPredictions[game.gameId] != null and pdPredictions[game.gameId].draw != null ? pdPredictions[game.gameId].draw + '%' : '0%'}"></span>
       </div>
       <div class="team-away" th:attr="onclick=${#authentication.name != 'anonymousUser'} ? 'handleClick(' + ${#authentication.principal.memberId} + ',' + ${game.gameId} + ',' + 2 + ',\'' + ${#temporals.format(game.dateTime, 'yyyy-MM-dd HH:mm:ss')} + '\')' : 'handleClick()'">
         <img th:src="${game.awayTeamDto.logo}">
