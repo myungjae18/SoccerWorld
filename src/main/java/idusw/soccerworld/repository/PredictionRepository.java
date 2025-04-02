@@ -17,15 +17,26 @@ public class PredictionRepository {
     }
 
     public PredictionDto selectByPrediction(PredictionDto predictionDto) {
-        return sessionTemplate.selectOne("PredictionName.checkPrediction",predictionDto);
+        return sessionTemplate.selectOne("PredictionMapper.checkPrediction",predictionDto);
     }
 
     public void insert(PredictionDto predictionDto){
-        sessionTemplate.insert("PredictionName.insertPrediction",predictionDto);
+        sessionTemplate.insert("PredictionMapper.insertPrediction",predictionDto);
     }
 
-    public List<PredictionDto> selectByGameList(@Param("gameEntityList")List<GameDto> gameDtoList) {
-        return sessionTemplate.selectList("PredictionName.selectPredictionsByGameId",gameDtoList);
+    public List<PredictionDto> selectByGameList(List<GameDto> gameDtoList) {
+        return sessionTemplate.selectList("PredictionMapper.selectPredictionsByGameId",gameDtoList);
     }
 
+    public void updateStatusByPredictionId(PredictionDto predictionDto){
+        sessionTemplate.update("PredictionMapper.updateStatusByPredictionId",predictionDto);
+    }
+
+    public List<PredictionDto> selectByGameListResult(List<GameDto> gameDtoList) {
+        return sessionTemplate.selectList("PredictionMapper.selectPredictionsByGameIdAndResult",gameDtoList);
+    }
+
+    public List<PredictionDto> selectByGameListResultNot(List<GameDto> gameDtoList) {
+        return sessionTemplate.selectList("PredictionMapper.selectPredictionsByGameIdAndResultNot",gameDtoList);
+    }
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class GameRepository {
@@ -20,26 +21,30 @@ public class GameRepository {
     }
 
     public List<GameDto> selectByDate(GameDto gameDto){
-        return sessionTemplate.selectList("GameName.selectByDate",gameDto);
+        return sessionTemplate.selectList("GameMapper.selectByDate",gameDto);
     }
     public GameDto selectByGameId(int GameId){
-        return sessionTemplate.selectOne("GameName.selectByGameId",GameId);
+        return sessionTemplate.selectOne("GameMapper.selectByGameId",GameId);
     }
 
     public int insertGames(List<GameDto> gameDtoList){
-        int result = sessionTemplate.insert("GameName.insertGames",gameDtoList);
+        int result = sessionTemplate.insert("GameMapper.insertGames",gameDtoList);
         return result;
     }
 
     public List<GameDto> selectMore(GameDto gameDto) {
-        return sessionTemplate.selectList("GameName.selectMore", gameDto);
+        return sessionTemplate.selectList("GameMapper.selectMore", gameDto);
     }
 
     public List<GameDto> selectByWeek(GameDto gameDto){
-        return sessionTemplate.selectList("GameName.selectBytWeek", gameDto);
+        return sessionTemplate.selectList("GameMapper.selectBytWeek", gameDto);
     }
 
     public List<GameDto> selectAllByWeek(LocalDateTime today){
-        return sessionTemplate.selectList("GameName.selectAllByWeek", today);
+        return sessionTemplate.selectList("GameMapper.selectAllByWeek", today);
+    }
+
+    public List<GameDto> selectYesterdayGamesByDate(Map<String,Object> nowAndYester){
+        return sessionTemplate.selectList("GameMapper.selectYesterdayGamesByDate",nowAndYester);
     }
 }

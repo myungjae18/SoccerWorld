@@ -1,14 +1,12 @@
 package idusw.soccerworld.service;
 
 import idusw.soccerworld.domain.dto.GameDto;
-import idusw.soccerworld.domain.dto.StandingsDto;
 import idusw.soccerworld.domain.dto.TeamDto;
 import idusw.soccerworld.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -19,7 +17,7 @@ import java.util.stream.Collectors;
 public class GameService {
     final GameRepository gameRepository;
     private RestClient restClient;
-    private ScheduleApiService scheduleApiService;
+    private GameApiService scheduleApiService;
 
     public static LocalDateTime convertUtcToKst(String utcDateTimeStr) {
         ZonedDateTime utcDateTime = ZonedDateTime.parse(utcDateTimeStr);
@@ -29,7 +27,7 @@ public class GameService {
 
     public GameService(GameRepository gameRepository,
                        @Qualifier("restClient") RestClient restClient,
-                       ScheduleApiService scheduleApiService) {
+                       GameApiService scheduleApiService) {
         this.gameRepository = gameRepository;
         this.restClient = restClient;
         this.scheduleApiService = scheduleApiService;
@@ -72,14 +70,14 @@ public class GameService {
             int awayScore = 0;
             int gameResult = 3;
 
-            if (gameScore.get("winner12341234") != null) {
+            if (gameScore.get("winner") != null) {
                 homeScore = (int) gameGoals.get("home");
                 awayScore = (int) gameGoals.get("away");
 
                 if ("HOME_TEAM".equals(gameScore.get("winner").toString())) {
-                    gameResult = 0;
-                } else if ("DRAW".equals(gameScore.get("winner").toString())) {
                     gameResult = 1;
+                } else if ("DRAW".equals(gameScore.get("winner").toString())) {
+                    gameResult = 0;
                 } else if ("AWAY_TEAM".equals(gameScore.get("winner").toString())) {
                     gameResult = 2;
                 }
@@ -92,6 +90,7 @@ public class GameService {
                     .dateTime(convertUtcToKst(gameData.get("utcDate").toString()))
                     .round((Integer) gameData.get("matchday"))
                     .league(competition.get("code").toString())
+                    .status(gameData.get("status").toString())
                     .homeScore(homeScore)
                     .awayScore(awayScore)
                     .result(gameResult)
@@ -132,5 +131,9 @@ public class GameService {
         System.out.println(gameList);
 
         return gameMap;
+    }
+
+    public List<GameDto> getFinishedGameByToday(Map<String,Object> nowAndYester){
+        return gameRepository.selectYesterdayGamesByDate(nowAndYester);
     }
 }

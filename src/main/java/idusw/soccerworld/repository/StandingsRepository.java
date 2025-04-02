@@ -24,4 +24,8 @@ public class StandingsRepository {
     public List<StandingsDto> selectAllBySeason(String season) {
         return sessionTemplate.selectList("StandingsMapper.selectAllBySeason", season);
     }
+
+    public List<StandingsDto> selectByLeagueSeason(StandingsDto standingsDto) {
+        return sessionTemplate.selectList("StandingsMapper.selectByLeagueSeason", standingsDto);
+    }
 }

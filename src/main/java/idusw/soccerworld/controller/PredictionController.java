@@ -6,7 +6,7 @@ import idusw.soccerworld.domain.dto.PredictionDto;
 import idusw.soccerworld.service.GameService;
 import idusw.soccerworld.service.MemberService;
 import idusw.soccerworld.service.PredictionService;
-import idusw.soccerworld.service.ScheduleApiService;
+import idusw.soccerworld.service.GameApiService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,7 @@ public class PredictionController {
     final MemberService memberService;
     final GameService gameService;
     final PredictionService predictionService;
-    final ScheduleApiService scheduleApiService;
+    final GameApiService gameApiService;
 
 //    LocalDate today = LocalDate.now();
 //
@@ -42,11 +42,11 @@ public class PredictionController {
     public PredictionController(MemberService memberService,
                                 GameService gameService,
                                 PredictionService predictionService,
-                                ScheduleApiService scheduleApiService){
+                                GameApiService gameApiService){
         this.memberService = memberService;
         this.gameService = gameService;
         this.predictionService = predictionService;
-        this.scheduleApiService = scheduleApiService;
+        this.gameApiService = gameApiService;
     }
     @GetMapping("/prediction")
     public String goPrediction(Model model) {

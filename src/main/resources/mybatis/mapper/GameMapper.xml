@@ -2,12 +2,12 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="GameName">
+<mapper namespace="GameMapper">
     <select id="selectAll" resultMap="GameWithTeamResultMap">
         select g.game_id , g.date , g.home_score , g.away_score , g.result, g.round, g.league,
                h.team_id as home_team_id, h.name as home_team_name, h.logo as home_team_logo,
                a.team_id as away_team_Id, a.name as away_team_name, a.logo as away_team_logo
-             from game g
+        from game g
                  join team h on g.home_api_id = h.team_id
                  join team a on g.away_api_id = a.team_id;
     </select>
@@ -35,9 +35,9 @@
                  join team h on g.home_api_id = h.team_id
                  join team a on g.away_api_id = a.team_id
         WHERE g.date BETWEEN
-                  STR_TO_DATE((SELECT start_date FROM selected_week), '%Y-%m-%d 00:00:00')
-                  AND
-                  STR_TO_DATE((SELECT end_date FROM selected_week), '%Y-%m-%d 23:59:59')
+            STR_TO_DATE((SELECT start_date FROM selected_week), '%Y-%m-%d 00:00:00')
+            AND
+            STR_TO_DATE((SELECT end_date FROM selected_week), '%Y-%m-%d 23:59:59')
           AND g.league = #{league}
         ORDER BY g.date ASC;
     </select>
@@ -49,7 +49,7 @@
                  join team h on g.home_api_id = h.team_id
                  join team a on g.away_api_id = a.team_id
         WHERE g.round = #{round}
-            AND g.league = #{league}
+          AND g.league = #{league}
         ORDER BY g.date asc;
     </select>
     <select id="selectByGameId" parameterType="int" resultMap="GameWithTeamResultMap">
@@ -85,31 +85,37 @@
         ORDER BY g.date ASC
     </select>
 
+    <select id="selectYesterdayGamesByDate" parameterType="map" resultMap="GameWithTeamResultMap">
+        SELECT game_id, result FROM game WHERE status = "FINISHED" and date BETWEEN #{yesterday} AND #{now}
+    </select>
+
     <insert id="insertGames" parameterType="java.util.List">
-        insert game (game_id, home_api_id, away_api_id, home_score, away_score, date, result , round , league)
-            values
-            <foreach collection="list" item="gameDto" separator=",">
-                (
-                #{gameDto.gameId},
-                #{gameDto.homeTeamDto.teamId},
-                #{gameDto.awayTeamDto.teamId},
-                #{gameDto.homeScore},
-                #{gameDto.awayScore},
-                #{gameDto.dateTime},
-                #{gameDto.result},
-                #{gameDto.round},
-                #{gameDto.league}
-                )
-            </foreach>
-            on DUPLICATE key update
-            home_api_id = VALUES(home_api_id),
-            away_api_id = VALUES(away_api_id),
-            home_score = VALUES(home_score),
-            away_score = VALUES(away_score),
-            date = VALUES(date),
-            result = VALUES(result),
-            round = VALUES(round),
-            league = VALUES(league);
+        insert game (game_id, home_api_id, away_api_id, home_score, away_score, date, result , round , league, status)
+        values
+        <foreach collection="list" item="gameDto" separator=",">
+            (
+            #{gameDto.gameId},
+            #{gameDto.homeTeamDto.teamId},
+            #{gameDto.awayTeamDto.teamId},
+            #{gameDto.homeScore},
+            #{gameDto.awayScore},
+            #{gameDto.dateTime},
+            #{gameDto.result},
+            #{gameDto.round},
+            #{gameDto.league},
+            #{gameDto.status}
+            )
+        </foreach>
+        on DUPLICATE key update
+        home_api_id = VALUES(home_api_id),
+        away_api_id = VALUES(away_api_id),
+        home_score = VALUES(home_score),
+        away_score = VALUES(away_score),
+        date = VALUES(date),
+        result = VALUES(result),
+        round = VALUES(round),
+        league = VALUES(league),
+        status = VALUES(status);
     </insert>
     <resultMap id="GameWithTeamResultMap" type="idusw.soccerworld.domain.dto.GameDto">
         <id property="gameId" column="game_id" />
@@ -118,7 +124,9 @@
         <result property="homeScore" column="home_score"/>
         <result property="awayScore" column="away_score"/>
         <result property="round" column="round"/>
+        <result property="result" column="result"/>
         <result property="league" column="league"/>
+        <result property="status" column="status"/>
         <association property="homeTeamDto" javaType="idusw.soccerworld.domain.dto.TeamDto">
             <id property="teamId" column="home_team_id"/>
             <result property="teamId" column="home_team_id"/>

@@ -34,4 +34,34 @@
         league = VALUES(league)
     </insert>
 
+    <select id="selectByLeagueSeason" parameterType="statisticsDto" resultMap="statisticsResultMap">
+        SELECT s.statistics_id, s.player_id, s.team_id, s.played_matches, s.goals, s.assists, s.penalties,
+               s.season, s.league,
+               t.team_id, t.name AS team_name, t.logo, p.player_id, p.name AS player_name, p.nation
+        FROM statistics s
+        INNER JOIN team t ON s.team_id = t.team_id
+        INNER JOIN player p ON s.player_id = p.player_Id
+        WHERE s.league = #{league}, s.season = #{season}
+        ORDER BY s.goals DESC;
+    </select>
+
+    <resultMap id="statisticsResultMap" type="statisticsDto">
+        <result property="statisticsId" column="statistics_id"/>
+        <result property="playedMatches" column="played_matches"/>
+        <result property="goals" column="goals"/>
+        <result property="assists" column="assists"/>
+        <result property="penalties" column="penalties"/>
+        <result property="season" column="season"/>
+        <result property="league" column="league"/>
+        <association property="teamDto" javaType="teamDto">
+            <result property="teamId" column="team_id"/>
+            <result property="name" column="team_name"/>
+            <result property="logo" column="logo"/>
+        </association>
+        <association property="playerDto" javaType="playerDto">
+            <result property="playerId" column="player_id"/>
+            <result property="name" column="player_name"/>
+            <result property="nation" column="nation"/>
+        </association>
+    </resultMap>
 </mapper>

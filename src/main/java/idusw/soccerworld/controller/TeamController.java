@@ -2,7 +2,7 @@ package idusw.soccerworld.controller;
 
 import idusw.soccerworld.domain.dto.TeamDto;
 import idusw.soccerworld.service.GameService;
-import idusw.soccerworld.service.ScheduleApiService;
+import idusw.soccerworld.service.GameApiService;
 import idusw.soccerworld.service.TeamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +19,13 @@ import java.util.Map;
 public class TeamController {
     final TeamService teamService;
     final GameService gameService;
-    final ScheduleApiService scheduleApiService;
+    final GameApiService gameApiService;
     public TeamController(TeamService teamService,
                           GameService gameService,
-                          ScheduleApiService scheduleApiService){
+                          GameApiService gameApiService){
         this.teamService = teamService;
         this.gameService = gameService;
-        this.scheduleApiService = scheduleApiService;
+        this.gameApiService = gameApiService;
     }
 
     @GetMapping("/admin/football-data")
@@ -71,9 +71,9 @@ public class TeamController {
         ResponseEntity<Map> response;
         if("0".equals(paramDate)) {
             if(season == null || season.isEmpty() || "undefined".equals(season)) {
-                response =  scheduleApiService.getGameApiByCurrentSeason(leagueNum);
+                response =  gameApiService.getGameApiByCurrentSeason(leagueNum);
             } else {
-                response = scheduleApiService.getGameApiByPastSeason(leagueNum, season);
+                response = gameApiService.getGameApiByPastSeason(leagueNum, season);
             }
 
         } else {
@@ -82,7 +82,7 @@ public class TeamController {
             LocalDate previousDate = date.minusDays(1);
             String fromDate = previousDate.format(formatter);
             String toDate = paramDate;
-            response = scheduleApiService.getGameApiByLeagueAndDate(leagueNum,fromDate,toDate);
+            response = gameApiService.getGameApiByLeagueAndDate(leagueNum,fromDate,toDate);
         }
         return response;
 

@@ -66,6 +66,20 @@ public class PredictionService {
         predictionRepository.insert(predictionDto);
     }
 
+    public List<PredictionDto> getPredictionsByResult(List<GameDto> gameDtoList, int whether){
+        List<PredictionDto> predictionDtoList;
+        if(whether == 0){
+            predictionDtoList = predictionRepository.selectByGameListResult(gameDtoList);
+        } else {
+            predictionDtoList = predictionRepository.selectByGameListResultNot(gameDtoList);
+        }
+        return predictionDtoList;
+    }
+
+    public void updateStatus(PredictionDto predictionDto) {
+        predictionRepository.updateStatusByPredictionId(predictionDto);
+    }
+
     public List<PredictionDto> getPredictions (List<GameDto> gameDtoList) { // predictionDto의 gameDto 기준으로 예측 테이블 조회
         List<PredictionDto> predictionDtoList = predictionRepository.selectByGameList(gameDtoList); //여기까지 오류없음
         return predictionDtoList;

@@ -43,6 +43,13 @@
         Update member SET nickname = #{nickname} where member_id = #{memberId}
     </update>
 
+    <update id="updatePointGetByMemberId" parameterType="java.lang.Long">
+        Update member set point = point + 200 where member_id = #{memberId}
+    </update>
+
+    <update id="updatePointLoseByMemberId" parameterType="java.lang.Long">
+        Update member set point = point - 200 where member_id = #{memberId}
+    </update>
 
     <resultMap id="memberResultMap" type="memberDto">
         <result property="memberId" column="member_id"/>

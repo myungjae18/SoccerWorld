@@ -7,15 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @Service
-public class ScheduleApiService {
+public class GameApiService {
 
     private RestClient restClient;
-    public ScheduleApiService(RestClient restClient) {
+    public GameApiService(RestClient restClient) {
         this.restClient = restClient;
     }
 

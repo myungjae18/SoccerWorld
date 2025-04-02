@@ -21,5 +21,5 @@ public class GameDto {
     private Integer awayScore;
     private Integer result;
     private Integer round;
-
+    private String status;
 }

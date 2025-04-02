@@ -4,7 +4,7 @@ import idusw.soccerworld.domain.dto.GameDto;
 import idusw.soccerworld.domain.dto.PredictionDto;
 import idusw.soccerworld.service.GameService;
 import idusw.soccerworld.service.PredictionService;
-import idusw.soccerworld.service.ScheduleApiService;
+import idusw.soccerworld.service.GameApiService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +19,14 @@ import java.util.Map;
 public class FixtureController {
     final GameService gameService;
     final PredictionService predictionService;
-    final ScheduleApiService scheduleApiService;
+    final GameApiService gameApiService;
 
     public FixtureController(GameService gameService,
                              PredictionService predictionService,
-                             ScheduleApiService scheduleApiService) {
+                             GameApiService gameApiService) {
         this.gameService = gameService;
         this.predictionService = predictionService;
-        this.scheduleApiService = scheduleApiService;
+        this.gameApiService = gameApiService;
     }
 
 
@@ -61,7 +61,7 @@ public class FixtureController {
             } else { //아무것도 선택하지않은 디폴트값 (그 주 경기 반환)
                 gameDtoList = gameService.getGameByWeek(gameDto);
                 if(gameDtoList.size() == 0) {
-                    round = scheduleApiService.getGameApiCurrentMatchDay();
+                    round = gameApiService.getGameApiCurrentMatchDay();
                     gameDto.setRound(round);
                     gameDtoList = gameService.getGamMoreByRound(gameDto);
                 } else {

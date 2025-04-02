@@ -50,4 +50,12 @@ public class MemberRepository {
     public int updateNickname(MemberDto memberDto) {
         return sessionTemplate.update("MemberMapper.updateNickname", memberDto);
     }
+
+    public int updatePointGetByMemberId(Long memberId) {
+        return sessionTemplate.update("MemberMapper.updatePointGetByMemberId",memberId);
+    }
+
+    public int updatePointLoseByMemberId(Long memberId) {
+        return sessionTemplate.update("MemberMapper.updatePointLoseByMemberId",memberId);
+    }
 }

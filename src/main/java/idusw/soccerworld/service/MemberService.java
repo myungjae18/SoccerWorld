@@ -70,4 +70,12 @@ public class MemberService implements UserDetailsService {
             return memberRepository.updateTeam(memberDto);
         }
     }
+
+    public int updateMemberPoint(Long memberId, int whether){
+        if(whether == 0) {
+            return memberRepository.updatePointGetByMemberId(memberId);
+        } else {
+            return memberRepository.updatePointLoseByMemberId(memberId);
+        }
+    }
 }

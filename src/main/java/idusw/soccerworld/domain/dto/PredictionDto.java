@@ -8,4 +8,5 @@ public class PredictionDto {
     private MemberDto memberDto;
     private GameDto gameDto;
     private int result;
+    private int status;
 }
