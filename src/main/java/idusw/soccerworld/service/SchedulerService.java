@@ -2,11 +2,9 @@ package idusw.soccerworld.service;
 
 import idusw.soccerworld.domain.dto.GameDto;
 import idusw.soccerworld.domain.dto.PredictionDto;
-import org.springframework.cglib.core.Local;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Member;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashMap;
@@ -87,12 +85,12 @@ public class SchedulerService {
     }
 
     //초 분 시 날짜
-    @Scheduled(cron = "0 30 15 * * *",zone = "Asia/Seoul")
+    @Scheduled(cron = "0 45 15 * * *",zone = "Asia/Seoul")
     public void refreshGames(){
         List<Integer> leagueIds = List.of(2021, 2014, 2002, 2019);
         leagueIds.forEach(id -> {
             Map<String, Object> games = gameApiService.getGameApiByCurrentSeason(id).getBody();
-            teamService.insertStandingInfo(games);
+            gameService.insertGames(games);
         });
     }
 }
