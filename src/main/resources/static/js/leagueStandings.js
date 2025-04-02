@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function showLeagueRanking() {
+    isStandings = true;
     document.getElementById('leagueRanking').style.display = 'block';
     document.getElementById('playerRanking').style.display = 'none';
     document.getElementById('leagueComboBox').style.display = 'block';
@@ -20,6 +21,7 @@ function showLeagueRanking() {
 }
 
 function showPlayerRanking() {
+    isStandings = false;
     document.getElementById('leagueRanking').style.display = 'none';
     document.getElementById('playerRanking').style.display = 'block';
     document.getElementById('leagueComboBox').style.display = 'none';
@@ -28,6 +30,7 @@ function showPlayerRanking() {
     document.getElementById('playerButton').classList.remove('btn-secondary');
     document.getElementById('leagueButton').classList.add('btn-secondary');
     document.getElementById('leagueButton').classList.remove('btn-primary');
+    applyFilters();
 }
 
 function createSeasonDropdown() {
@@ -40,20 +43,27 @@ function createSeasonDropdown() {
         let seasonText = `${seasonStart}-${seasonEnd}`;
 
         let li = document.createElement("li");
-        li.innerHTML = `<a class="dropdown-item" href="#" onclick="changeSeason('${seasonStart}')">${seasonText}</a>`;
+        li.innerHTML = `<a class="dropdown-item" href="#" onclick="changeSeason('${seasonStart}', '${seasonText}')">${seasonText}</a>`;
 
         seasonDropdown.appendChild(li);
     }
 }
 
-function changeSeason(season) {
+function changeSeason(season, text) {
     selectedSeason = season;
-    document.getElementById("dropdownSeasonButton").innerHTML = selectedSeason;
+    document.getElementById("dropdownSeasonButton").innerHTML = text;
     applyFilters();
 }
 
-function changeLeague(league) {
+function changeLeague(league, text) {
     selectedLeague = league;
+    document.getElementById("dropdownMenuButton").innerHTML = text;
+    applyFilters();
+}
+
+function changePlayerLeague(league, text) {
+    selectedLeague = league;
+    document.getElementById("playerDropdownMenuButton").innerHTML = text;
     applyFilters();
 }
 
@@ -69,10 +79,9 @@ function applyFilters() {
 
                     row.innerHTML = `
                     <td>${item.position}</td>
-                    <td>
-                        <img src="${item.teamDto.logo}" width="25px" height="25px"/>
+                    <td colspan="10" style="text-align: left;">
+                    <img src="${item.teamDto.logo}" width="25px" height="25px"/> ${item.teamDto.name}
                     </td>
-                    <td colspan="10" style="text-align: left;">${item.teamDto.name}</td>
                     <td>${item.playedGames}</td>
                     <td>${item.won}</td>
                     <td>${item.draw}</td>
@@ -90,7 +99,30 @@ function applyFilters() {
     } else {
         fetch(`/statistics/${selectedSeason}/${selectedLeague}`)
             .then(response => response.json())
-            .then(data => {})
+            .then(data => {
+                const statistics = document.getElementById("statistics");
+                statistics.innerHTML = '';
+
+                data.forEach((item, index) => {
+                    const row = document.createElement(`tr`);
+
+                    const points = parseInt(item.goals) + parseInt(item.assists);
+
+                    row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${item.playerDto.name}</td>
+                    <td>
+                        <img src="${item.teamDto.logo}" width="25px" height="25px" />
+                        ${item.teamDto.name}</td>
+                    <td>${item.playedMatches}</td>
+                    <td>${item.goals}</td>
+                    <td>${item.assists}</td>
+                    <td>${points}</td>
+                `;
+
+                    statistics.appendChild(row);
+                })
+            })
             .catch(error => {
                 console.error('Error fetching data: ', error);
             });

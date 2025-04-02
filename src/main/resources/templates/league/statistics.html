@@ -46,14 +46,14 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <li><a class="dropdown-item" href="#"
-                                           onclick="changeLeague('PL')">EPL</a>
+                                           onclick="changeLeague('PL', 'Premier League')">EPL</a>
                                     </li>
                                     <li><a class="dropdown-item" href="#"
-                                           onclick="changeLeague('PD')">LA LIGA</a></li>
+                                           onclick="changeLeague('PD', 'La Liga')">LA LIGA</a></li>
                                     <li><a class="dropdown-item" href="#"
-                                           onclick="changeLeague('SA')">SERIE A</a></li>
+                                           onclick="changeLeague('SA', 'Serie A')">SERIE A</a></li>
                                     <li><a class="dropdown-item" href="#"
-                                           onclick="changeLeague('BL1')">BUNDESLIGA</a></li>
+                                           onclick="changeLeague('BL1', 'Bundesliga')">BUNDESLIGA</a></li>
                                 </ul>
                             </div>
 
@@ -64,15 +64,15 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="playerDropdownMenuButton">
                                     <li><a class="dropdown-item" href="#"
-                                           onclick="changePlayerLeague('eplPlayerRanking', 'EPL')">EPL</a></li>
+                                           onclick="changePlayerLeague('PL', 'Premier League')">EPL</a></li>
                                     <li><a class="dropdown-item" href="#"
-                                           onclick="changePlayerLeague('laligaPlayerRanking', 'LA LIGA')">LA LIGA</a>
+                                           onclick="changePlayerLeague('PD', 'La Liga')">LA LIGA</a>
                                     </li>
                                     <li><a class="dropdown-item" href="#"
-                                           onclick="changePlayerLeague('serieaPlayerRanking', 'SERIE A')">SERIE A</a>
+                                           onclick="changePlayerLeague('SA', 'Serie A')">SERIE A</a>
                                     </li>
                                     <li><a class="dropdown-item" href="#"
-                                           onclick="changePlayerLeague('bundesligaPlayerRanking', 'BUNDESLIGA')">BUNDESLIGA</a>
+                                           onclick="changePlayerLeague('BL1', 'Bundesliga')">BUNDESLIGA</a>
                                     </li>
                                 </ul>
                             </div>
@@ -85,7 +85,6 @@
                             <thead>
                             <tr>
                                 <th>순위</th>
-                                <th></th>
                                 <th colspan="10">팀명</th>
                                 <th>경기</th>
                                 <th>승</th>
@@ -108,13 +107,13 @@
                                 <th>순위</th>
                                 <th>선수명</th>
                                 <th>팀명</th>
+                                <th>경기</th>
                                 <th>골</th>
                                 <th>어시</th>
                                 <th>공격포인트</th>
                             </tr>
                             </thead>
                             <tbody id="statistics">
-
                             </tbody>
                         </table>
                     </div>

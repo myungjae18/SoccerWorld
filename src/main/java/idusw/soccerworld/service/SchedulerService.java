@@ -67,7 +67,6 @@ public class SchedulerService {
 
     @Scheduled(cron = "0 16 15 * * *",zone = "Asia/Seoul")
     public void refreshPointStandingAndStatistics(){
-
         List<Integer> leagueIds = List.of(2021, 2014, 2002, 2019);
 
         // Standings 업데이트

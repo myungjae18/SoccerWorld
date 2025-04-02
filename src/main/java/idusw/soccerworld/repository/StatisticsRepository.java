@@ -20,6 +20,6 @@ public class StatisticsRepository {
     }
 
     public List<StatisticsDto> selectByLeagueSeason(StatisticsDto statisticsDto) {
-        return sessionTemplate.selectList("statisticsMapper.selectByLeagueSeason", statisticsDto);
+        return sessionTemplate.selectList("StatisticsMapper.selectByLeagueSeason", statisticsDto);
     }
 }
