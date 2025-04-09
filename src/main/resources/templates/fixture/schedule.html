@@ -11,7 +11,7 @@
     <link href="/static/css/style.css" rel="stylesheet">
     <link href="/static/css/all.css" rel="stylesheet">
     <link href="/static/css/schedule.css" rel="stylesheet">
-    <link href="/static/css/prediction-callender.css" rel="stylesheet">
+    <link href="/static/css/games-button.css" rel="stylesheet">
     <link href="/static/css/standings.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/c0890a4f25.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -24,7 +24,7 @@
 <div class="container">
     <div class="schedule-container">
         <div class="main-name">
-            <h2>
+            <h2 style="font-weight: bold">
                 <th:block th:switch="${leagueName}">
                     <span th:case="'PL'">프리미어리그</span>
                     <span th:case="'PD'">라리가</span>
@@ -60,12 +60,11 @@
                  th:each="game : ${Games}" th:data-round="${game.round != null ? game.round : ''}">
                 <div class="match-header">
                     <span th:data-date="${game.dateTime}" class="match-date"></span>
-                    <span th:text="'(' + ${game.round} + '/' + (${game.league} == 'BL1' ? '34' : '38') + ')'"></span>
                     <th:block th:switch="${game.league}">
-                        <span th:case="'PL'">프리미어리그</span>
-                        <span th:case="'PD'">라리가</span>
-                        <span th:case="'BL1'">분데스리가</span>
-                        <span th:case="'SA'">세리에 A</span>
+                        <span th:case="'PL'" th:text="'프리미어리그 '+ ${game.round} + 'R'"></span>
+                        <span th:case="'PD'" th:text="'라리가 '+ ${game.round} + 'R'">>라리가</span>
+                        <span th:case="'BL1'" th:text="'분데스리가 '+ ${game.round} + 'R'">>분데스리가</span>
+                        <span th:case="'SA'" th:text="'세리에A '+ ${game.round} + 'R'">>세리에 A</span>
                     </th:block>
                 </div>
                 <div class="match-body">
@@ -78,11 +77,16 @@
                                   th:text="${predictions[game.gameId] != null and predictions[game.gameId].homeWin != null ? predictions[game.gameId].homeWin + '%' : '0%'}"></span>
                         </div>
                         <span class="team-score" style="margin-left: auto !important;"
+                              th:classappend="${game.homeScore > game.awayScore} ? 'win-score' : 'team-score'"
                               th:text="${game.homeScore}"></span>
                     </div>
                     <div class="draw">
                         <div class="draw-info">
-                            <span class="draw-title">vs</span>
+                            <th:block th:switch="${game.status}">
+                                <span class="game-timed" th:case="'TIMED'">예정</span>
+                                <span class="game-finished" th:case="'FINISHED'">종료</span>
+                                <span class="game-timed" th:case="'SCHEDULED'">예정</span>
+                            </th:block>
                             <span class="draw-percentage"
                                   th:text="${predictions[game.gameId] != null and predictions[game.gameId].draw != null ? predictions[game.gameId].draw + '%' : '0%'}"></span>
                         </div>
@@ -90,6 +94,7 @@
                     <div class="team-away"
                          th:onclick="|location.href='/team/info?team-id='+${game.awayTeamDto.teamId};|">
                         <span class="team-score" style="margin-right: auto !important;"
+                              th:classappend="${game.homeScore < game.awayScore} ? 'win-score' : 'team-score'"
                               th:text="${game.awayScore}"></span>
                         <div class="team-info">
                             <span class="team-name" th:text="${game.awayTeamDto.name}"></span>

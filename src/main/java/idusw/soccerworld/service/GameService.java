@@ -116,6 +116,10 @@ public class GameService {
         return gameRepository.selectByWeek(gameDto);
     }
 
+    public List<GameDto> getGameByTwoWeek(GameDto gameDto) {
+        return gameRepository.selectByTwoWeek(gameDto);
+    }
+
     public Map<String, List<GameDto>> getGamesByWeekRandom() {
         List<GameDto> gameList = gameRepository.selectAllByWeek(LocalDateTime.now());
 
@@ -124,7 +128,9 @@ public class GameService {
                 .collect(Collectors.groupingBy(GameDto::getLeague,
                         Collectors.collectingAndThen(Collectors.toList(), list -> {
                             Collections.shuffle(list); // 리스트를 랜덤하게 섞음
-                            return list.subList(0, Math.min(list.size(), 2)); // 최대 2개의 요소만 선택
+                            List<GameDto> subList = list.subList(0, Math.min(list.size(), 2)); // 최대 2개의 요소만 선택
+                            subList.sort(Comparator.comparing(GameDto::getDateTime)); //날짜순으로 정렬
+                            return subList;
                         })
                 ));
 

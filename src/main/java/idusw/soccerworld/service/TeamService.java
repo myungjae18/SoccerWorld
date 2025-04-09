@@ -149,7 +149,7 @@ public class TeamService {
                     .stadium(team.get("venue").toString())
                     .location(team.get("address").toString())
                     .league(competition.get("name").toString())
-                    .clubColor(team.get("clubColors").toString())
+                    .clubColor(Optional.ofNullable(team.get("clubColors")).orElse("").toString())
                     .founded(Optional.ofNullable(team.get("founded")).orElse("").toString())
                     .website(team.get("website").toString())
                     .build();
@@ -251,13 +251,13 @@ public class TeamService {
             Map player = (Map) statistics.get("player");
             Map team = (Map) statistics.get("team");
 
-            PlayerDto playerDto = PlayerDto.builder().playerId((Integer) player.get("id")).build();
             TeamDto teamDto = TeamDto.builder().teamId((Integer) team.get("id")).build();
 
             StatisticsDto statisticsDto = StatisticsDto.builder()
                     .statisticsId(season.get("season").toString() + player.get("id").toString())
-                    .playerDto(playerDto)
                     .teamDto(teamDto)
+                    .playerId((Integer) player.get("id"))
+                    .playerName(player.get("name").toString())
                     .playedMatches((Integer) statistics.get("playedMatches"))
                     .goals((Integer) statistics.get("goals"))
                     .assists((Integer) statistics.get("assists"))
@@ -310,5 +310,10 @@ public class TeamService {
     //넘어온 리그와 시즌에 해당하는 선수 통계 리스트 반환
     public List<StatisticsDto> getStatisticsByLeagueSeason(StatisticsDto statisticsDto) {
         return statisticsRepository.selectByLeagueSeason(statisticsDto);
+    }
+
+    //teamId를 통해 팀 정보를 조회하는 메서드
+    public Map<String, Object> getByPk(String teamId) {
+        return teamRepository.selectByPkWithPlayers(Long.valueOf(teamId));
     }
 }

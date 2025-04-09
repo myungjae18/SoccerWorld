@@ -18,6 +18,7 @@ function showLeagueRanking() {
     document.getElementById('leagueButton').classList.remove('btn-secondary');
     document.getElementById('playerButton').classList.add('btn-secondary');
     document.getElementById('playerButton').classList.remove('btn-primary');
+    document.getElementById('title').innerHTML='팀 순위';
 }
 
 function showPlayerRanking() {
@@ -30,6 +31,7 @@ function showPlayerRanking() {
     document.getElementById('playerButton').classList.remove('btn-secondary');
     document.getElementById('leagueButton').classList.add('btn-secondary');
     document.getElementById('leagueButton').classList.remove('btn-primary');
+    document.getElementById('title').innerHTML='골 순위';
     applyFilters();
 }
 
@@ -110,7 +112,7 @@ function applyFilters() {
 
                     row.innerHTML = `
                     <td>${index + 1}</td>
-                    <td>${item.playerDto.name}</td>
+                    <td>${item.playerName}</td>
                     <td>
                         <img src="${item.teamDto.logo}" width="25px" height="25px" />
                         ${item.teamDto.name}</td>

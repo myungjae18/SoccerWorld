@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class TeamRepository {
@@ -28,5 +29,9 @@ public class TeamRepository {
 
     public List<TeamDto> selectAll() {
         return sessionTemplate.selectList("TeamMapper.selectAll");
+    }
+
+    public Map<String, Object> selectByPkWithPlayers(Long teamId) {
+        return sessionTemplate.selectOne("TeamMapper.selectByPkWithPlayers", teamId);
     }
 }

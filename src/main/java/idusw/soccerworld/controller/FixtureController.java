@@ -42,6 +42,7 @@ public class FixtureController {
             dateTime = LocalDateTime.parse(date + "T00:00:00");
         } else {
             dateTime = LocalDateTime.now();
+//            dateTime = LocalDateTime.parse("2025-04-03T00:00:01");
         }
 
         GameDto gameDto = GameDto.builder()
@@ -60,10 +61,10 @@ public class FixtureController {
                 gameDtoList = gameService.getGamMoreByRound(gameDto);
             } else { //아무것도 선택하지않은 디폴트값 (그 주 경기 반환)
                 gameDtoList = gameService.getGameByWeek(gameDto);
-                if(gameDtoList.size() == 0) {
-                    round = gameApiService.getGameApiCurrentMatchDay();
-                    gameDto.setRound(round);
-                    gameDtoList = gameService.getGamMoreByRound(gameDto);
+
+                if(gameDtoList.size() == 0) { //만약 a매치기간 이거나 일정 변동하여 1주동안 경기가 없을때 2주치 경기 불러옴
+                    gameDtoList = gameService.getGameByTwoWeek(gameDto);
+                    round = gameDtoList.get(0).getRound();
                 } else {
                     round = gameDtoList.get(0).getRound();
                 }
@@ -93,8 +94,8 @@ public class FixtureController {
 
 
     @GetMapping("/posts")
-    public String testListCode(@RequestParam(required = false,value = "lastRound") Integer lastRound,
-                               @RequestParam(required = false,value = "leagueParam") String league,Model model){
+    public String moreGames(@RequestParam(required = false,value = "lastRound") Integer lastRound,
+                            @RequestParam(required = false,value = "leagueParam") String league,Model model){
         GameDto gameDto = GameDto.builder()
                 .gameId(0)
                 .round(lastRound)

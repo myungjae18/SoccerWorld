@@ -12,8 +12,8 @@
     align-items: center;
     width: 900px;
     height: 100%;
-    background-color: #1C1C1C;
-    border: 2px solid #2B2B2B;
+    background-color: #FFFFFF;
+    border: 2px solid #EFEFF0;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     margin: 10px 0 10px 0;
@@ -68,7 +68,7 @@
 }
 
 .team-away:hover,.team-home:hover {
-    background-color: #3b3b3b;
+    background-color: #E0E8EC;
     border-radius: 10px;
 }
 
@@ -84,6 +84,13 @@
     color: #aaa;
     font-weight: bold;
     padding:20px;
+}
+
+.win-score {
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 20px;
 }
 
 .team-name {
@@ -114,10 +121,9 @@
 }
 
 .draw-title{
-    font-size: 18px;
-    font-weight: bold;
-    color: #f0f0f0;
+
 }
+
 .draw-percentage {
     font-size: 14px;
     color: #aaa;
@@ -126,18 +132,18 @@
 
 
 .match-header{
-    background-color: #161616;
-    color: #8C8C8C;
+    background-color: #F7F9FA;
+    color: black;
 }
 
 .loadMoreBtn{
-    background-color: #262626;
+    background-color: #666666;
     color: #f0f0f0;
     margin-right: 7px;
     margin-left: 7px;
     width: 150px;
     padding: 5px 10px 5px 10px;
-    border: 2px solid #2B2B2B;
+    border: 2px solid #EAEAEA;
     border-radius: 20px;
     cursor: pointer;
     font-size: 20px;
@@ -159,4 +165,16 @@
     text-align: center;
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+.game-finished{
+    font-size: 18px;
+    color: #666666;
+
+}
+
+.game-timed {
+    font-size: 18px;
+    color: dodgerblue;
+
 }

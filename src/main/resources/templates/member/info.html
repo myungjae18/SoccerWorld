@@ -59,7 +59,8 @@
                     <input type="text" class="input-field" name="phone"
                            th:value="${#authentication.principal.phone}"/><br><br>
                     <label>&nbsp;응원 팀</label>
-                    <input type="text" class="input-field" th:value="${#authentication.principal.teamDto.name}" readonly/>
+                    <input type="text" class="input-field" th:value="${#authentication.principal.teamDto.name}"
+                           readonly/>
                     &nbsp;&nbsp;<button type="button" th:onclick="|location.href='@{/member/info(type=changeTeam)}'|">
                     변경
                 </button>
@@ -124,55 +125,9 @@
                 <hr>
             </div>
             <div class="main-info">
-                <div>
-                    <label>현재 응원 팀</label>&nbsp;
-                    <label th:text="${#authentication.principal.teamDto.name}"></label>
-                    <img th:src="${#authentication.principal.teamDto.logo}">
-                </div>
-                <br>
-                <form th:action="@{/member/{memberId}(memberId=${#authentication.principal.memberId})}"
-                      method="post" th:object="${memberDto}">
-                    <label>응원할 팀이 속한 리그 선택</label>
-                    <table class="league-list">
-                        <tr style="cursor: pointer;">
-                            <td>
-                                EPL
-                                <br>
-                                <img src="/static/images/pl-logo.png" >
-                            </td>
-                            <td>
-                                LA LIGA
-                                <br>
-                                <img src="/static/images/ll-logo.png" >
-                            </td>
-                            <td>
-                                SERIE A
-                                <br>
-                                <img src="/static/images/sa-logo.png" >
-                            </td>
-                            <td>
-                                BUNDESLIGA
-                                <br>
-                                <img src="/static/images/bl-logo.png" >
-                            </td>
-                            <td>
-                                응원 팀 없음
-                                <br>
-                            </td>
-                        </tr>
-                    </table>
-                    <label>응원할 팀 선택</label>
-                    <th:block th:each="team : ${teamList}">
-                        <div class="team-list">
-                            <img th:src="${team.logo}" />
-                            <br>
-                            <label th:text="${team.name}"></label>
-                        </div>
-                        <br><br>
-                    </th:block>
-                    <input type="hidden" name="_method" value="patch"/>
-                    <button>변경</button>
-                    <br><br>
+                <input type="hidden" name="_method" value="patch"/>
+                <button>변경</button>
+                <br><br>
                 </form>
             </div>
         </div>

@@ -38,7 +38,31 @@
     <select id="selectAll" resultType="teamDto">
         SELECT team_id AS teamId, name, league, logo, head_coach, stadium, location from team
     </select>
-    <select id="selectOneByPk" resultType="teamDto" parameterType="Long">
-        SELECT team_id AS teamId, name, league, logo, head_coach, stadium, location from team WHERE team_id = #{teamId}
+    <select id="selectByPkWithPlayers" resultMap="teamWithPlayersMap" parameterType="Long">
+        SELECT t.team_id, t.name, t.league, t.logo, t.head_coach, t.stadium, t.location, t.club_color,
+               t.founded, t.website, p.player_id, p.team_id, p.name AS player_name, p.nation, p.position, p.birthday
+        FROM team t LEFT JOIN player p ON t.team_id = p.team_id
+        WHERE t.team_id = #{teamId}
     </select>
+
+    <resultMap id="teamWithPlayersMap" type="map">
+        <result property="teamId" column="team_id"/>
+        <result property="name" column="name"/>
+        <result property="league" column="league"/>
+        <result property="logo" column="logo"/>
+        <result property="headCoach" column="head_coach"/>
+        <result property="stadium" column="stadium"/>
+        <result property="location" column="location"/>
+        <result property="clubColor" column="club_color"/>
+        <result property="founded" column="founded"/>
+        <result property="website" column="website"/>
+
+        <collection property="players" javaType="java.util.List" ofType="playerDto">
+            <result property="playerId" column="player_id"/>
+            <result property="name" column="player_name"/>
+            <result property="nation" column="nation"/>
+            <result property="position" column="position"/>
+            <result property="birthDay" column="birthday"/>
+        </collection>
+    </resultMap>
 </mapper>

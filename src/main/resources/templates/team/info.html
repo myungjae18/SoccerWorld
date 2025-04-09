@@ -129,18 +129,17 @@
     <h2 class="mt-5 mb-4 text-center">팀 스쿼드</h2>
     <div class="row">
         <!-- 예시 선수 카드 1 -->
-        <div class="col-md-4" th:each="player : ${info.squad}">
+        <div class="col-md-4" th:each="player : ${info.players}">
             <div class="info-box">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${player.name}"></h5>
                     position: <label th:text="${player.position}"></label><br>
-                    nationality: <label th:text="${player.nationality}"></label><br>
-                    dateOfBirth: <label th:text="${player.dateOfBirth}"></label>
+                    nationality: <label th:text="${player.nation}"></label><br>
+                    dateOfBirth: <label th:text="${#dates.format(player.birthDay, 'yyyy-MM-dd')}"></label>
                 </div>
             </div>
         </div>
     </div>
-    최종 갱신일: <label th:text="${info.lastUpdated}"></label>
     <hr>
     <!-- About Section -->
     <!--        <div class="about-main">-->

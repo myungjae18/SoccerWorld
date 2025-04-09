@@ -37,7 +37,11 @@ public class GameRepository {
     }
 
     public List<GameDto> selectByWeek(GameDto gameDto){
-        return sessionTemplate.selectList("GameMapper.selectBytWeek", gameDto);
+        return sessionTemplate.selectList("GameMapper.selectByOneWeek", gameDto);
+    }
+
+    public List<GameDto> selectByTwoWeek(GameDto gameDto){
+        return sessionTemplate.selectList("GameMapper.selectByTwoWeek",gameDto);
     }
 
     public List<GameDto> selectAllByWeek(LocalDateTime today){

@@ -58,6 +58,7 @@ public class TeamController {
         //DB에서 모든 팀 정보 가져오기(fragment를 위한)
         model.addAttribute("teamList", teamList);
         //teamList에서 teamId가 같은 teamDto 추출하여 전송
+        model.addAttribute("info", teamService.getByPk(teamId));
 
         return "/team/info";
     }

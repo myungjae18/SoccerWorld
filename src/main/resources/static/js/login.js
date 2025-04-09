@@ -102,6 +102,24 @@ function setStyle(event) {
     }
 }
 
+//input 빈칸 여부 체크
+function nullCheck() {
+    const form = document.getElementById("register");
+    const inputs = form.querySelectorAll("input");
+
+    for (let input of inputs) {
+        if (!input.value.trim()) {
+            alert(`${input.name || "빈 칸"}을(를) 입력해주세요.`);
+            input.focus();
+            return false;
+        }
+    }
+
+    // 모든 입력이 비어있지 않으면 true 반환
+    return true;
+}
+
+//아이디 중복확인 요청
 function idCheck() {
     const formId = document.getElementById("id");
     fetch(`/member/id/${formId.value}`)
@@ -131,7 +149,8 @@ function nickCheck() {
 }
 
 function registerSubmit() {
-    if (idChecked && nickChecked) {
+    if (!nullCheck()) return;
+    else if (idChecked && nickChecked) { //비동기 로직은 따로 조건문 설정
         const form = document.getElementById("register");
         form.submit();
     } else {

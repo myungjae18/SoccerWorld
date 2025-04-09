@@ -24,7 +24,7 @@
         </form>
         <!-- 회원가입 요청 form -->
         <form id="register" method="post" th:object="${memberDto}" th:action="@{/member}" class="input-group">
-            <input type="text" id="id" name="id" class="input-field" style="width:80%;" placeholder="ID" required>
+            <input type="text" id="id" name="id" class="input-field" style="width:80%;" placeholder="ID">
             <button type="button" class="send-button" onclick="idCheck()">중복 확인</button><br>
             <input type="password" name="password" class="input-field" placeholder="Enter Password" required>
             <input type="text" name="name" class="input-field" placeholder="Your Name" required>

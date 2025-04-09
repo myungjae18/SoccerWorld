@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class StatisticsDto {
     private String statisticsId;
-    private PlayerDto playerDto;
+    private long playerId;
+    private String playerName;
     private TeamDto teamDto;
     private Integer playedMatches;
     private Integer goals;

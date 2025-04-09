@@ -27,5 +27,4 @@
         birthday = VALUES(birthday),
         position = VALUES(position);
     </insert>
-
 </mapper>
