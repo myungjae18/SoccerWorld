@@ -322,7 +322,7 @@
             });
   }
   function checkPlayerApi(leagueNum) {  //팀 정보 불러오기
-    fetch(`/teamInfo?leagueNum=${leagueNum}`)
+    fetch(`/admin/teamInfo?leagueNum=${leagueNum}`)
             .then(response => {
               if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -385,7 +385,7 @@
             });
   }
   function checkStandingApi(leagueNum,season) {  //팀 정보 불러오기
-    fetch(`/standingInfo?leagueNum=${leagueNum}&season=${season}`)
+    fetch(`/admin/standingInfo?leagueNum=${leagueNum}&season=${season}`)
             .then(response => {
               if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -477,7 +477,7 @@
             });
   }
   function checkStatisticsApi(leagueNum,season) {  //팀 정보 불러오기
-    fetch(`/statisticsInfo?leagueNum=${leagueNum}&season=${season}`)
+    fetch(`/admin/statisticsInfo?leagueNum=${leagueNum}&season=${season}`)
             .then(response => {
               if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);

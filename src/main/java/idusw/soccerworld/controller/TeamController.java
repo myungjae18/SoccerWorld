@@ -89,7 +89,7 @@ public class TeamController {
 
     }
 
-    @GetMapping("/teamInfo")
+    @GetMapping("/admin/teamInfo")
     @ResponseBody
     public Object getTeamInfo(@RequestParam(required = false,value="leagueNum")int leagueNum,
                               @RequestParam(required = false, value = "season")String season){
@@ -103,7 +103,7 @@ public class TeamController {
     }
 
 
-    @GetMapping("/standingInfo")
+    @GetMapping("/admin/standingInfo")
     @ResponseBody
     public Object getStandingInfo(@RequestParam(required = false,value="leagueNum")int leagueNum,
                                   @RequestParam(required = false, value = "season")String season){
@@ -116,7 +116,7 @@ public class TeamController {
         return response;
     }
 
-    @GetMapping("/statisticsInfo")
+    @GetMapping("/admin/statisticsInfo")
     @ResponseBody
     public  Object getStatisticsInfo(@RequestParam(required = false,value="leagueNum")int leagueNum,
                                      @RequestParam(required = false, value = "season")String season){
