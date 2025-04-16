@@ -230,7 +230,7 @@
 
         document.getElementById('dateInput').addEventListener('change', function () {  // 페이지 로드 시 버튼 생성
             currentDate = this.value; // 선택한 날짜를 현재상태 날짜에 대입
-            window.location.href = '/fixture/schedule?league=' + leagueParam + 'selectedDate=' + currentDate + '&round=' + currentRound
+            window.location.href = '/fixture/schedule?league=' + leagueParam + '&selectedDate=' + currentDate + '&round=' + currentRound
         });
 
         function renderRoundButtons() { //라운드 버튼 추가

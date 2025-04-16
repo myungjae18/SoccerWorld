@@ -124,91 +124,68 @@
                 응원 팀 변경
                 <hr>
             </div>
+            <div class="league-list">
+                <div class="team-box"></div>
+                <div class="team-box">현재 응원 팀</div>
+                <div class="team-box">
+                    <label th:text="${#authentication.principal.teamDto.name}"></label>
+                    <img th:src="${#authentication.principal.teamDto.logo}"/>
+                </div>
+                <div class="team-box"></div>
+            </div>
+            <div class="league-list">
+                <div class="team-box filter-button" data-league="Premier League">
+                    <label>EPL</label>
+                    <img src="/static/images/pl-logo.png" width="64" height="64"/>
+                </div>
+                <div class="team-box filter-button" data-league="Primera Division">
+                    <label>LA LIGA</label>
+                    <img src="/static/images/ll-logo.png" width="64" height="64"/>
+                </div>
+                <div class="team-box filter-button" data-league="Serie A">
+                    <label>SERIE A</label>
+                    <img src="/static/images/sa-logo.png" width="64" height="64"/>
+                </div>
+                <div class="team-box filter-button" data-league="Bundesliga">
+                    <label>BUNDESLIGA</label>
+                    <img src="/static/images/bl-logo.png" width="64" height="64"/>
+                </div>
+                <div class="team-box">
+                    <label>팀 없음</label>
+                    <img src="/static/images/x.png" width="64" height="64" />
+                </div>
+            </div>
+            <div class="league-list">
+                <div th:each="teamDto : ${teamList}" class="team-box team-div"
+                     th:data-league="${teamDto.league}" style="display: none;"
+                     th:onclick="|location.href='/team/info?team-id='+${teamDto.teamId};|">
+                    <img th:src="${teamDto.logo}" width="64" />
+                    <label th:text="${teamDto.name}"/>
+                </div>
+            </div>
+            <br>
             <div class="main-info">
                 <input type="hidden" name="_method" value="patch"/>
                 <button>변경</button>
                 <br><br>
-                </form>
             </div>
         </div>
         <!-- 응원 팀 변경 끝 -->
         <!-- 주문 내역 -->
-        <!--  <div class="main" th:if="${type}=='orderlist'">-->
-        <!--    <div class="main-header">-->
-        <!--      내 주문 목록-->
-        <!--    </div>-->
-        <!--    <div class="main-info">-->
-        <!--      <th:block th:each="orderEntry : ${ordersMap}">-->
-        <!--        <h3 th:text="${orderEntry.key.getOrderDate()} + ' 주문'">주문</h3>-->
-        <!--        <table border="0">-->
-        <!--          <tr>-->
-        <!--            <th>상품명</th>-->
-        <!--            <th>사이즈</th>-->
-        <!--            <th>색상</th>-->
-        <!--            <th>수량</th>-->
-        <!--            <th>주문금액</th>-->
-        <!--            <th></th>-->
-        <!--          </tr>-->
-        <!--          <tr th:each="orderItem : ${orderEntry.value.orderItems}">-->
-        <!--            <td>-->
-        <!--              <article>-->
-        <!--                <a href="#">-->
-        <!--                  <img th:src="${orderItem.productDTO.mainImage}" alt="1">-->
-        <!--                </a>-->
-        <!--                <div>-->
-        <!--                  <h2><a href="#" th:text="${orderItem.getProductDTO().getName()}">상품명</a></h2>-->
-        <!--                  <p th:text="${orderItem.getProductDTO().getContent()}">상품설명</p>-->
-        <!--                </div>-->
-        <!--              </article>-->
-        <!--            </td>-->
-        <!--            <td th:text="${orderItem.getProductDTO().getSize()}">대형</td>-->
-        <!--            <td th:text="${orderItem.getProductDTO().getColor()}">노란색</td>-->
-        <!--            <td th:text="${orderItem.getCount()}">5개</td>-->
-        <!--            <td th:if="${orderItem.getProductDTO().getSalePercentage() == 0}" th:text="'₩' + ${#numbers.formatInteger(orderItem.getProductDTO().getPrice() * orderItem.getCount(), 1, 'COMMA')}"></td>-->
-        <!--            <td th:unless="${orderItem.getProductDTO().getSalePercentage() == 0}">-->
-        <!--                                 <span th:with="discountedTotalPrice=${orderItem.getProductDTO().getPrice() *-->
-        <!--                                 (1 - orderItem.getProductDTO().getSalePercentage()/100.0) * orderItem.getCount()}" th:text="'₩' + ${#numbers.formatInteger(discountedTotalPrice.intValue(), 0, 'COMMA')}"></span>-->
-        <!--            </td>-->
-        <!--            <td>-->
-        <!--              <a th:with="link=@{/product/product/{productId}(productId=${orderItem.getProductDTO().getProductId})},-->
-        <!--                      anchor='#reviewSection', totalLink=${link+anchor}" th:href="${totalLink}">리뷰 작성</a>-->
-        <!--              <br>-->
-        <!--              <form th:action="@{/pay/cart/{memberId}/{productId}(memberId=${session.memberDTO.getMemberId()}, productId=${orderItem.getProductDTO.getProductId})}" method="post">-->
-        <!--                <input type="submit" value="장바구니 담기">-->
-        <!--                <input type="hidden" name="count" value="1">-->
-        <!--                <input type="hidden" name="type" value="order">-->
-        <!--              </form>-->
-        <!--            </td>-->
-        <!--          </tr>-->
-        <!--          <tr class="total">-->
-        <!--            <td colspan="5"></td>-->
-        <!--            <td>-->
-        <!--              <table>-->
-        <!--                <tr>-->
-        <!--                  <td>총 상품금액</td>-->
-        <!--                  <td>-->
-        <!--                    <span th:text="'₩' + ${#numbers.formatInteger(orderEntry.value.totalPrice, 0, 'COMMA')}">34,000원</span>-->
-        <!--                  </td>-->
-        <!--                </tr>-->
-        <!--                <tr>-->
-        <!--                  <td>배송비</td>-->
-        <!--                  <td>-->
-        <!--                    <span th:text="'₩' + ${#numbers.formatInteger(orderEntry.value.deliveryFee, 0, 'COMMA')}">3,000원</span>-->
-        <!--                  </td>-->
-        <!--                </tr>-->
-        <!--                <tr>-->
-        <!--                  <td>총 결제금액</td>-->
-        <!--                  <td>-->
-        <!--                    <span th:text="'₩' + ${#numbers.formatInteger(orderEntry.value.totalPrice + orderEntry.value.deliveryFee, 0, 'COMMA')}">35,000</span>-->
-        <!--                  </td>-->
-        <!--                </tr>-->
-        <!--              </table>-->
-        <!--            </td>-->
-        <!--          </tr>-->
-        <!--        </table>-->
-        <!--      </th:block>-->
-        <!--    </div>-->
-        <!--  </div>-->
+        <div class="main" th:if="${type}=='prediction'">
+            <div class="main-header">
+                내 승부 예측 결과
+            </div>
+            <div class="main-info">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
         <!-- 주문 내역 끝 -->
     </div>
 </div>

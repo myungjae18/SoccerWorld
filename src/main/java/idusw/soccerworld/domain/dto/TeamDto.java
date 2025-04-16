@@ -13,6 +13,7 @@ public class TeamDto {
     private long teamId;
     private String name;
     private String league;
+    private String season;
     private String logo;
     private String headCoach;
     private String stadium;

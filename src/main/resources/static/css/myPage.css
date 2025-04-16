@@ -77,13 +77,23 @@
 
 .league-list {
     width: 100%;
-    text-align: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    color: black;
 }
 
-.team-list {
+.team-box {
+    display: flex;
+    flex-direction: column;
     width: 20%;
-    text-align: center;
+    align-items: center;
 }
+
+.filter-button {
+    cursor: pointer;
+}
+
 /* 주문 내역 페이지 */
 /*.main > .main-info > h3 {*/
 /*    margin-top: 15px;*/

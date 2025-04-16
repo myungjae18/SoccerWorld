@@ -68,11 +68,11 @@
         <div class="row">
             <th:block th:each="i : ${#numbers.sequence(0, headLines.size() > 4 ? 3 : headLines.size() - 1)}">
                 <div class="col-lg-3 mb-4" style="cursor: pointer;"
-                     th:data-url="${headLines.get(i).url}" onclick="location.href=this.getAttribute('data-url');">
+                     th:data-url="${headLines.get(i).link}" onclick="location.href=this.getAttribute('data-url');">
                     <h4 class="card-title" th:text="${headLines.get(i).title}"></h4>
-                    <label class="card-author" th:text="${headLines.get(i).source.name}"></label>
-                    <label class="card-author" th:if="${headLines.get(i).source.name == null}">-</label>
-                    <img class="card-image" th:src="${headLines.get(i).urlToImage}" alt=""/>
+                    <label class="card-author" th:text="${headLines.get(i).source_name}"></label>
+                    <label class="card-author" th:if="${headLines.get(i).source_name == null}">-</label>
+                    <img class="card-image" th:src="${headLines.get(i).image_url}" alt=""/>
                     <!--                        <div class="card-body">-->
                     <!--                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>-->
                     <!--                        </div>-->
@@ -118,14 +118,14 @@
     <div class="row">
         <th:block th:each="i : ${#numbers.sequence(4, 7)}">
             <div class="col-lg-3 mb-4" style="cursor: pointer;"
-                 th:data-url="${headLines.get(i).url}" onclick="location.href=this.getAttribute('data-url');">
-                <img class="short-card-image" th:src="${headLines.get(i).urlToImage}" alt=""/>
+                 th:data-url="${headLines.get(i).link}" onclick="location.href=this.getAttribute('data-url');">
+                <img class="short-card-image" th:src="${headLines.get(i).image_url}" alt=""/>
             </div>
             <div class="col-lg-3 mb-4" style="cursor: pointer;"
-                 th:data-url="${headLines.get(i).url}" onclick="location.href=this.getAttribute('data-url');">
+                 th:data-url="${headLines.get(i).link}" onclick="location.href=this.getAttribute('data-url');">
                 <h4 class="card-title" th:text="${headLines.get(i).title}"></h4>
-                <label th:text="${headLines.get(i).source.name}"></label>
-                <label th:if="${headLines.get(i).source.name == null}">-</label>
+                <label th:text="${headLines.get(i).source_name}"></label>
+                <label th:if="${headLines.get(i).source_name == null}">-</label>
             </div>
         </th:block>
     </div>

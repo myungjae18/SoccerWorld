@@ -38,9 +38,9 @@
                         <button type="submit" class="menu-button" style="cursor: pointer;" >로그아웃
                         </button>
                     </form>
+                    <button class="menu-button" id="goInfo" style="cursor: pointer;" onclick="location.href='/member/info?type=info'">내정보
+                    </button>
                 </th:block>
-                <button class="menu-button" id="goInfo" style="cursor: pointer;">내정보
-                </button>
             </div>
         </div>
         <br>
@@ -138,7 +138,7 @@
             </div>
         </div>
     </div>
-    <script src="/static/js/fragments.js"></script>
+    <script th:src="@{/static/js/fragments.js}" defer></script>
 </nav>
 </body>
 </html>

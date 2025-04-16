@@ -30,4 +30,9 @@ public class RestLeagueController {
 
         return teamService.getStatisticsByLeagueSeason(statisticsDto);
     }
+
+    @GetMapping("/currentSeason")
+    public String getCurrentSeason() {
+        return teamService.calSeason();
+    }
 }

@@ -7,19 +7,12 @@ let serieAList = document.getElementById('serieAList');
 let bundesligaList = document.getElementById('bundesligaList');
 let isTeamInfoVisible = false;
 let isLeagueScheduleVisible = false;
+let goInfo = document.getElementById("goInfo");
 
 //모든 리소스 로드 후 실행
-window.onload = function() {
-    document.getElementById("goInfo").addEventListener('click', function () {
-        //로그인 여부에 따른 info 페이지 이동 제어
-        if(!isAuthenticated) location.href="/main/index";
-        else {
-            location.href="/member/info?type=info";
-        }
-    });
-
+document.addEventListener("DOMContentLoaded", function () {
     hideAll();
-};
+});
 
 function hideAll() {
     leagueList.style.display = 'none';

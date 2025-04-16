@@ -9,10 +9,21 @@
     margin-bottom: 20px;
 }
 .match-day {
+    display: flex;
+    align-items: center;
+}
+
+.match-day img{
+    height: 40px;
+    width: 40px;
+}
+
+.match-day span {
+    padding-left: 10px;
     font-size: 20px;
     font-weight: bold;
-    margin-bottom: 10px;
 }
+
 .match {
     display: flex;
     justify-content: space-between;
@@ -24,13 +35,13 @@
     align-items: center;
     flex: 1;
     cursor: pointer;
-    padding: 15px 10px;
+    padding: 15px 0px;
     justify-content: center;
 }
 .team-home img {
     width: 30px;
     height: 30px;
-    margin-left: 10px;
+    margin: 10px 15px;
 }
 .team-home:hover, .team-away:hover, .vs:hover{
     background-color: #ddd;
@@ -41,28 +52,35 @@
     align-items: center;
     flex: 1;
     cursor: pointer;
-    padding: 15px 10px;
+    padding: 15px 0px;
     justify-content: center;
 }
 .team-away img{
     width: 30px;
     height: 30px;
-    margin-right: 10px;
+    margin: 10px 15px;
 }
 
 .stadium {
-    font-size: 10px;
+    font-size: 12px;
     color: gray;
-    flex: 1;
+    flex: 0.5;
     text-align: right;
 }
+.round-text {
+    font-size: 12px;
+    color: gray;
+    flex: 0.6;
+    text-align: center;
+    font-weight: bold;
+}
 .vs {
-    flex: 0.5;
+    flex: 0.2;
     display: flex;
     flex-direction: column;
     align-items: center;
     cursor: pointer;
-    padding: 15px 10px;
+    padding: 20.5px 0px;
     justify-content: center;
 }
 .vs-prediction{
@@ -74,14 +92,32 @@
     font-weight: bold
 }
 
-.team-text {
-    flex: 0.5;
+.team-home-text {
+    flex: 5;
+    text-align: right;
+    font-weight: bold;
+}
+
+.team-away-text {
+    flex: 5;
+    text-align: left;
+    font-weight: bold;
+}
+
+.score-text {
+    flex: 1.5;
     text-align: center;
     font-weight: bold;
 }
 .prediction-text {
-    flex: 0.5;
+    flex: 1;
     text-align: center;
     color: dodgerblue;
     font-size: 12px;
+}
+
+.null-text {
+    padding: 20px;
+    font-size: 20px;
+    font-weight: bold;
 }

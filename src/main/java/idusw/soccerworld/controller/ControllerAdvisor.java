@@ -22,6 +22,6 @@ public class ControllerAdvisor {
     //모든 팀 정보를 model 객체에 저장. 해당 model에 저장된 객체는 어노테이션에 명시한 이름대로 getAttribute를 통해 접근 가능
     @ModelAttribute("fragmentData")
     public List<TeamDto> teamData() {
-        return teamService.getAllTeamsByDB();
+        return teamService.getAllTeamsByDBSeason();
     }
 }

@@ -35,7 +35,7 @@ public class MainController {
         model.addAttribute("standingsMap", teamService.getAllCurrentStandings());
 
         //뉴스 헤드라인 가져오기
-        model.addAttribute("headLines", newsService.getHeadLines());
+        model.addAttribute("headLines", newsService.getNews());
 
         //DB에서 모든 팀 정보 가져오기(fragment를 위한)
         model.addAttribute("teamList", model.getAttribute("fragmentData"));

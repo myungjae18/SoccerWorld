@@ -27,8 +27,8 @@ public class TeamRepository {
         return result;
     }
 
-    public List<TeamDto> selectAll() {
-        return sessionTemplate.selectList("TeamMapper.selectAll");
+    public List<TeamDto> selectAllBySeason(String season) {
+        return sessionTemplate.selectList("TeamMapper.selectAllBySeason", season);
     }
 
     public Map<String, Object> selectByPkWithPlayers(Long teamId) {

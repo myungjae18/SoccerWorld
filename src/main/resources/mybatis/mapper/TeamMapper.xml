@@ -5,7 +5,7 @@
 <mapper namespace="TeamMapper">
     <insert id="insertTeam" parameterType="java.util.List">
         insert into team (
-        team_id, name, logo, stadium, location, head_coach, league , club_color, founded, website
+        team_id, name, logo, stadium, location, head_coach, league, season, club_color, founded, website
         )
         values
         <foreach collection="list" item="teamDto" separator=",">
@@ -17,6 +17,7 @@
             #{teamDto.location},
             #{teamDto.headCoach},
             #{teamDto.league},
+            #{teamDto.season},
             #{teamDto.clubColor},
             #{teamDto.founded},
             #{teamDto.website}
@@ -30,18 +31,36 @@
         location = VALUES(location),
         head_coach = VALUES(head_coach),
         league = VALUES(league),
+        season = VALUES(season),
         club_color = VALUES(club_color),
         founded = VALUES(founded),
         website = VALUES(website);
     </insert>
 
-    <select id="selectAll" resultType="teamDto">
-        SELECT team_id AS teamId, name, league, logo, head_coach, stadium, location from team
+    <select id="selectAllBySeason" resultType="teamDto" parameterType="String">
+        SELECT team_id AS teamId, name, league, season, logo, head_coach, stadium, location
+        from team
+        WHERE season = #{season}
     </select>
     <select id="selectByPkWithPlayers" resultMap="teamWithPlayersMap" parameterType="Long">
-        SELECT t.team_id, t.name, t.league, t.logo, t.head_coach, t.stadium, t.location, t.club_color,
-               t.founded, t.website, p.player_id, p.team_id, p.name AS player_name, p.nation, p.position, p.birthday
-        FROM team t LEFT JOIN player p ON t.team_id = p.team_id
+        SELECT t.team_id,
+               t.name,
+               t.league,
+               t.logo,
+               t.head_coach,
+               t.stadium,
+               t.location,
+               t.club_color,
+               t.founded,
+               t.website,
+               p.player_id,
+               p.team_id,
+               p.name AS player_name,
+               p.nation,
+               p.position,
+               p.birthday
+        FROM team t
+                 LEFT JOIN player p ON t.team_id = p.team_id
         WHERE t.team_id = #{teamId}
     </select>
 
@@ -49,6 +68,7 @@
         <result property="teamId" column="team_id"/>
         <result property="name" column="name"/>
         <result property="league" column="league"/>
+        <result property="season" column="season"/>
         <result property="logo" column="logo"/>
         <result property="headCoach" column="head_coach"/>
         <result property="stadium" column="stadium"/>

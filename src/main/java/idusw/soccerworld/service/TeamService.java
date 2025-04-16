@@ -132,10 +132,11 @@ public class TeamService {
     }
 
     public int insertTeamInfo(Map<String, Object> teamsData) {
-
         Map competition = (Map) teamsData.get("competition");
         List<Map> teamList = (List<Map>) teamsData.get("teams");
+        Map filters = (Map)teamsData.get("filters");
         List<TeamDto> teamDtoList = new ArrayList<>();
+
         int result;
 
         for (Map team : teamList) {
@@ -149,6 +150,7 @@ public class TeamService {
                     .stadium(team.get("venue").toString())
                     .location(team.get("address").toString())
                     .league(competition.get("name").toString())
+                    .season(filters.get("season").toString())
                     .clubColor(Optional.ofNullable(team.get("clubColors")).orElse("").toString())
                     .founded(Optional.ofNullable(team.get("founded")).orElse("").toString())
                     .website(team.get("website").toString())
@@ -273,9 +275,17 @@ public class TeamService {
         return result;
     }
 
+    public String calSeason() {
+        if(LocalDate.now().getMonthValue() < 8) { //당월이 8월 전일 경우 (금년 - 1) - (금년) 시즌 로드
+            return String.valueOf(LocalDate.now().getYear() - 1);
+        } else { //당월이 8월 이후일 경우 (금년) - (금년 + 1) 시즌 로드
+            return String.valueOf(LocalDate.now().getYear());
+        }
+    }
+
     //모든 팀 정보를 리스트로 반환하는 메서드
-    public List<TeamDto> getAllTeamsByDB() {
-        return teamRepository.selectAll();
+    public List<TeamDto> getAllTeamsByDBSeason() {
+        return teamRepository.selectAllBySeason(calSeason());
     }
 
     //모든 순위 정보를 리스트로 반환하는 메서드

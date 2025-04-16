@@ -1,12 +1,23 @@
 let selectedLeague = "PL";
-let selectedSeason = "2024";
 let isStandings = true;
+let selectedSeason = "2024";
 
 document.addEventListener('DOMContentLoaded', function () {
+    getCurrentSeason();
     showLeagueRanking();
-    createSeasonDropdown();
     applyFilters();
 });
+
+function getCurrentSeason() {
+    fetch(`/currentSeason`)
+        .then(response => response.json())
+        .then(data => selectedSeason = data)
+        .catch(error => {
+            console.error('Error fetching data: ', error);
+        });
+    createSeasonDropdown();
+}
+
 
 function showLeagueRanking() {
     isStandings = true;
@@ -18,7 +29,7 @@ function showLeagueRanking() {
     document.getElementById('leagueButton').classList.remove('btn-secondary');
     document.getElementById('playerButton').classList.add('btn-secondary');
     document.getElementById('playerButton').classList.remove('btn-primary');
-    document.getElementById('title').innerHTML='팀 순위';
+    document.getElementById('title').innerHTML = '팀 순위';
 }
 
 function showPlayerRanking() {
@@ -31,16 +42,15 @@ function showPlayerRanking() {
     document.getElementById('playerButton').classList.remove('btn-secondary');
     document.getElementById('leagueButton').classList.add('btn-secondary');
     document.getElementById('leagueButton').classList.remove('btn-primary');
-    document.getElementById('title').innerHTML='골 순위';
+    document.getElementById('title').innerHTML = '골 순위';
     applyFilters();
 }
 
 function createSeasonDropdown() {
     const seasonDropdown = document.getElementById("seasonDropdown");
-    const currentYear = new Date().getFullYear();
 
     for (let i = 0; i < 5; i++) { // 최근 5개 시즌 생성
-        let seasonStart = currentYear - i;
+        let seasonStart = selectedSeason - i;
         let seasonEnd = seasonStart + 1;
         let seasonText = `${seasonStart}-${seasonEnd}`;
 
@@ -70,7 +80,7 @@ function changePlayerLeague(league, text) {
 }
 
 function applyFilters() {
-    if(isStandings) {
+    if (isStandings) {
         fetch(`/standings/${selectedSeason}/${selectedLeague}`)
             .then(response => response.json())
             .then(data => {

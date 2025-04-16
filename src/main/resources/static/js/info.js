@@ -114,5 +114,18 @@ function submitPut(type) {//type: 수정하려는 데이터의 종류
         .catch(error => {
             console.error('Error updating nickname:', error);
         });
-
 }
+
+//리그 선택 시 해당 팀 div들을 보여주는 메서드
+document.querySelectorAll('.filter-button').forEach(btn => {
+    btn.addEventListener('click', () => {
+
+        const selected = btn.getAttribute('data-league');
+        const teamDiv = document.querySelectorAll('.team-div');
+
+        teamDiv.forEach(team => {
+            if (team.getAttribute('data-league') === selected) team.style.display = "flex";
+            else team.style.display = "none";
+        })
+    })
+})

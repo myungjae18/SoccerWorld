@@ -21,26 +21,32 @@
 <div class="container">
 
   <div class="schedule">
-    <div class="match-day">프리미어리그</div>
+    <div class="match-day">
+      <img src="/static/images/pl-logo.png">
+      <span>프리미어리그</span>
+    </div>
     <div class="match" th:if="${plGames != null && !#lists.isEmpty(plGames)}" th:each="game : ${plGames}">
+      <div class="round-text">
+        <span th:text="${game.round} + 'R'"></span>
+      </div>
       <div class="team-home" th:attr="onclick=${#authentication.name != 'anonymousUser'} ? 'handleClick(' + ${#authentication.principal.memberId} + ',' + ${game.gameId} + ',' + 1 + ',\'' + ${#temporals.format(game.dateTime, 'yyyy-MM-dd HH:mm:ss')} + '\')' : 'handleClick()'">
         <span class="prediction-text" th:text="${plPredictions[game.gameId] != null and plPredictions[game.gameId].homeWin != null ? plPredictions[game.gameId].homeWin + '%' : '0%'}"></span>
-        <span class="team-text" th:text="${game.homeTeamDto.name}"></span>
+        <span class="team-home-text" th:text="${game.homeTeamDto.name}"></span>
         <img th:src="${game.homeTeamDto.logo}">
+        <span class="score-text" th:text="${game.homeScore}"></span>
       </div>
       <div class="vs" th:attr="onclick=${#authentication.name != 'anonymousUser'} ? 'handleClick(' + ${#authentication.principal.memberId} + ',' + ${game.gameId} + ',' + 0 + ',\'' + ${#temporals.format(game.dateTime, 'yyyy-MM-dd HH:mm:ss')} + '\')' : 'handleClick()'">
         <span class="vs-text">vs</span>
         <span class="vs-prediction" th:text="${plPredictions[game.gameId] != null and plPredictions[game.gameId].draw != null ? plPredictions[game.gameId].draw + '%' : '0%'}"></span>
       </div>
       <div class="team-away" th:attr="onclick=${#authentication.name != 'anonymousUser'} ? 'handleClick(' + ${#authentication.principal.memberId} + ',' + ${game.gameId} + ',' + 2 + ',\'' + ${#temporals.format(game.dateTime, 'yyyy-MM-dd HH:mm:ss')} + '\')' : 'handleClick()'">
+        <span class="score-text" th:text="${game.awayScore}"></span>
         <img th:src="${game.awayTeamDto.logo}">
-        <span class="team-text" th:text="${game.awayTeamDto.name}"></span>
+        <span class="team-away-text" th:text="${game.awayTeamDto.name}"></span>
         <span class="prediction-text" th:text="${plPredictions[game.gameId] != null and plPredictions[game.gameId].awayWin != null ? plPredictions[game.gameId].awayWin + '%' : '0%'}"></span>
       </div>
       <div class="stadium">
         <span th:data-date="${game.dateTime}" class="match-date"></span>
-        -
-        <span th:text="'(' + ${game.round} + '/' + (${game.league} == 'BL1' ? '34' : '38') + ')'"></span>
       </div>
     </div>
     <div class="null-text" th:unless="${plGames != null && !#lists.isEmpty(plGames)}">
@@ -49,26 +55,32 @@
   </div>
 
   <div class="schedule">
-    <div class="match-day">라리가</div>
+    <div class="match-day">
+      <img src="/static/images/ll-logo.png">
+      <span>라리가</span>
+    </div>
     <div class="match" th:if="${pdGames != null && !#lists.isEmpty(pdGames)}" th:each="game : ${pdGames}">
+      <div class="round-text">
+        <span th:text="${game.round} + 'R'"></span>
+      </div>
       <div class="team-home" th:attr="onclick=${#authentication.name != 'anonymousUser'} ? 'handleClick(' + ${#authentication.principal.memberId} + ',' + ${game.gameId} + ',' + 1 + ',\'' + ${#temporals.format(game.dateTime, 'yyyy-MM-dd HH:mm:ss')} + '\')' : 'handleClick()'">
         <span class="prediction-text" th:text="${pdPredictions[game.gameId] != null and pdPredictions[game.gameId].homeWin != null ? pdPredictions[game.gameId].homeWin + '%' : '0%'}"></span>
-        <span class="team-text" th:text="${game.homeTeamDto.name}"></span>
+        <span class="team-home-text" th:text="${game.homeTeamDto.name}"></span>
         <img th:src="${game.homeTeamDto.logo}">
+        <span class="score-text" th:text="${game.homeScore}"></span>
       </div>
       <div class="vs" th:attr="onclick=${#authentication.name != 'anonymousUser'} ? 'handleClick(' + ${#authentication.principal.memberId} + ',' + ${game.gameId} + ',' + 0 + ',\'' + ${#temporals.format(game.dateTime, 'yyyy-MM-dd HH:mm:ss')} + '\')' : 'handleClick()'">
         <span class="vs-text">vs</span>
         <span class="vs-prediction" th:text="${pdPredictions[game.gameId] != null and pdPredictions[game.gameId].draw != null ? pdPredictions[game.gameId].draw + '%' : '0%'}"></span>
       </div>
       <div class="team-away" th:attr="onclick=${#authentication.name != 'anonymousUser'} ? 'handleClick(' + ${#authentication.principal.memberId} + ',' + ${game.gameId} + ',' + 2 + ',\'' + ${#temporals.format(game.dateTime, 'yyyy-MM-dd HH:mm:ss')} + '\')' : 'handleClick()'">
+        <span class="score-text" th:text="${game.awayScore}"></span>
         <img th:src="${game.awayTeamDto.logo}">
-        <span class="team-text" th:text="${game.awayTeamDto.name}"></span>
+        <span class="team-away-text" th:text="${game.awayTeamDto.name}"></span>
         <span class="prediction-text" th:text="${pdPredictions[game.gameId] != null and pdPredictions[game.gameId].awayWin != null ? pdPredictions[game.gameId].awayWin + '%' : '0%'}"></span>
       </div>
       <div class="stadium">
         <span th:data-date="${game.dateTime}" class="match-date"></span>
-        -
-        <span th:text="'(' + ${game.round} + '/' + (${game.league} == 'BL1' ? '34' : '38') + ')'"></span>
       </div>
     </div>
     <div class="null-text" th:unless="${pdGames != null && !#lists.isEmpty(pdGames)}">
@@ -77,26 +89,32 @@
   </div>
 
   <div class="schedule">
-    <div class="match-day">분데스리가</div>
+    <div class="match-day">
+      <img src="/static/images/bl-logo.png">
+      <span>분데스리가</span>
+    </div>
     <div class="match" th:if="${bl1Games != null && !#lists.isEmpty(bl1Games)}" th:each="game : ${bl1Games}">
+      <div class="round-text">
+        <span th:text="${game.round} + 'R'"></span>
+      </div>
       <div class="team-home" th:attr="onclick=${#authentication.name != 'anonymousUser'} ? 'handleClick(' + ${#authentication.principal.memberId} + ',' + ${game.gameId} + ',' + 1 + ',\'' + ${#temporals.format(game.dateTime, 'yyyy-MM-dd HH:mm:ss')} + '\')' : 'handleClick()'">
         <span class="prediction-text" th:text="${bl1Predictions[game.gameId] != null and bl1Predictions[game.gameId].homeWin != null ? bl1Predictions[game.gameId].homeWin + '%' : '0%'}"></span>
-        <span class="team-text" th:text="${game.homeTeamDto.name}"></span>
+        <span class="team-home-text" th:text="${game.homeTeamDto.name}"></span>
         <img th:src="${game.homeTeamDto.logo}">
+        <span class="score-text" th:text="${game.homeScore}"></span>
       </div>
       <div class="vs" th:attr="onclick=${#authentication.name != 'anonymousUser'} ? 'handleClick(' + ${#authentication.principal.memberId} + ',' + ${game.gameId} + ',' + 0 + ',\'' + ${#temporals.format(game.dateTime, 'yyyy-MM-dd HH:mm:ss')} + '\')' : 'handleClick()'">
         <span class="vs-text">vs</span>
         <span class="vs-prediction" th:text="${bl1Predictions[game.gameId] != null and bl1Predictions[game.gameId].draw != null ? bl1Predictions[game.gameId].draw + '%' : '0%'}"></span>
       </div>
       <div class="team-away" th:attr="onclick=${#authentication.name != 'anonymousUser'} ? 'handleClick(' + ${#authentication.principal.memberId} + ',' + ${game.gameId} + ',' + 2 + ',\'' + ${#temporals.format(game.dateTime, 'yyyy-MM-dd HH:mm:ss')} + '\')' : 'handleClick()'">
+        <span class="score-text" th:text="${game.awayScore}"></span>
         <img th:src="${game.awayTeamDto.logo}">
-        <span class="team-text" th:text="${game.awayTeamDto.name}"></span>
+        <span class="team-away-text" th:text="${game.awayTeamDto.name}"></span>
         <span class="prediction-text" th:text="${bl1Predictions[game.gameId] != null and bl1Predictions[game.gameId].awayWin != null ? bl1Predictions[game.gameId].awayWin + '%' : '0%'}"></span>
       </div>
       <div class="stadium">
         <span th:data-date="${game.dateTime}" class="match-date"></span>
-        -
-        <span th:text="'(' + ${game.round} + '/' + (${game.league} == 'BL1' ? '34' : '38') + ')'"></span>
       </div>
     </div>
     <div class="null-text" th:unless="${bl1Games != null && !#lists.isEmpty(bl1Games)}">
@@ -106,26 +124,32 @@
 
 
   <div class="schedule">
-    <div class="match-day">세리에 A</div>
+    <div class="match-day">
+      <img src="/static/images/sa-logo.png">
+      <span>세리에 A</span>
+    </div>
     <div class="match" th:if="${saGames != null && !#lists.isEmpty(saGames)}" th:each="game : ${saGames}">
+      <div class="round-text">
+        <span th:text="${game.round} + 'R'"></span>
+      </div>
       <div class="team-home" th:attr="onclick=${#authentication.name != 'anonymousUser'} ? 'handleClick(' + ${#authentication.principal.memberId} + ',' + ${game.gameId} + ',' + 1 + ',\'' + ${#temporals.format(game.dateTime, 'yyyy-MM-dd HH:mm:ss')} + '\')' : 'handleClick()'">
         <span class="prediction-text" th:text="${saPredictions[game.gameId] != null and saPredictions[game.gameId].homeWin != null ? saPredictions[game.gameId].homeWin + '%' : '0%'}"></span>
-        <span class="team-text" th:text="${game.homeTeamDto.name}"></span>
+        <span class="team-home-text" th:text="${game.homeTeamDto.name}"></span>
         <img th:src="${game.homeTeamDto.logo}">
+        <span class="score-text" th:text="${game.homeScore}"></span>
       </div>
       <div class="vs" th:attr="onclick=${#authentication.name != 'anonymousUser'} ? 'handleClick(' + ${#authentication.principal.memberId} + ',' + ${game.gameId} + ',' + 0 + ',\'' + ${#temporals.format(game.dateTime, 'yyyy-MM-dd HH:mm:ss')} + '\')' : 'handleClick()'">
         <span class="vs-text">vs</span>
         <span class="vs-prediction" th:text="${saPredictions[game.gameId] != null and saPredictions[game.gameId].draw != null ? saPredictions[game.gameId].draw + '%' : '0%'}"></span>
       </div>
       <div class="team-away" th:attr="onclick=${#authentication.name != 'anonymousUser'} ? 'handleClick(' + ${#authentication.principal.memberId} + ',' + ${game.gameId} + ',' + 2 + ',\'' + ${#temporals.format(game.dateTime, 'yyyy-MM-dd HH:mm:ss')} + '\')' : 'handleClick()'">
+        <span class="score-text" th:text="${game.awayScore}"></span>
         <img th:src="${game.awayTeamDto.logo}">
-        <span class="team-text" th:text="${game.awayTeamDto.name}"></span>
+        <span class="team-away-text" th:text="${game.awayTeamDto.name}"></span>
         <span class="prediction-text" th:text="${saPredictions[game.gameId] != null and saPredictions[game.gameId].awayWin != null ? saPredictions[game.gameId].awayWin + '%' : '0%'}"></span>
       </div>
       <div class="stadium">
         <span th:data-date="${game.dateTime}" class="match-date"></span>
-        -
-        <span th:text="'(' + ${game.round} + '/' + (${game.league} == 'BL1' ? '34' : '38') + ')'"></span>
       </div>
     </div>
     <div class="null-text" th:unless="${saGames != null && !#lists.isEmpty(saGames)}">
