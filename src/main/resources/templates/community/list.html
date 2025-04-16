@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,6 +20,7 @@
   <link href="/static/css/main-style.css" rel="stylesheet">
   <!-- Custom styles for SoccerWorld -->
   <link href="/static/css/card.css" rel="stylesheet">
+  <link href="/static/css/list.css" rel="stylesheet">
 
 </head>
 <body>
@@ -26,29 +28,31 @@
 <nav th:insert="/fragments/fragments :: nav"></nav>
 
 <!-- full Title -->
-<div class="full-title">
-  <div class="container">
-    <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3" >
+<div class="container">
+
+  <div class="full-title">
+    <div class="container">
+      <!-- Page Heading/Breadcrumbs -->
+      <h1 class="mt-4 mb-3" >
             <span class="category-title"
                   th:each="category : ${categoryList}"
-                  th:if="${category.category_id == currentCategory}"
+                  th:if="${category.categoryId == currentCategory}"
                   th:text="${category.name}">
                 해당 카테고리 이름
             </span>
-    </h1>
+      </h1>
+    </div>
   </div>
-</div>
 
-<!-- Category List -->
-<div class="container">
+  <!-- Category List -->
+
   <div class="breadcrumb-main">
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
         Categories
       </li>
       <li class="breadcrumb-item" th:each="category : ${categoryList}">
-        <a th:href="@{/category/{id}(id=${category.category_id})}" th:text="${category.name}"></a>
+        <a th:href="@{/category/{id}(id=${category.categoryId})}" th:text="${category.name}"></a>
       </li>
     </ol>
   </div>
@@ -60,59 +64,131 @@
     <div th:if="${postList != null}">
       <div class="container">
         <div class="card mb-sm-2">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for...">
-            <span class="input-group-btn">
-					  <button class="btn btn-secondary" type="button">Go!</button>
-					  <a href="/post/create" class="btn btn-secondary" role="button">글쓰기</a>
-					</span>
-          </div>
+          <form th:action="@{/category/{id}(id=${currentCategory})}" method="get" class="input-group">
+            <!-- 옵션 셀렉트박스 -->
+            <select class="custom-select select-small" name="type" style="flex: 0 0 120px !important; width: 120px !important;">
+              <option th:value="'title'"   th:selected="${type=='title'}">제목</option>
+              <option th:value="'author'"  th:selected="${type=='author'}">글쓴이</option>
+            </select>
+            <!-- 검색어 -->
+            <input type="text"
+                   class="form-control"
+                   name="q"
+                   th:value="${q}"
+                   placeholder="Search for..." />
+            <div class="input-group-append">
+              <button class="btn btn-secondary" type="submit">검색</button>
+              <th:block sec:authorize="isAuthenticated()">
+                <a href="/post/create" class="btn btn-secondary" role="button">글쓰기</a>
+              </th:block>
+            </div>
+          </form>
         </div>
-        <div class="d-flex justify-content-end mb-3">
-          <button id="sort-recommend" class="btn btn-secondary me-2">추천순</button>&nbsp;
-          <button id="sort-views" class="btn btn-secondary me-2">조회순</button>&nbsp;
-          <button id="sort-latest" class="btn btn-secondary">최신순</button>
-        </div>
-
-        <div class="card mb-1" th:each="post : ${postList}">
+        <br>
+        <!--        <div class="d-flex justify-content-end mb-3">-->
+        <!--          <button id="sort-recommend" class="btn btn-secondary me-2">추천순</button>&nbsp;-->
+        <!--          <button id="sort-views" class="btn btn-secondary me-2">조회순</button>&nbsp;-->
+        <!--          <button id="sort-latest" class="btn btn-secondary">최신순</button>-->
+        <!--        </div>-->
+        <!-- 📌 게시글 목록 헤더 -->
+        <div class="card mb-1 post-header">
           <div class="card-body">
             <div class="d-flex align-items-center">
-              <div class="me-4" style="margin-right: 50px;">
-                <img class="img-fluid rounded" th:src="${post.picture}" alt="썸네일" style="width: 100%; max-width: 50px;" />
-              </div>
-              <h3 class="card-title" style="font-size: 1rem; margin: 0; flex-grow: 1;">
-                <a th:href="@{/post/{id}/{categoryId}(id=${post.post_id}, categoryId=${post.category_id})}" th:text="${post.title}" style="text-decoration: none;"></a>
+              <div class="me-4" style="flex: 0 0 15%; text-align: center;">글쓴이</div>
+              <div class="me-4" style="flex: 0 0 10%; text-align: center;">썸네일</div>
+              <h3 class="card-title" style="flex: 0 0 45%; font-size: 1rem; text-align: center; margin: 0;">
+                제목
               </h3>
-              <div class="d-flex ms-auto>
-                <span class="me-3">추천수: <strong th:text="${post.up_count}"></strong></span>
-                <span class="me-3">조회수: <strong th:text="${post.view_count}"></strong></span>
-                <span>날짜: <strong th:text="${post.regdate}"></strong></span>
+              <div class="d-flex ms-auto" style="flex: 0 0 30%; justify-content: space-between;">
+                <span style="flex: 0 0 60%; text-align: center;"><strong>작성일</strong></span>
+                <span style="flex: 0 0 20%; text-align: center;"><strong>추천수</strong></span>
+                <span style="flex: 0 0 20%; text-align: center;"><strong>조회수</strong></span>
               </div>
             </div>
           </div>
         </div>
-      </div>
+        <br>
+        <!-- 📌 게시글 리스트 -->
+        <div class="card mb-1" th:each="post : ${postList}">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="me-4" style="flex: 0 0 15%; text-align: center;">
+                <a th:text="${post.memberDto.name}">글쓴이</a>
+              </div>
+              <div class="me-4" style="flex: 0 0 10%; text-align: center;">
+                <div th:if="${post.picture != null}">
+                  <img class="img-fluid rounded" th:src="${post.picture}" alt="썸네일" style="width: 100%; max-width: 60px; max-height: 40px" />
+                </div>
+                <div th:if="${post.picture == null}" style="color: gray;">
+                  없음
+                </div>
+              </div>
+              <h3 class="card-title" style="flex: 0 0 45%; font-size: 1rem; text-align: center; margin: 0;">
+                <a th:href="@{/post/{id}/{categoryId}(id=${post.postId}, categoryId=${post.categoryDto.categoryId})}" th:text="${post.title}" style="text-decoration: none;"></a>
+              </h3>
+              <div class="d-flex ms-auto" style="flex: 0 0 30%; justify-content: space-between;">
+                <span style="flex: 0 0 60%; text-align: center;" th:text="${post.regDate}"></span>
+                <span style="flex: 0 0 20%; text-align: center;" th:text="${post.upCount}"></span>
+                <span style="flex: 0 0 20%; text-align: center;" th:text="${post.viewCount}"></span>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <div th:if="${postList == null || postList.size() == 0}">
+          <p>해당 카테고리에 게시글이 없습니다.</p>
+        </div>
+      </div>
+      <hr>
+      <br>
+      <!-- pagination -->
+      <div th:if="${currentPage != null && postList != null && postList.size() != 0}">
+        <nav>
+          <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${currentPage == 1} ? ' disabled'">
+              <a class="page-link"
+                 th:href="@{/category/{id}(id=${currentCategory}, page=${currentPage - 1}, size=${pageSize})}">
+                Prev
+              </a>
+            </li>
+            <li class="page-item"
+                th:each="p : ${#numbers.sequence(1, totalPages)}"
+                th:classappend="${p == currentPage} ? ' active'">
+              <a class="page-link"
+                 th:href="@{/category/{id}(id=${currentCategory}, page=${p}, size=${pageSize})}"
+                 th:text="${p}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages} ? ' disabled'">
+              <a class="page-link"
+                 th:href="@{/category/{id}(id=${currentCategory}, page=${currentPage + 1}, size=${pageSize})}">
+                Next
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
       <div th:if="${postList == null || postList.size() == 0}">
-        <p>해당 카테고리에 게시글이 없습니다.</p>
+        <nav>
+          <ul class="pagination justify-content-center">
+            <li class="page-item">
+              <a class="page-link">
+                Prev
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link">1</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link">
+                Next
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
 
     </div>
-
-    <div class="pagination_bar_arrow">
-      <!-- Pagination -->
-      <ul class="pagination justify-content-center mb-4">
-        <li class="page-item">
-          <a class="page-link" href="#">&larr; Older</a>
-        </li>
-        <li class="page-item disabled">
-          <a class="page-link" href="#">Newer &rarr;</a>
-        </li>
-      </ul>
-    </div>
-
   </div>
-
 </div>
 <!-- /.container -->
 
@@ -219,323 +295,3 @@
 <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

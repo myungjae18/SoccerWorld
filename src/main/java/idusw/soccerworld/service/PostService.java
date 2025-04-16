@@ -1,22 +1,18 @@
 package idusw.soccerworld.service;
 
-import idusw.soccerworld.domain.dto.CategoryDto;
 import idusw.soccerworld.domain.dto.PostDto;
-import idusw.soccerworld.repository.CategoryRepository;
 import idusw.soccerworld.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
-    private final CategoryRepository categoryRepository;
 
-    public List<PostDto> selectedCategory(int categoryId) {
+    public List<PostDto> selectedCategory(Long categoryId) {
         return postRepository.selectedCategory(categoryId);
     }
 
@@ -24,42 +20,46 @@ public class PostService {
         postRepository.create(postDTO);
     }
 
-    public void updateViewCount(int postId) {
+    public void updateViewCount(Long postId) {
         postRepository.updateViewCount(postId);
     }
 
-    public PostDto findById(int postId) {
+    public PostDto findById(Long postId) {
         return postRepository.findById(postId);
     }
 
-    public void updatePost(PostDto postDTO, int postId) {
+    public void updatePost(PostDto postDTO, Long postId) {
         postRepository.updatePost(postDTO, postId);
     }
 
-    public void deletePost(int postId) {
+    public void deletePost(Long postId) {
         postRepository.deletePost(postId);
     }
 
-//    public Map<String, List<PostDto>> selectAllMap() {
-//        List<PostDto> postList = postRepository.selectAll();
-//        List<CategoryDto> categoryList = categoryRepository.findAll();
-//        Map<String, List<PostDto>> postMap = new HashMap<>();
-////
-////        Map<Integer, List<PostDto>> groupedPosts = postList.stream()
-////                .collect(Collectors.groupingBy(
-////                        PostDto::getCategory_id, // category_id로 그룹화
-////                        Collectors.collectingAndThen(
-////                                Collectors.toList(),
-////                                list -> list.stream()
-////                                        .sorted(Comparator.comparingInt(PostDto::getUp_count).reversed())
-////                                        .limit(3)
-////                                        .collect(Collectors.toList())
-////                        )
-////                ));
-//
-//
-//
-//
-//        return null;
-//    }
+    public void updatePicturePaths(Long postId, String picture) {
+        postRepository.updatePicturePaths(postId, picture);
+    }
+
+    public List<PostDto> findPagedByCategory(Long categoryId, int offset, int pageSize) {
+        return postRepository.findPagedByCategory(categoryId, offset, pageSize);
+    }
+
+    public int countByCategory(Long categoryId) {
+        return postRepository.countByCategory(categoryId);
+    }
+
+    public List<PostDto> searchByTitle(Long categoryId, String q, int offset, int size) {
+        return postRepository.searchByTitle(categoryId, q, offset, size);
+    }
+    public int countByTitle(Long categoryId, String q) {
+        return postRepository.countByTitle(categoryId, q);
+    }
+
+    public List<PostDto> searchByAuthor(Long categoryId, String q, int offset, int size) {
+        return postRepository.searchByAuthor(categoryId, q, offset, size);
+    }
+    public int countByAuthor(Long categoryId, String q) {
+        return postRepository.countByAuthor(categoryId, q);
+    }
+
 }

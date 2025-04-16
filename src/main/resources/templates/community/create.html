@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+  <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+  <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
-  <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
   <title>N & LW Lawn Care - Landscaping Bootstrap4 HTML5 Responsive Template </title>
   <!-- Bootstrap core CSS -->
   <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -31,7 +31,7 @@
 <div class="full-title">
   <div class="container">
     <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">게시판 생성
+    <h1 class="mt-4 mb-3">게시글 생성
     </h1>
   </div>
 </div>
@@ -44,7 +44,7 @@
         Categories
       </li>
       <li class="breadcrumb-item" th:each="category : ${categoryList}">
-        <a th:href="@{/category/{id}(id=${category.category_id})}" th:text="${category.name}"></a>
+        <a th:href="@{/category/{id}(id=${category.categoryId})}" th:text="${category.name}"></a>
       </li>
     </ol>
   </div>
@@ -52,12 +52,13 @@
   <div class="row">
     <!-- Post Content Column -->
     <div class="col-md-12">
-      <form action="/post/create" method="post">
+      <form th:action="@{/post/create}" method="post" enctype="multipart/form-data">
+        <input type="hidden" id="memberId" name="memberDto.memberId" th:value="${#authentication.principal.memberId}">
         <div class="form-group">
           <label for="category_id">카테고리 선택</label>
-          <select class="form-control" id="category_id" name="category_id">
+          <select class="form-control" id="category_id" name="categoryDto.categoryId">
             <option th:each="category : ${categoryList}"
-                    th:value="${category.category_id}"
+                    th:value="${category.categoryId}"
                     th:text="${category.name}">
             </option>
           </select>
@@ -76,9 +77,10 @@
           <textarea class="form-control" id="content" name="content" rows="10" placeholder="내용을 입력하세요" required></textarea>
         </div>
         </p>
+        <hr>
         <div class="form-group">
           <label for="picture">이미지 첨부</label>
-          <input type="file" class="form-control-file" id="picture" accept="image/*">
+          <input type="file" class="form-control-file" id="picture" name="imageFile" accept="image/*"  />
         </div>
         <br><br>
         <div class="text-right">

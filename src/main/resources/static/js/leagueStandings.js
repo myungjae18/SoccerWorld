@@ -40,7 +40,7 @@ function showPlayerRanking() {
     document.getElementById('playerComboBox').style.display = 'block';
     document.getElementById('playerButton').classList.add('btn-primary');
     document.getElementById('playerButton').classList.remove('btn-secondary');
-    document.getElementById('leagueButton').classList.add('btn-secondary');
+    document.getElemen7tById('leagueButton').classList.add('btn-secondary');
     document.getElementById('leagueButton').classList.remove('btn-primary');
     document.getElementById('title').innerHTML = '골 순위';
     applyFilters();

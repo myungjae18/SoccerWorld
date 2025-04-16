@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
-  <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
   <title>N & LW Lawn Care - Landscaping Bootstrap4 HTML5 Responsive Template </title>
   <!-- Bootstrap core CSS -->
   <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -44,7 +42,7 @@
         Categories
       </li>
       <li class="breadcrumb-item" th:each="category : ${categoryList}">
-        <a th:href="@{/category/{id}(id=${category.category_id})}" th:text="${category.name}"></a>
+        <a th:href="@{/category/{id}(id=${category.categoryId})}" th:text="${category.name}"></a>
       </li>
     </ol>
   </div>
@@ -52,15 +50,15 @@
   <div class="row">
     <!-- Post Content Column -->
     <div class="col-md-12">
-      <form th:action="@{/post/update/{id}(id=${post.post_id})}" method="post">
+      <form th:action="@{/post/update/{id}(id=${post.postId})}"  method="post" enctype="multipart/form-data">
         <input hidden th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <div class="form-group">
           <label for="category_id">카테고리 선택</label>
-          <select class="form-control" id="category_id" name="category_id" disabled>
+          <select class="form-control" id="category_id" name="categoryDto.categoryId">
             <option th:each="category : ${categoryList}"
-                    th:value="${category.category_id}"
+                    th:value="${category.categoryId}"
                     th:text="${category.name}"
-                    th:selected="${category.category_id == post.category_id}">
+                    th:selected="${category.categoryId == post.categoryDto.categoryId}">
             </option>
           </select>
         </div>
@@ -78,14 +76,21 @@
           <textarea class="form-control" id="content" name="content" rows="5" required>[[${post.content}]]</textarea>
         </div>
         </p>
+        <!-- 기존 이미지가 있으면 보여주기 -->
+        <div th:if="${post.picture != null}">
+          <p>현재 첨부된 이미지:</p>
+          <img th:src="@{${post.picture}}" style="max-width:200px;" />
+        </div>
+
+        <!-- 새 이미지 선택 -->
         <div class="form-group">
-          <label for="picture">이미지 첨부</label>
-          <input type="file" class="form-control-file" id="picture" accept="image/*">
+          <label for="picture">이미지 변경</label>
+          <input type="file" class="form-control-file" id="picture" name="imageFile" accept="image/*" />
         </div>
         <br><br>
         <div class="text-right">
           <button type="submit" class="btn btn-primary">수정 완료</button>
-          <a th:href="@{/post/{id}/{categoryId}(id=${post.post_id}, categoryId=${post.category_id})}" class="btn btn-secondary">취소</a>
+          <a th:href="@{/post/{id}/{categoryId}(id=${post.postId},categoryId=${post.categoryDto.categoryId})}" class="btn btn-secondary">취소</a>
         </div>
       </form>
 
